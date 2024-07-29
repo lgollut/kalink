@@ -1,4 +1,14 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 
-export default nextConfig;
+const withVanillaExtract = createVanillaExtractPlugin();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  poweredByHeader: false,
+  reactStrictMode: true,
+  experimental: {
+    typedRoutes: true,
+  },
+};
+
+export default withVanillaExtract(nextConfig);
