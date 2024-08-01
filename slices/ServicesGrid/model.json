@@ -1,0 +1,39 @@
+{
+  "id": "grid",
+  "type": "SharedSlice",
+  "name": "ServicesGrid",
+  "description": "Grid",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Items",
+            "repeat": true,
+            "fields": {
+              "item": {
+                "type": "Link",
+                "config": {
+                  "label": "Item",
+                  "select": "document",
+                  "customtypes": [
+                    "service",
+                    "service_description"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

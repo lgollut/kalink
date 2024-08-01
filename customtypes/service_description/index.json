@@ -1,0 +1,40 @@
+{
+  "format": "custom",
+  "id": "service_description",
+  "label": "Service Description",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Description",
+          "placeholder": ""
+        }
+      },
+      "background_color": {
+        "type": "Select",
+        "config": {
+          "label": "Background Color",
+          "placeholder": "",
+          "options": ["primary", "secondary"],
+          "default_value": "primary"
+        }
+      }
+    }
+  }
+}

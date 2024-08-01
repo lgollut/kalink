@@ -1,0 +1,52 @@
+{
+  "format": "custom",
+  "id": "service",
+  "label": "Service",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "background_color": {
+        "type": "Select",
+        "config": {
+          "label": "Background Color",
+          "placeholder": "",
+          "options": ["secondary", "primary"],
+          "default_value": "secondary"
+        }
+      },
+      "picture": {
+        "type": "Image",
+        "config": {
+          "label": "Picture",
+          "constraint": {},
+          "thumbnails": [
+            {
+              "name": "4:3",
+              "width": 600,
+              "height": 450
+            },
+            {
+              "name": "1:1",
+              "width": 400,
+              "height": 400
+            }
+          ]
+        }
+      }
+    }
+  }
+}

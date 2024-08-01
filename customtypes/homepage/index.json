@@ -1,14 +1,30 @@
 {
   "format": "page",
   "id": "homepage",
+  "label": "Homepage",
+  "repeatable": false,
+  "status": true,
   "json": {
     "Main": {
       "slices": {
-        "config": {
-          "choices": {}
-        },
+        "type": "Slices",
         "fieldset": "Slice Zone",
-        "type": "Slices"
+        "config": {
+          "choices": {
+            "intro_bloc": {
+              "type": "SharedSlice"
+            },
+            "testimonials": {
+              "type": "SharedSlice"
+            },
+            "team": {
+              "type": "SharedSlice"
+            },
+            "grid": {
+              "type": "SharedSlice"
+            }
+          }
+        }
       }
     },
     "SEO & Metadata": {
@@ -38,8 +54,5 @@
         "type": "Image"
       }
     }
-  },
-  "label": "Homepage",
-  "repeatable": false,
-  "status": true
+  }
 }

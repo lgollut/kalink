@@ -1,5 +1,7 @@
+import { PrismicPreview } from '@prismicio/next';
 import { clsx } from 'clsx';
 
+import { repositoryName } from '@/prismicio';
 import { fontClass } from '@/styles/font';
 import { themeClass } from '@/styles/theme.css';
 
@@ -12,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={clsx(html, fontClass)}>
-      <body className={clsx(body, themeClass)}>{children}</body>
+      <body className={clsx(body, themeClass)}>
+        {children}
+        <PrismicPreview repositoryName={repositoryName} />
+      </body>
     </html>
   );
 }
