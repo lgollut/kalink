@@ -30,33 +30,33 @@ interface HomepageDocumentData {
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: homepage.meta_title
+   * - **API ID Path**: homepage.metaTitle
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */;
-  meta_title: prismic.KeyTextField;
+  metaTitle: prismic.KeyTextField;
 
   /**
    * Meta Description field in *Homepage*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: homepage.meta_description
+   * - **API ID Path**: homepage.metaDescription
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  meta_description: prismic.KeyTextField;
+  metaDescription: prismic.KeyTextField;
 
   /**
    * Meta Image field in *Homepage*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.meta_image
+   * - **API ID Path**: homepage.metaImage
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  meta_image: prismic.ImageField<never>;
+  metaImage: prismic.ImageField<never>;
 }
 
 /**

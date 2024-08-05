@@ -14,15 +14,28 @@ export async function generateMetadata(): Promise<Metadata> {
   const homepage = await client.getSingle('homepage');
 
   return {
-    title: homepage.data.meta_title,
-    description: homepage.data.meta_description,
+    title: homepage.data.metaTitle,
+    description: homepage.data.metaDescription,
     openGraph: {
-      title: homepage.data.meta_title || '',
+      title: homepage.data.metaTitle ?? undefined,
+      description: homepage.data.metaDescription ?? undefined,
+      url: 'https://kalink.ch',
+      siteName: 'KalinK Studio',
+      type: 'website',
       images: [
         {
-          url: homepage.data.meta_image.url || '',
+          url: homepage.data.metaImage.url ?? '',
+          width: homepage.data.metaImage.dimensions?.width,
+          height: homepage.data.metaImage.dimensions?.height,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: homepage.data.metaTitle ?? undefined,
+      description: homepage.data.metaDescription || undefined,
+      images: homepage.data.metaImage.url ?? undefined,
+      creator: '@LouisGollut',
     },
   };
 }
