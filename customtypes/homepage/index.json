@@ -11,10 +11,13 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "intro_bloc": {
+            "fifty_fifty_section": {
               "type": "SharedSlice"
             },
-            "testimonials": {
+            "intro_block": {
+              "type": "SharedSlice"
+            },
+            "testimonials_row": {
               "type": "SharedSlice"
             },
             "team": {

@@ -19,13 +19,13 @@
           "placeholder": ""
         }
       },
-      "background_color": {
+      "backgroundColor": {
         "type": "Select",
         "config": {
           "label": "Background Color",
           "placeholder": "",
-          "options": ["secondary", "primary"],
-          "default_value": "secondary"
+          "options": ["secondaryContainer", "primaryContainer"],
+          "default_value": "secondaryContainer"
         }
       },
       "picture": {

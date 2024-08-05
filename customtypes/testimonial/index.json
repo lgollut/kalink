@@ -12,17 +12,17 @@
         },
         "type": "UID"
       },
-      "given_name": {
+      "givenName": {
         "type": "Text",
         "config": {
           "label": "Given name",
           "placeholder": ""
         }
       },
-      "content": {
+      "text": {
         "type": "Text",
         "config": {
-          "label": "Content",
+          "label": "Text",
           "placeholder": ""
         }
       }

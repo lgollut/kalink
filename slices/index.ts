@@ -3,8 +3,9 @@
 import dynamic from 'next/dynamic';
 
 export const components = {
+  fifty_fifty_section: dynamic(() => import('./FiftyFiftySection')),
   grid: dynamic(() => import('./ServicesGrid')),
-  intro_bloc: dynamic(() => import('./IntroBloc')),
+  intro_block: dynamic(() => import('./IntroBlock')),
   team: dynamic(() => import('./Team')),
-  testimonials: dynamic(() => import('./TestimonialsRow')),
+  testimonials_row: dynamic(() => import('./TestimonialsRow')),
 };

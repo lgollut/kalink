@@ -9,6 +9,16 @@ const nextConfig = {
   experimental: {
     typedRoutes: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.prismic.io',
+        port: '',
+        pathname: '/kalink/**',
+      },
+    ],
+  },
 };
 
 export default withVanillaExtract(nextConfig);

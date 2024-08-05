@@ -5,8 +5,9 @@ import type * as prismic from '@prismicio/client';
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 type HomepageDocumentDataSlicesSlice =
-  | IntroBlocSlice
-  | TestimonialsSlice
+  | FiftyFiftySectionSlice
+  | IntroBlockSlice
+  | TestimonialsRowSlice
   | TeamSlice
   | GridSlice;
 
@@ -86,18 +87,18 @@ interface PersonDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  picture: prismic.ImageField<'xl' | 'md' | 'sm'>;
+  picture: prismic.ImageField<'3:4'>;
 
   /**
    * Given name field in *Person*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: person.given_name
+   * - **API ID Path**: person.givenName
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  given_name: prismic.KeyTextField;
+  givenName: prismic.KeyTextField;
 
   /**
    * Surname field in *Person*
@@ -115,11 +116,11 @@ interface PersonDocumentData {
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: person.job_title
+   * - **API ID Path**: person.jobTitle
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  job_title: prismic.KeyTextField;
+  jobTitle: prismic.KeyTextField;
 
   /**
    * Summary field in *Person*
@@ -165,12 +166,15 @@ interface ServiceDocumentData {
    *
    * - **Field Type**: Select
    * - **Placeholder**: *None*
-   * - **Default Value**: secondary
-   * - **API ID Path**: service.background_color
+   * - **Default Value**: secondaryContainer
+   * - **API ID Path**: service.backgroundColor
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  background_color: prismic.SelectField<'secondary' | 'primary', 'filled'>;
+  backgroundColor: prismic.SelectField<
+    'secondaryContainer' | 'primaryContainer',
+    'filled'
+  >;
 
   /**
    * Picture field in *Service*
@@ -209,7 +213,7 @@ interface ServiceDescriptionDocumentData {
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: service_description.title
+   * - **API ID Path**: serviceDescription.title
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
@@ -220,7 +224,7 @@ interface ServiceDescriptionDocumentData {
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: service_description.description
+   * - **API ID Path**: serviceDescription.description
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
@@ -231,18 +235,21 @@ interface ServiceDescriptionDocumentData {
    *
    * - **Field Type**: Select
    * - **Placeholder**: *None*
-   * - **Default Value**: primary
-   * - **API ID Path**: service_description.background_color
+   * - **Default Value**: primaryContainer
+   * - **API ID Path**: serviceDescription.backgroundColor
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  background_color: prismic.SelectField<'primary' | 'secondary', 'filled'>;
+  backgroundColor: prismic.SelectField<
+    'primaryContainer' | 'secondaryContainer',
+    'filled'
+  >;
 }
 
 /**
  * Service Description document from Prismic
  *
- * - **API ID**: `service_description`
+ * - **API ID**: `serviceDescription`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
@@ -251,7 +258,7 @@ interface ServiceDescriptionDocumentData {
 export type ServiceDescriptionDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<
     Simplify<ServiceDescriptionDocumentData>,
-    'service_description',
+    'serviceDescription',
     Lang
   >;
 
@@ -264,22 +271,22 @@ interface TestimonialDocumentData {
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: testimonial.given_name
+   * - **API ID Path**: testimonial.givenName
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  given_name: prismic.KeyTextField;
+  givenName: prismic.KeyTextField;
 
   /**
-   * Content field in *Testimonial*
+   * Text field in *Testimonial*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: testimonial.content
+   * - **API ID Path**: testimonial.text
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  content: prismic.KeyTextField;
+  text: prismic.KeyTextField;
 }
 
 /**
@@ -306,6 +313,107 @@ export type AllDocumentTypes =
   | TestimonialDocument;
 
 /**
+ * Primary content in *FiftyFiftySection → Default → Primary*
+ */
+export interface FiftyFiftySectionSliceDefaultPrimary {
+  /**
+   * Title field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fifty_fifty_section.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Scroll Spy field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: fifty_fifty_section.default.primary.scrollSpy
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+
+  /**
+   * Background Color field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: primary
+   * - **API ID Path**: fifty_fifty_section.default.primary.backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<
+    'primary' | 'primaryContainer' | 'secondaryContainer',
+    'filled'
+  >;
+
+  /**
+   * Text field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fifty_fifty_section.default.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Image field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fifty_fifty_section.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'2:3'>;
+
+  /**
+   * Direction field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: start
+   * - **API ID Path**: fifty_fifty_section.default.primary.direction
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  direction: prismic.SelectField<'start' | 'end', 'filled'>;
+}
+
+/**
+ * Default variation for FiftyFiftySection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FiftyFiftySectionSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<FiftyFiftySectionSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *FiftyFiftySection*
+ */
+type FiftyFiftySectionSliceVariation = FiftyFiftySectionSliceDefault;
+
+/**
+ * FiftyFiftySection Shared Slice
+ *
+ * - **API ID**: `fifty_fifty_section`
+ * - **Description**: FiftyFiftySection
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FiftyFiftySectionSlice = prismic.SharedSlice<
+  'fifty_fifty_section',
+  FiftyFiftySectionSliceVariation
+>;
+
+/**
  * Item in *ServicesGrid → Default → Primary → Items*
  */
 export interface GridSliceDefaultPrimaryItemsItem {
@@ -317,13 +425,34 @@ export interface GridSliceDefaultPrimaryItemsItem {
    * - **API ID Path**: grid.default.primary.items[].item
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  item: prismic.ContentRelationshipField<'service' | 'service_description'>;
+  item: prismic.ContentRelationshipField<'service' | 'serviceDescription'>;
 }
 
 /**
  * Primary content in *ServicesGrid → Default → Primary*
  */
 export interface GridSliceDefaultPrimary {
+  /**
+   * Title field in *ServicesGrid → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: grid.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Scroll Spy field in *ServicesGrid → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: grid.default.primary.scrollSpy
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+
   /**
    * Items field in *ServicesGrid → Default → Primary*
    *
@@ -363,58 +492,69 @@ type GridSliceVariation = GridSliceDefault;
 export type GridSlice = prismic.SharedSlice<'grid', GridSliceVariation>;
 
 /**
- * Primary content in *IntroBloc → Default → Primary*
+ * Primary content in *IntroBlock → Default → Primary*
  */
-export interface IntroBlocSliceDefaultPrimary {
+export interface IntroBlockSliceDefaultPrimary {
   /**
-   * Title field in *IntroBloc → Default → Primary*
+   * Title field in *IntroBlock → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: intro_bloc.default.primary.title
+   * - **API ID Path**: intro_block.default.primary.title
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField;
 
   /**
-   * Content field in *IntroBloc → Default → Primary*
+   * Scroll Spy field in *IntroBlock → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: intro_block.default.primary.scrollSpy
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+
+  /**
+   * Content field in *IntroBlock → Default → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: intro_bloc.default.primary.content
+   * - **API ID Path**: intro_block.default.primary.content
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   content: prismic.KeyTextField;
 }
 
 /**
- * Default variation for IntroBloc Slice
+ * Default variation for IntroBlock Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type IntroBlocSliceDefault = prismic.SharedSliceVariation<
+export type IntroBlockSliceDefault = prismic.SharedSliceVariation<
   'default',
-  Simplify<IntroBlocSliceDefaultPrimary>,
+  Simplify<IntroBlockSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *IntroBloc*
+ * Slice variation for *IntroBlock*
  */
-type IntroBlocSliceVariation = IntroBlocSliceDefault;
+type IntroBlockSliceVariation = IntroBlockSliceDefault;
 
 /**
- * IntroBloc Shared Slice
+ * IntroBlock Shared Slice
  *
- * - **API ID**: `intro_bloc`
- * - **Description**: IntroBloc
+ * - **API ID**: `intro_block`
+ * - **Description**: IntroBlock
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type IntroBlocSlice = prismic.SharedSlice<
-  'intro_bloc',
-  IntroBlocSliceVariation
+export type IntroBlockSlice = prismic.SharedSlice<
+  'intro_block',
+  IntroBlockSliceVariation
 >;
 
 /**
@@ -422,20 +562,66 @@ export type IntroBlocSlice = prismic.SharedSlice<
  */
 export interface TeamSliceDefaultPrimaryItemsItem {
   /**
-   * item field in *Team → Default → Primary → Items*
+   * Person field in *Team → Default → Primary → Items*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: team.default.primary.items[].item
+   * - **API ID Path**: team.default.primary.items[].person
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  item: prismic.ContentRelationshipField<'person'>;
+  person: prismic.ContentRelationshipField<'person'>;
+
+  /**
+   * Direction field in *Team → Default → Primary → Items*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: start
+   * - **API ID Path**: team.default.primary.items[].direction
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  direction: prismic.SelectField<'start' | 'end', 'filled'>;
+
+  /**
+   * Background Color field in *Team → Default → Primary → Items*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: primaryContainer
+   * - **API ID Path**: team.default.primary.items[].backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<
+    'primaryContainer' | 'secondaryContainer',
+    'filled'
+  >;
 }
 
 /**
  * Primary content in *Team → Default → Primary*
  */
 export interface TeamSliceDefaultPrimary {
+  /**
+   * Title field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Scroll Spy field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: team.default.primary.scrollSpy
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+
   /**
    * Items field in *Team → Default → Primary*
    *
@@ -477,13 +663,13 @@ export type TeamSlice = prismic.SharedSlice<'team', TeamSliceVariation>;
 /**
  * Item in *TestimonialsRow → Default → Primary → Items*
  */
-export interface TestimonialsSliceDefaultPrimaryItemsItem {
+export interface TestimonialsRowSliceDefaultPrimaryItemsItem {
   /**
    * Item field in *TestimonialsRow → Default → Primary → Items*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: testimonials.default.primary.items[].item
+   * - **API ID Path**: testimonials_row.default.primary.items[].item
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   item: prismic.ContentRelationshipField<'testimonial'>;
@@ -492,16 +678,18 @@ export interface TestimonialsSliceDefaultPrimaryItemsItem {
 /**
  * Primary content in *TestimonialsRow → Default → Primary*
  */
-export interface TestimonialsSliceDefaultPrimary {
+export interface TestimonialsRowSliceDefaultPrimary {
   /**
    * Items field in *TestimonialsRow → Default → Primary*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: testimonials.default.primary.items[]
+   * - **API ID Path**: testimonials_row.default.primary.items[]
    * - **Documentation**: https://prismic.io/docs/field#group
    */
-  items: prismic.GroupField<Simplify<TestimonialsSliceDefaultPrimaryItemsItem>>;
+  items: prismic.GroupField<
+    Simplify<TestimonialsRowSliceDefaultPrimaryItemsItem>
+  >;
 }
 
 /**
@@ -511,27 +699,27 @@ export interface TestimonialsSliceDefaultPrimary {
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TestimonialsSliceDefault = prismic.SharedSliceVariation<
+export type TestimonialsRowSliceDefault = prismic.SharedSliceVariation<
   'default',
-  Simplify<TestimonialsSliceDefaultPrimary>,
+  Simplify<TestimonialsRowSliceDefaultPrimary>,
   never
 >;
 
 /**
  * Slice variation for *TestimonialsRow*
  */
-type TestimonialsSliceVariation = TestimonialsSliceDefault;
+type TestimonialsRowSliceVariation = TestimonialsRowSliceDefault;
 
 /**
  * TestimonialsRow Shared Slice
  *
- * - **API ID**: `testimonials`
- * - **Description**: Testimonials
+ * - **API ID**: `testimonials_row`
+ * - **Description**: TestimonialsRow
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TestimonialsSlice = prismic.SharedSlice<
-  'testimonials',
-  TestimonialsSliceVariation
+export type TestimonialsRowSlice = prismic.SharedSlice<
+  'testimonials_row',
+  TestimonialsRowSliceVariation
 >;
 
 declare module '@prismicio/client' {
@@ -556,25 +744,29 @@ declare module '@prismicio/client' {
       TestimonialDocument,
       TestimonialDocumentData,
       AllDocumentTypes,
+      FiftyFiftySectionSlice,
+      FiftyFiftySectionSliceDefaultPrimary,
+      FiftyFiftySectionSliceVariation,
+      FiftyFiftySectionSliceDefault,
       GridSlice,
       GridSliceDefaultPrimaryItemsItem,
       GridSliceDefaultPrimary,
       GridSliceVariation,
       GridSliceDefault,
-      IntroBlocSlice,
-      IntroBlocSliceDefaultPrimary,
-      IntroBlocSliceVariation,
-      IntroBlocSliceDefault,
+      IntroBlockSlice,
+      IntroBlockSliceDefaultPrimary,
+      IntroBlockSliceVariation,
+      IntroBlockSliceDefault,
       TeamSlice,
       TeamSliceDefaultPrimaryItemsItem,
       TeamSliceDefaultPrimary,
       TeamSliceVariation,
       TeamSliceDefault,
-      TestimonialsSlice,
-      TestimonialsSliceDefaultPrimaryItemsItem,
-      TestimonialsSliceDefaultPrimary,
-      TestimonialsSliceVariation,
-      TestimonialsSliceDefault,
+      TestimonialsRowSlice,
+      TestimonialsRowSliceDefaultPrimaryItemsItem,
+      TestimonialsRowSliceDefaultPrimary,
+      TestimonialsRowSliceVariation,
+      TestimonialsRowSliceDefault,
     };
   }
 }

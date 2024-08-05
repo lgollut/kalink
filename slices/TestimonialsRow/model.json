@@ -1,8 +1,8 @@
 {
-  "id": "testimonials",
+  "id": "testimonials_row",
   "type": "SharedSlice",
   "name": "TestimonialsRow",
-  "description": "Testimonials",
+  "description": "TestimonialsRow",
   "variations": [
     {
       "id": "default",
@@ -23,9 +23,7 @@
                 "config": {
                   "label": "Item",
                   "select": "document",
-                  "customtypes": [
-                    "testimonial"
-                  ]
+                  "customtypes": ["testimonial"]
                 }
               }
             }

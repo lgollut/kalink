@@ -1,0 +1,24 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "Fondé par Stéphanie Giorgis, KalinK Studio se distingue par son expertise et son approche atypique."
+			},
+			"content": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "En effet, en plus de la création de contenus et de supports graphiques, ce bureau de communication propose également ses services pour vous permettre d’améliorer des visuels déjà existants à l’aide de remaniements et de conseils. Grâce à sa collaboration avec le développeur Louis Gollut, KalinK Studio apporte des solutions efficaces, adaptées à vos besoins et à votre budget."
+			},
+			"scrollSpy": {
+				"__TYPE__": "FieldContent",
+				"value": "false",
+				"type": "Select"
+			}
+		},
+		"items": []
+	}
+]

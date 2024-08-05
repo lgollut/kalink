@@ -19,24 +19,14 @@
           "constraint": {},
           "thumbnails": [
             {
-              "name": "xl",
-              "width": 192,
-              "height": 192
-            },
-            {
-              "name": "md",
-              "width": 160,
-              "height": 160
-            },
-            {
-              "name": "sm",
-              "width": 120,
-              "height": 120
+              "name": "3:4",
+              "width": 384,
+              "height": 512
             }
           ]
         }
       },
-      "given_name": {
+      "givenName": {
         "type": "Text",
         "config": {
           "label": "Given name",
@@ -50,7 +40,7 @@
           "placeholder": ""
         }
       },
-      "job_title": {
+      "jobTitle": {
         "type": "Text",
         "config": {
           "label": "Job title",

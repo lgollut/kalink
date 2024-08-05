@@ -12,20 +12,63 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "scrollSpy": {
+          "type": "Select",
+          "config": {
+            "label": "Scroll Spy",
+            "placeholder": "",
+            "options": [
+              "false",
+              "true"
+            ],
+            "default_value": "false"
+          }
+        },
         "items": {
           "type": "Group",
           "config": {
             "label": "Items",
             "repeat": true,
             "fields": {
-              "item": {
+              "person": {
                 "type": "Link",
                 "config": {
-                  "label": "item",
+                  "label": "Person",
                   "select": "document",
                   "customtypes": [
                     "person"
                   ]
+                }
+              },
+              "direction": {
+                "type": "Select",
+                "config": {
+                  "label": "Direction",
+                  "placeholder": "",
+                  "options": [
+                    "start",
+                    "end"
+                  ],
+                  "default_value": "start"
+                }
+              },
+              "backgroundColor": {
+                "type": "Select",
+                "config": {
+                  "label": "Background Color",
+                  "placeholder": "",
+                  "options": [
+                    "primaryContainer",
+                    "secondaryContainer"
+                  ],
+                  "default_value": "primaryContainer"
                 }
               }
             }

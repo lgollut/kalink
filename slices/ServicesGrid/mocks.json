@@ -22,6 +22,16 @@
 						]
 					}
 				]
+			},
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "climb",
+				"type": "Text"
+			},
+			"scrollSpy": {
+				"__TYPE__": "FieldContent",
+				"value": "false",
+				"type": "Select"
 			}
 		},
 		"items": []

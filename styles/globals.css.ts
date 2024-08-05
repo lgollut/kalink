@@ -23,6 +23,21 @@ globalStyle('*', {
   },
 });
 
+/**
+ * Fluidly scale typography based on the following calculator:
+ * https://websemantics.uk/tools/responsive-font-calculator/
+ */
+globalStyle(':root', {
+  '@layer': {
+    [base]: {
+      fontSize:
+        'clamp(0.75rem, calc(0.75rem + ((1vw - 0.35rem) * 0.2941)), 1rem)',
+      minHeight: '0vw',
+      scrollBehavior: 'smooth',
+    },
+  },
+});
+
 globalStyle('img, picture, video, canvas, svg', {
   '@layer': {
     [base]: {

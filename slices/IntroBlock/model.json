@@ -1,8 +1,8 @@
 {
-  "id": "intro_bloc",
+  "id": "intro_block",
   "type": "SharedSlice",
-  "name": "IntroBloc",
-  "description": "IntroBloc",
+  "name": "IntroBlock",
+  "description": "IntroBlock",
   "variations": [
     {
       "id": "default",
@@ -17,6 +17,18 @@
           "config": {
             "label": "Title",
             "placeholder": ""
+          }
+        },
+        "scrollSpy": {
+          "type": "Select",
+          "config": {
+            "label": "Scroll Spy",
+            "placeholder": "",
+            "options": [
+              "false",
+              "true"
+            ],
+            "default_value": "false"
           }
         },
         "content": {

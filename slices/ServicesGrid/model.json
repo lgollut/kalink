@@ -12,6 +12,25 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "scrollSpy": {
+          "type": "Select",
+          "config": {
+            "label": "Scroll Spy",
+            "placeholder": "",
+            "options": [
+              "false",
+              "true"
+            ],
+            "default_value": "false"
+          }
+        },
         "items": {
           "type": "Group",
           "config": {
@@ -25,7 +44,7 @@
                   "select": "document",
                   "customtypes": [
                     "service",
-                    "service_description"
+                    "serviceDescription"
                   ]
                 }
               }

@@ -110,6 +110,17 @@ export const vars = createThemeContract({
       '6xl': null,
       '7xl': null,
       '8xl': null,
+      '9xl': null,
+    },
+
+    screen: {
+      xs: null,
+      sm: null,
+      md: null,
+      lg: null,
+      xl: null,
+      '2xl': null,
+      '3xl': null,
     },
 
     radius: {
@@ -140,6 +151,7 @@ export const vars = createThemeContract({
 
     easing: {
       inOut: null,
+      linear: null,
     },
   },
 

@@ -1,6 +1,6 @@
 {
   "format": "custom",
-  "id": "service_description",
+  "id": "serviceDescription",
   "label": "Service Description",
   "repeatable": true,
   "status": true,
@@ -26,13 +26,13 @@
           "placeholder": ""
         }
       },
-      "background_color": {
+      "backgroundColor": {
         "type": "Select",
         "config": {
           "label": "Background Color",
           "placeholder": "",
-          "options": ["primary", "secondary"],
-          "default_value": "primary"
+          "options": ["primaryContainer", "secondaryContainer"],
+          "default_value": "primaryContainer"
         }
       }
     }

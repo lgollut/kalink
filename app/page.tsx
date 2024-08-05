@@ -1,10 +1,13 @@
+import { SliceZone } from '@prismicio/react';
 import { Metadata } from 'next';
-import Image from 'next/image';
 
-import { Box } from '@/components/box';
-import { Text } from '@/components/text';
+import { Footer } from '@/components/footer';
+import { Navbar } from '@/components/navbar';
+import { Stack } from '@/components/stack';
 import { createClient } from '@/prismicio';
-import kalink from '@/public/kalink.svg';
+import { components } from '@/slices';
+
+import { pageContent } from './page.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient();
@@ -24,20 +27,33 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function Home() {
+export default async function Home() {
+  const client = createClient();
+
+  const page = await client.getSingle('homepage');
+
+  const navItems: string[] = [];
+
+  for (const item of page.data.slices) {
+    if (
+      !('scrollSpy' in item.primary) ||
+      !('title' in item.primary) ||
+      !item.primary.title ||
+      item.primary.scrollSpy === 'false'
+    ) {
+      continue;
+    }
+
+    navItems.push(item.primary.title);
+  }
+
   return (
-    <Box
-      use="main"
-      height="full"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      gap="base"
-      flexGrow={1}
-    >
-      <Image src={kalink} alt="Kalink" width={500} />
-      <Text typography="titleMedium">Coming soon</Text>
-    </Box>
+    <Stack gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}>
+      <Navbar navItems={navItems} />
+      <Stack gap={{ xs: '5xl', md: '7xl', lg: '9xl' }} className={pageContent}>
+        <SliceZone slices={page.data.slices} components={components} />
+      </Stack>
+      <Footer />
+    </Stack>
   );
 }

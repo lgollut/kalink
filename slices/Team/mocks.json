@@ -10,7 +10,23 @@
 						"__TYPE__": "GroupItemContent",
 						"value": [
 							[
-								"item",
+								"backgroundColor",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "primaryContainer",
+									"type": "Select"
+								}
+							],
+							[
+								"direction",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "start",
+									"type": "Select"
+								}
+							],
+							[
+								"person",
 								{
 									"__TYPE__": "LinkContent",
 									"value": {
@@ -22,6 +38,16 @@
 						]
 					}
 				]
+			},
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "wool",
+				"type": "Text"
+			},
+			"scrollSpy": {
+				"__TYPE__": "FieldContent",
+				"value": "false",
+				"type": "Select"
 			}
 		},
 		"items": []
