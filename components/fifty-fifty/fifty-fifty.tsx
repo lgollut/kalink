@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useMemo } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 
 import { Box } from '../box';
 import { Image } from '../image';
@@ -15,17 +15,11 @@ const FiftyFifty = (
   { text, image, backgroundColor, direction }: FiftyFiftyProps,
   ref: ForwardedRef<any>,
 ) => {
-  const dotColor = useMemo(
-    () =>
-      backgroundColor === 'primary' ? 'primaryContainer' : 'secondaryContainer',
-    [backgroundColor],
-  );
-
   return (
     <div ref={ref} className={fiftyFifty({ direction })}>
       <Image field={image} className={fiftyFiftyImage} sizes="37.5vw" fill />
       <Box tintScheme={backgroundColor} className={fiftyFiftyContent}>
-        <RichText field={text} headingDotColor={dotColor} />
+        <RichText field={text} />
       </Box>
     </div>
   );
