@@ -1,0 +1,77 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "bat",
+				"type": "Text"
+			},
+			"form": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"fieldName",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "thou",
+									"type": "Text"
+								}
+							],
+							[
+								"fieldLabel",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "nuts",
+									"type": "Text"
+								}
+							],
+							[
+								"fieldType",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "textField",
+									"type": "Select"
+								}
+							],
+							[
+								"required",
+								{
+									"__TYPE__": "BooleanContent",
+									"value": true
+								}
+							]
+						]
+					}
+				]
+			},
+			"localisation": {
+				"position": {
+					"lat": 48.8703712,
+					"lng": 2.3865198
+				},
+				"__TYPE__": "GeoPointContent"
+			},
+			"information": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Ex ullamco eu sunt nulla pariatur qui. Veniam aliqua et consequat reprehenderit Lorem duis irure labore nisi fugiat minim irure."
+						}
+					}
+				]
+			},
+			"scrollSpy": {
+				"__TYPE__": "BooleanContent",
+				"value": true
+			}
+		},
+		"items": []
+	}
+]

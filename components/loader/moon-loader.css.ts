@@ -71,7 +71,7 @@ export const ellipse = style({
   borderRadius: '100%',
   borderWidth: moonSize,
   borderStyle: 'solid',
-  borderColor: `color(from ${vars.system.color.primary} srgb r g b / 0.3)`,
+  borderColor: `color(from ${vars.ref.color.neutral40} srgb r g b / 0.3)`,
 });
 
 export const moon = style({
@@ -85,7 +85,7 @@ export const moon = style({
   ),
   insetInlineStart: 0,
 
-  backgroundColor: vars.system.color.primary,
+  backgroundColor: vars.ref.color.neutral40,
 
   borderRadius: '100%',
 });

@@ -39,7 +39,7 @@ export default async function Home() {
       !('scrollSpy' in item.primary) ||
       !('title' in item.primary) ||
       !item.primary.title ||
-      item.primary.scrollSpy === 'false'
+      !item.primary.scrollSpy
     ) {
       continue;
     }

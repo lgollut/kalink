@@ -29,9 +29,8 @@
 				"type": "Text"
 			},
 			"scrollSpy": {
-				"__TYPE__": "FieldContent",
-				"value": "false",
-				"type": "Select"
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": []

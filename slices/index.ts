@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 
 export const components = {
+  contacts: dynamic(() => import('./Contacts')),
   fifty_fifty_section: dynamic(() => import('./FiftyFiftySection')),
   grid: dynamic(() => import('./ServicesGrid')),
   intro_block: dynamic(() => import('./IntroBlock')),

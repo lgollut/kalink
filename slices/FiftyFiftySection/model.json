@@ -20,15 +20,12 @@
           }
         },
         "scrollSpy": {
-          "type": "Select",
+          "type": "Boolean",
           "config": {
             "label": "Scroll Spy",
-            "placeholder": "",
-            "options": [
-              "false",
-              "true"
-            ],
-            "default_value": "false"
+            "placeholder_false": "Hide from page navigation",
+            "placeholder_true": "Display in page navigation",
+            "default_value": false
           }
         },
         "backgroundColor": {

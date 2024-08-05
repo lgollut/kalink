@@ -5,6 +5,7 @@ import type * as prismic from '@prismicio/client';
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 type HomepageDocumentDataSlicesSlice =
+  | ContactsSlice
   | FiftyFiftySectionSlice
   | IntroBlockSlice
   | TestimonialsRowSlice
@@ -313,6 +314,139 @@ export type AllDocumentTypes =
   | TestimonialDocument;
 
 /**
+ * Item in *Contacts → Default → Primary → Form*
+ */
+export interface ContactsSliceDefaultPrimaryFormItem {
+  /**
+   * Field Type field in *Contacts → Default → Primary → Form*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: textField
+   * - **API ID Path**: contacts.default.primary.form[].fieldType
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  fieldType: prismic.SelectField<'textField' | 'textarea', 'filled'>;
+
+  /**
+   * Field Name field in *Contacts → Default → Primary → Form*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.form[].fieldName
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  fieldName: prismic.KeyTextField;
+
+  /**
+   * Field Label field in *Contacts → Default → Primary → Form*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.form[].fieldLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  fieldLabel: prismic.KeyTextField;
+
+  /**
+   * Required field in *Contacts → Default → Primary → Form*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: contacts.default.primary.form[].required
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  required: prismic.BooleanField;
+}
+
+/**
+ * Primary content in *Contacts → Default → Primary*
+ */
+export interface ContactsSliceDefaultPrimary {
+  /**
+   * Title field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Scroll Spy field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: contacts.default.primary.scrollSpy
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  scrollSpy: prismic.BooleanField;
+
+  /**
+   * Form field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.form[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  form: prismic.GroupField<Simplify<ContactsSliceDefaultPrimaryFormItem>>;
+
+  /**
+   * Localisation field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.localisation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  localisation: prismic.GeoPointField;
+
+  /**
+   * Information field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.information
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  information: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Contacts Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ContactsSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<ContactsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Contacts*
+ */
+type ContactsSliceVariation = ContactsSliceDefault;
+
+/**
+ * Contacts Shared Slice
+ *
+ * - **API ID**: `contacts`
+ * - **Description**: Contacts
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ContactsSlice = prismic.SharedSlice<
+  'contacts',
+  ContactsSliceVariation
+>;
+
+/**
  * Primary content in *FiftyFiftySection → Default → Primary*
  */
 export interface FiftyFiftySectionSliceDefaultPrimary {
@@ -329,13 +463,13 @@ export interface FiftyFiftySectionSliceDefaultPrimary {
   /**
    * Scroll Spy field in *FiftyFiftySection → Default → Primary*
    *
-   * - **Field Type**: Select
+   * - **Field Type**: Boolean
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: fifty_fifty_section.default.primary.scrollSpy
-   * - **Documentation**: https://prismic.io/docs/field#select
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+  scrollSpy: prismic.BooleanField;
 
   /**
    * Background Color field in *FiftyFiftySection → Default → Primary*
@@ -445,13 +579,13 @@ export interface GridSliceDefaultPrimary {
   /**
    * Scroll Spy field in *ServicesGrid → Default → Primary*
    *
-   * - **Field Type**: Select
+   * - **Field Type**: Boolean
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: grid.default.primary.scrollSpy
-   * - **Documentation**: https://prismic.io/docs/field#select
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+  scrollSpy: prismic.BooleanField;
 
   /**
    * Items field in *ServicesGrid → Default → Primary*
@@ -508,23 +642,23 @@ export interface IntroBlockSliceDefaultPrimary {
   /**
    * Scroll Spy field in *IntroBlock → Default → Primary*
    *
-   * - **Field Type**: Select
+   * - **Field Type**: Boolean
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: intro_block.default.primary.scrollSpy
-   * - **Documentation**: https://prismic.io/docs/field#select
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+  scrollSpy: prismic.BooleanField;
 
   /**
-   * Content field in *IntroBlock → Default → Primary*
+   * Text field in *IntroBlock → Default → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: intro_block.default.primary.content
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **API ID Path**: intro_block.default.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  content: prismic.KeyTextField;
+  text: prismic.RichTextField;
 }
 
 /**
@@ -614,13 +748,13 @@ export interface TeamSliceDefaultPrimary {
   /**
    * Scroll Spy field in *Team → Default → Primary*
    *
-   * - **Field Type**: Select
+   * - **Field Type**: Boolean
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: team.default.primary.scrollSpy
-   * - **Documentation**: https://prismic.io/docs/field#select
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.SelectField<'false' | 'true', 'filled'>;
+  scrollSpy: prismic.BooleanField;
 
   /**
    * Items field in *Team → Default → Primary*
@@ -679,6 +813,27 @@ export interface TestimonialsRowSliceDefaultPrimaryItemsItem {
  * Primary content in *TestimonialsRow → Default → Primary*
  */
 export interface TestimonialsRowSliceDefaultPrimary {
+  /**
+   * Title field in *TestimonialsRow → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: testimonials_row.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Scroll Spy field in *TestimonialsRow → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: testimonials_row.default.primary.scrollSpy
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  scrollSpy: prismic.BooleanField;
+
   /**
    * Items field in *TestimonialsRow → Default → Primary*
    *
@@ -744,6 +899,11 @@ declare module '@prismicio/client' {
       TestimonialDocument,
       TestimonialDocumentData,
       AllDocumentTypes,
+      ContactsSlice,
+      ContactsSliceDefaultPrimaryFormItem,
+      ContactsSliceDefaultPrimary,
+      ContactsSliceVariation,
+      ContactsSliceDefault,
       FiftyFiftySectionSlice,
       FiftyFiftySectionSliceDefaultPrimary,
       FiftyFiftySectionSliceVariation,

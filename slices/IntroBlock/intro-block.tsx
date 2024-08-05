@@ -4,8 +4,8 @@ import { SliceComponentProps } from '@prismicio/react';
 import { Box } from '@/components/box';
 import { Container } from '@/components/container';
 import { Heading } from '@/components/heading';
+import { RichText } from '@/components/rich-text';
 import { Stack } from '@/components/stack';
-import { Text } from '@/components/text';
 
 import { introBlockFigure } from './Intro-block.css';
 
@@ -30,7 +30,7 @@ export function IntroBlock({ slice }: IntroBlocProps): JSX.Element {
           <Heading use="h1" typography="headlineLarge">
             {slice.primary.title}
           </Heading>
-          <Text>{slice.primary.content}</Text>
+          <RichText field={slice.primary.text} />
         </Stack>
       </Box>
     </Container>

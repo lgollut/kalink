@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { ElementType, ForwardedRef, forwardRef } from 'react';
 
 import { Box } from '@/components/box';
@@ -33,8 +34,15 @@ const Footer = <TUse extends ElementType>(
           <Text>Bureau de communication</Text>
         </Box>
         <Box display="flex" gap="md">
-          <Image src={instagram} alt="Instagram KalinK account" />
-          <Image src={linkedin} alt="LinkedIn KalinK account" />
+          <Link href="https://www.instagram.com/kalinkstudio/" target="_blank">
+            <Image src={instagram} alt="Instagram KalinK account" />
+          </Link>
+          <Link
+            href="https://www.linkedin.com/company/kalink-studio/"
+            target="_blank"
+          >
+            <Image src={linkedin} alt="LinkedIn KalinK account" />
+          </Link>
         </Box>
       </Container>
     </Box>

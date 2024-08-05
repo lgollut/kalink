@@ -21,7 +21,10 @@
     "@prismicio/next": "^1.6.0",
     "@prismicio/react": "^2.8.0",
     "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
     "@vanilla-extract/dynamic": "^2.1.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.19",
@@ -29,6 +32,8 @@
     "next": "14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.2",
+    "resend": "^3.5.0",
     "simplebar-react": "^3.2.6"
   },
   "devDependencies": {

@@ -12,6 +12,22 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "scrollSpy": {
+          "type": "Boolean",
+          "config": {
+            "label": "Scroll Spy",
+            "placeholder_false": "Hide from page navigation",
+            "placeholder_true": "Display in page navigation",
+            "default_value": false
+          }
+        },
         "items": {
           "type": "Group",
           "config": {
@@ -23,7 +39,9 @@
                 "config": {
                   "label": "Item",
                   "select": "document",
-                  "customtypes": ["testimonial"]
+                  "customtypes": [
+                    "testimonial"
+                  ]
                 }
               }
             }

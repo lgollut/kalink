@@ -22,6 +22,15 @@
 						]
 					}
 				]
+			},
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "service",
+				"type": "Text"
+			},
+			"scrollSpy": {
+				"__TYPE__": "BooleanContent",
+				"value": false
 			}
 		},
 		"items": []
