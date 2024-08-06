@@ -1,6 +1,7 @@
-export type MessageInputs = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
+import { ComponentPropsWithoutRef } from 'react';
+
+import { ContactsSliceDefaultPrimaryFormItem } from '@/prismicio-types';
+
+export type ContactFormProps = ComponentPropsWithoutRef<'form'> & {
+  fields: ContactsSliceDefaultPrimaryFormItem[];
 };

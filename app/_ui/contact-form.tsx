@@ -1,29 +1,34 @@
 'use client';
 
-import { ComponentPropsWithoutRef, useCallback, useTransition } from 'react';
+import { useCallback, useTransition } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { sendForm } from '../_services/send-form';
+import { sendForm, SendFormData } from '../_services/send-form';
 import { ButtonLoading } from '@/components/button';
 import { Stack } from '@/components/stack';
 import { TextField } from '@/components/text-field';
-import { Textarea } from '@/components/textarea/textarea';
+import { Textarea } from '@/components/textarea';
 import { useToast } from '@/components/toaster/use-toast';
 
-import { MessageInputs } from './contact-form.types';
+import { ContactFormProps } from './contact-form.types';
 
-export const ContactForm = (props: ComponentPropsWithoutRef<'form'>) => {
+const AllFields = {
+  textField: TextField,
+  textarea: Textarea,
+};
+
+export const ContactForm = ({ fields, ...props }: ContactFormProps) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<MessageInputs>();
+  } = useForm<SendFormData>();
   const addToast = useToast();
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit: SubmitHandler<MessageInputs> = useCallback(
+  const onSubmit: SubmitHandler<SendFormData> = useCallback(
     (formData) => {
       startTransition(async () => {
         const { data, error } = await sendForm(formData);
@@ -52,29 +57,30 @@ export const ContactForm = (props: ComponentPropsWithoutRef<'form'>) => {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} {...props}>
+    <form onSubmit={handleSubmit(onSubmit)} {...props} noValidate>
       <Stack gap="xl">
         <Stack use="label" gap="md">
-          <TextField
-            label="Votre nom"
-            errors={errors.name?.message || ''}
-            {...register('name', { required: 'Merci de renseigner votre nom' })}
-          />
-          <TextField
-            type="email"
-            label="Votre email"
-            errors={errors.email?.message || ''}
-            {...register('email', {
-              required: 'Merci de renseigner votre email',
-            })}
-          />
-          <Textarea
-            label="Votre Message"
-            errors={errors.message?.message || ''}
-            {...register('message', {
-              required: 'Le message ne peut pas être vide',
-            })}
-          />
+          {fields.map(({ fieldType, fieldName, fieldLabel, required }) => {
+            const Field = AllFields[fieldType];
+
+            if (!Field || !fieldLabel || !fieldName) {
+              return null;
+            }
+
+            return (
+              <Field
+                key={fieldName}
+                label={fieldLabel}
+                required={required}
+                errors={errors[fieldName]?.message || ''}
+                {...register(fieldName, {
+                  required: required
+                    ? 'Merci de renseigner ce champ'
+                    : undefined,
+                })}
+              />
+            );
+          })}
         </Stack>
 
         <ButtonLoading

@@ -157,7 +157,7 @@ const markdownSerializer = wrapMapSerializer({
         return <Text className={node.data.label}>{parseText(children)}</Text>;
     }
   },
-  span: ({ text }) => text.replace('\n', '<br/>'),
+  span: ({ text }) => text, //text.replace('\n', '<br/>'),
 });
 
 export function RichText({ field }: RichTextProps) {

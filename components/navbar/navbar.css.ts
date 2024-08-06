@@ -37,6 +37,7 @@ export const navbar = recipe({
 
 export const navbarLogo = style({
   width: vars.ref.spacing['9xl'],
+  height: 'auto',
 });
 
 export const navbarLink = recipe({
