@@ -12,7 +12,7 @@ export const themeClass = createTheme(vars.system, {
     primary: vars.ref.color.primary72,
     onPrimary: vars.ref.color.primary10,
     primaryContainer: vars.ref.color.primary95,
-    onPrimaryContainer: vars.ref.color.primary20,
+    onPrimaryContainer: vars.ref.color.primary10,
 
     secondary: vars.ref.color.secondary40,
     onSecondary: vars.ref.color.secondary99,
@@ -155,7 +155,7 @@ export const themeClass = createTheme(vars.system, {
         size: vars.ref.fontSize.lg,
         weight: vars.ref.fontWeight.thin,
         tracking: 'normal',
-        lineHeight: 'normal',
+        lineHeight: '1.4',
       },
       medium: {
         font: typeface.plain,

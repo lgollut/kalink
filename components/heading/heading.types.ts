@@ -6,7 +6,7 @@ import { headingWrapper } from './heading.css';
 
 export type HeadingTypes = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-type OmittedBoxProps = 'typography' | 'divided';
+type OmittedBoxProps = 'divided';
 
 export type HeadingProps<TUse extends HeadingTypes> = {
   subtitle?: string;

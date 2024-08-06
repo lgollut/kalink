@@ -96,6 +96,12 @@ export const unconditionalProperties = defineProperties({
           [onTintVar]: vars.system.color.onPrimary,
         },
       },
+      primaryContainer: {
+        vars: {
+          [tintVar]: vars.system.color.primaryContainer,
+          [onTintVar]: vars.system.color.onPrimaryContainer,
+        },
+      },
       primaryInverted: {
         vars: {
           [tintVar]: vars.system.color.onPrimary,
@@ -106,6 +112,12 @@ export const unconditionalProperties = defineProperties({
         vars: {
           [tintVar]: vars.system.color.secondary,
           [onTintVar]: vars.system.color.onSecondary,
+        },
+      },
+      secondaryContainer: {
+        vars: {
+          [tintVar]: vars.system.color.secondaryContainer,
+          [onTintVar]: vars.system.color.onSecondaryContainer,
         },
       },
       secondaryInverted: {
@@ -306,8 +318,10 @@ export type TintSchemeValues =
   | 'surfaceContainerHighest'
   | 'surfaceContainerHighestInverted'
   | 'primary'
+  | 'primaryContainer'
   | 'primaryInverted'
   | 'secondary'
+  | 'secondaryContainer'
   | 'secondaryInverted'
   | 'error'
   | 'errorInverted';

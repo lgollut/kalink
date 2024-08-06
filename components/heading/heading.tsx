@@ -18,16 +18,18 @@ const Heading = <TUse extends HeadingTypes>(
     children,
     underline,
     color = 'onSurface',
+    typography,
+    id,
     ...rest
   } = props;
 
   const typographyMapping: Record<HeadingTypes, TypographyValues> = {
     h1: 'displayLarge',
-    h2: 'displayMedium',
-    h3: 'displaySmall',
-    h4: 'headlineLarge',
-    h5: 'headlineMedium',
-    h6: 'headlineSmall',
+    h2: 'displaySmall',
+    h3: 'headlineLarge',
+    h4: 'headlineSmall',
+    h5: 'titleLarge',
+    h6: 'titleSmall',
   };
 
   return (
@@ -38,16 +40,17 @@ const Heading = <TUse extends HeadingTypes>(
       {...rest}
     >
       <Box
+        id={id}
         // See `frontend/components/box/box.types.ts` for why the cast is required
         use={use as HeadingTypes}
         color={color}
         className={className}
-        typography={typographyMapping[use]}
+        typography={typography || typographyMapping[use]}
       >
         {children}
       </Box>
       {subtitle && (
-        <Box typography="titleMedium" color="onSurface">
+        <Box typography="titleSmall" color={color}>
           {subtitle}
         </Box>
       )}

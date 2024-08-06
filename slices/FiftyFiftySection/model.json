@@ -1,0 +1,83 @@
+{
+  "id": "fifty_fifty_section",
+  "type": "SharedSlice",
+  "name": "FiftyFiftySection",
+  "description": "FiftyFiftySection",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "scrollSpy": {
+          "type": "Boolean",
+          "config": {
+            "label": "Scroll Spy",
+            "placeholder_false": "Hide from page navigation",
+            "placeholder_true": "Display in page navigation",
+            "default_value": false
+          }
+        },
+        "backgroundColor": {
+          "type": "Select",
+          "config": {
+            "label": "Background Color",
+            "placeholder": "",
+            "options": [
+              "primary",
+              "primaryContainer",
+              "secondaryContainer"
+            ],
+            "default_value": "primary"
+          }
+        },
+        "text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "constraint": {},
+            "thumbnails": [
+              {
+                "name": "2:3",
+                "width": 558,
+                "height": 837
+              }
+            ]
+          }
+        },
+        "direction": {
+          "type": "Select",
+          "config": {
+            "label": "Direction",
+            "placeholder": "",
+            "options": [
+              "start",
+              "end"
+            ],
+            "default_value": "start"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

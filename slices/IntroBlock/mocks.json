@@ -1,0 +1,29 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "Fondé par Stéphanie Giorgis, KalinK Studio se distingue par son expertise et son approche atypique."
+			},
+			"text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Consectetur laborum qui mollit labore do cupidatat enim mollit. Eu eu aliqua enim nostrud nisi culpa labore nostrud aliqua nostrud tempor. Laborum deserunt dolor quis sint enim excepteur Lorem irure consectetur ad reprehenderit proident eu."
+						}
+					}
+				]
+			},
+			"scrollSpy": {
+				"__TYPE__": "BooleanContent",
+				"value": false
+			}
+		},
+		"items": []
+	}
+]

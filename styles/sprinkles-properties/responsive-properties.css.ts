@@ -107,15 +107,19 @@ const dividedValues = [
   '6xl',
   '7xl',
   '8xl',
+  '9xl',
 ] as const;
 
 export const responsiveProperties = defineProperties({
   '@layer': utilities,
 
   conditions: {
-    sm: {},
+    xs: {},
+    sm: {
+      '@media': 'screen and (min-width: 568px)',
+    },
     md: {
-      '@media': 'screen and (min-width: 640px)',
+      '@media': 'screen and (min-width: 768px)',
     },
     lg: {
       '@media': 'screen and (min-width: 1024px)',
@@ -125,8 +129,8 @@ export const responsiveProperties = defineProperties({
     },
   },
 
-  defaultCondition: 'sm',
-  responsiveArray: ['sm', 'md', 'lg', 'xl'],
+  defaultCondition: 'xs',
+  responsiveArray: ['xs', 'sm', 'md', 'lg', 'xl'],
 
   properties: {
     display: displayValues,

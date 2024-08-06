@@ -1,0 +1,94 @@
+{
+  "id": "contacts",
+  "type": "SharedSlice",
+  "name": "Contacts",
+  "description": "Contacts",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "scrollSpy": {
+          "type": "Boolean",
+          "config": {
+            "label": "Scroll Spy",
+            "placeholder_false": "Hide from page navigation",
+            "placeholder_true": "Display in page navigation",
+            "default_value": false
+          }
+        },
+        "form": {
+          "type": "Group",
+          "config": {
+            "label": "Form",
+            "repeat": true,
+            "fields": {
+              "fieldType": {
+                "type": "Select",
+                "config": {
+                  "label": "Field Type",
+                  "placeholder": "",
+                  "options": [
+                    "textField",
+                    "textarea"
+                  ],
+                  "default_value": "textField"
+                }
+              },
+              "fieldName": {
+                "type": "Text",
+                "config": {
+                  "label": "Field Name",
+                  "placeholder": ""
+                }
+              },
+              "fieldLabel": {
+                "type": "Text",
+                "config": {
+                  "label": "Field Label",
+                  "placeholder": ""
+                }
+              },
+              "required": {
+                "type": "Boolean",
+                "config": {
+                  "label": "Required",
+                  "placeholder_false": "false",
+                  "placeholder_true": "true",
+                  "default_value": false
+                }
+              }
+            }
+          }
+        },
+        "localisation": {
+          "type": "GeoPoint",
+          "config": {
+            "label": "Localisation"
+          }
+        },
+        "information": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Information",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

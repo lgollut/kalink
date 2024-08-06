@@ -2,9 +2,12 @@ import { clsx } from 'clsx';
 import { ElementType, ForwardedRef, forwardRef } from 'react';
 
 import { sprinkles } from '@/styles/sprinkles.css';
+import { FixedForwardRef } from '@/types/utils.types';
 import { extractSprinklesProps } from '@/utils/extract-sprinkles-props';
 
 import { BoxProps } from './box.types';
+
+const fixedForwardRef = forwardRef as FixedForwardRef;
 
 const Box = <TUse extends ElementType = 'div'>(
   props: BoxProps<TUse>,
@@ -46,6 +49,6 @@ const Box = <TUse extends ElementType = 'div'>(
  *
  * https://every-layout.dev/layouts/box
  */
-const WrappedBox = forwardRef(Box);
+const WrappedBox = fixedForwardRef(Box);
 
 export { WrappedBox as Box };

@@ -26,11 +26,10 @@ type OmittedBaseBoxProps<OmittedProps extends string> = Omit<
  */
 export type BoxProps<
   TUse extends ElementType,
-  // TODO find a better way to do this without the default on `''`
-  OmittedProps extends string = '',
+  OmittedProps extends string = never,
 > = OmittedBaseBoxProps<OmittedProps> &
   PolymorphicComponentProps<TUse> &
   DistributiveOmit<
     ComponentPropsWithRef<ElementType extends TUse ? 'div' : TUse>,
-    'use' | keyof OmittedBaseBoxProps<OmittedProps>
+    'use' | OmittedProps
   >;

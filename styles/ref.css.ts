@@ -105,11 +105,22 @@ export const ref = createGlobalTheme(':root', vars.ref, {
     xl: '2.5rem', // 40px
     '2xl': '3rem', // 48px
     '3xl': '3.5rem', // 56px
-    '4xl': '4rem', // 64px
-    '5xl': '6rem', // 96px
-    '6xl': '8rem', // 128px
-    '7xl': '10rem', // 160px
-    '8xl': '14rem', // 224px
+    '4xl': '4rem', // 64px'
+    '5xl': '4.5rem', // 72px
+    '6xl': '6rem', // 96px
+    '7xl': '8rem', // 128px
+    '8xl': '10rem', // 160px
+    '9xl': '14rem', // 224px
+  },
+
+  screen: {
+    xs: '376px',
+    sm: '560px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    '2xl': '1440px',
+    '3xl': '1920px',
   },
 
   radius: {
@@ -142,5 +153,6 @@ export const ref = createGlobalTheme(':root', vars.ref, {
 
   easing: {
     inOut: `cubic-bezier(${cubicBezier.join(', ')})`,
+    linear: 'linear',
   },
 });
