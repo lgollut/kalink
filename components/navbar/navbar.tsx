@@ -13,7 +13,6 @@ import {
   useState,
 } from 'react';
 
-import kalink from '../../public/kalink.svg';
 import { Box } from '../box';
 import { Button } from '../button';
 import { Container } from '../container';
@@ -26,6 +25,7 @@ import {
 } from '../sheet';
 import { Stack } from '../stack';
 import { Text } from '../text';
+import kalink from '@/public/kalink.svg';
 import { slugify } from '@/utils/slugify';
 
 import { navbar, navbarLink, navbarLogo, navbarMenuMobile } from './navbar.css';

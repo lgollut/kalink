@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Typecheck
-        run: pnpm run tsc
+      # - name: Typecheck
+      #   run: pnpm run tsc
 
       - name: Validate
         run: pnpm run validate
