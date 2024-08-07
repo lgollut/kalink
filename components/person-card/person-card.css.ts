@@ -59,8 +59,6 @@ export const personCardImage = style({
   position: 'absolute',
   overflow: 'hidden',
 
-  borderRadius: vars.ref.radius.default,
-
   '@media': {
     'screen and (min-width: 768px)': {
       width: '288px',

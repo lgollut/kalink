@@ -55,8 +55,6 @@ export const fiftyFiftyImage = style({
   position: 'relative',
   overflow: 'hidden',
 
-  borderRadius: vars.ref.radius.default,
-
   '@media': {
     'screen and (min-width: 768px)': {
       width: '378px',
