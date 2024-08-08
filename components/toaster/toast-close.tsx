@@ -13,15 +13,15 @@ const ToastClose = (
   { className, tintScheme, ...props }: ToastCloseProps,
   ref: ForwardedRef<any>,
 ) => (
-  <Close ref={ref} toast-close="" asChild {...props}>
+  <Close ref={ref} className={className} asChild {...props}>
     <Button
       variant="ghost"
       tintScheme={tintScheme}
       icon={X}
       size="sm"
       position="absolute"
-      insetBlockStart="none"
-      insetInlineEnd="none"
+      insetBlockStart="base"
+      insetInlineEnd="base"
       iconOnly
     >
       {'Close notification'}
@@ -30,4 +30,5 @@ const ToastClose = (
 );
 
 const WrappedToastClose = forwardRef(ToastClose);
+
 export { WrappedToastClose as ToastClose };

@@ -5,11 +5,12 @@ import { sprinkles } from '@/styles/sprinkles.css';
 
 export const toastViewport = style([
   sprinkles({
-    insetBlockStart: ['auto', 'auto'],
-    insetInlineEnd: ['auto', 'base'],
-    insetBlockEnd: ['none', 'base'],
-    insetInlineStart: ['none', 'auto'],
-    rowGap: ['sm', 'base'],
+    rowGap: { xs: 'sm', md: 'base' },
+
+    insetBlockStart: { xs: 'auto', md: 'lg' },
+    insetInlineEnd: { xs: 'auto', md: 'lg' },
+    insetBlockEnd: { xs: 'none', md: 'auto' },
+    insetInlineStart: { xs: 'none', md: 'auto' },
   }),
   {
     display: 'flex',
@@ -26,7 +27,7 @@ export const toastViewport = style([
     listStyle: 'none',
 
     '@media': {
-      'screen and (min-width: 640px)': {
+      'screen and (min-width: 768px)': {
         maxWidth: '420px',
       },
     },
