@@ -9,7 +9,7 @@ export const contactsGrid = style({
 
   '@media': {
     'screen and (min-width: 768px)': {
-      gridTemplateColumns: '1fr 1.5fr',
+      gridTemplateColumns: '1.5fr 1fr',
     },
 
     'screen and (min-width: 1024px)': {
@@ -37,8 +37,11 @@ export const contactInformation = style({
 export const contactMap = style({
   '@media': {
     'screen and (max-width: 767px)': {
-      gridRowStart: 2,
       aspectRatio: '16/9',
+    },
+
+    'screen and (max-width: 1023px)': {
+      gridRowStart: 2,
     },
 
     'screen and (min-width: 1024px)': {
