@@ -16,6 +16,10 @@ export const inputAppearance = recipe({
         boxSizing: 'border-box',
         minHeight: 50,
 
+        /**
+         * Force the font size to 20px to avoid zooming on mobile
+         */
+        fontSize: 20,
         color: inputTextColor,
 
         backgroundColor: 'transparent',

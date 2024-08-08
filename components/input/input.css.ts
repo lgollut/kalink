@@ -12,11 +12,6 @@ export const input = style({
   paddingTop: 0,
   paddingBottom: 0,
 
-  /**
-   * Force the font size to 20px to avoid zooming on mobile
-   */
-  fontSize: 20,
-
   border: 'none',
 
   backgroundColor: 'transparent',
