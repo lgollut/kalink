@@ -2,7 +2,7 @@ import { createVar, globalStyle } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { vars } from '@/styles/contract.css';
-import { components } from '@/styles/layers.css';
+import { components, overrides } from '@/styles/layers.css';
 import { transition } from '@/styles/transition';
 import { typography } from '@/styles/typography.css';
 
@@ -16,10 +16,6 @@ export const inputAppearance = recipe({
         boxSizing: 'border-box',
         minHeight: 50,
 
-        /**
-         * Force the font size to 20px to avoid zooming on mobile
-         */
-        fontSize: 20,
         color: inputTextColor,
 
         backgroundColor: 'transparent',
@@ -43,6 +39,13 @@ export const inputAppearance = recipe({
         vars: {
           [inputTextColor]: vars.system.color.onSurface,
         },
+      },
+
+      [overrides]: {
+        /**
+         * Force the font size to 20px to avoid zooming on mobile
+         */
+        fontSize: 20,
       },
     },
   },
