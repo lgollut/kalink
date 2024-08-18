@@ -1,4 +1,5 @@
 import { PrismicPreview } from '@prismicio/next';
+import { Analytics } from '@vercel/analytics/react';
 import { clsx } from 'clsx';
 
 import { Toaster } from '@/components/toaster/toaster';
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body className={clsx(body, themeClass)}>
         <Toaster>
           {children}
+          <Analytics />
           <PrismicPreview repositoryName={repositoryName} />
         </Toaster>
       </body>
