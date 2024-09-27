@@ -8,6 +8,7 @@ import {
 } from '@vis.gl/react-google-maps';
 import { ForwardedRef, forwardRef } from 'react';
 
+import { Box } from '../box';
 import { vars } from '@/styles/contract.css';
 
 type MapLocatorProps = {
@@ -24,24 +25,26 @@ const MapLocator = (
   }
 
   return (
-    <APIProvider apiKey={apiKey}>
-      <Map
-        defaultZoom={16}
-        mapId={mapId}
-        defaultCenter={{ lat: 46.51401398768072, lng: 6.842526934453779 }}
-        disableDefaultUI
-      >
-        <AdvancedMarker
-          position={{ lat: 46.51401398768072, lng: 6.842526934453779 }}
+    <Box ref={ref} width="full" height="full" position="relative">
+      <APIProvider apiKey={apiKey}>
+        <Map
+          defaultZoom={14}
+          mapId={mapId}
+          defaultCenter={{ lat: 46.51401398768072, lng: 6.842526934453779 }}
+          disableDefaultUI
         >
-          <Pin
-            background={vars.system.color.primary}
-            glyphColor={vars.system.color.onPrimary}
-            borderColor={vars.system.color.onPrimary}
-          />
-        </AdvancedMarker>
-      </Map>
-    </APIProvider>
+          <AdvancedMarker
+            position={{ lat: 46.51401398768072, lng: 6.842526934453779 }}
+          >
+            <Pin
+              background={vars.system.color.primary}
+              glyphColor={vars.system.color.onPrimary}
+              borderColor={vars.system.color.onPrimary}
+            />
+          </AdvancedMarker>
+        </Map>
+      </APIProvider>
+    </Box>
   );
 };
 
