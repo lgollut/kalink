@@ -4,6 +4,63 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+/**
+ * Item in *Course Sessions → Items*
+ */
+export interface CourseSessionsDocumentDataItemsItem {
+  /**
+   * Label field in *Course Sessions → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: courseSessions.items[].label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Value field in *Course Sessions → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: courseSessions.items[].value
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  value: prismic.KeyTextField;
+}
+
+/**
+ * Content for Course Sessions documents
+ */
+interface CourseSessionsDocumentData {
+  /**
+   * Items field in *Course Sessions*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: courseSessions.items[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  items: prismic.GroupField<Simplify<CourseSessionsDocumentDataItemsItem>>;
+}
+
+/**
+ * Course Sessions document from Prismic
+ *
+ * - **API ID**: `courseSessions`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CourseSessionsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<CourseSessionsDocumentData>,
+    'courseSessions',
+    Lang
+  >;
+
 type HomepageDocumentDataSlicesSlice =
   | ContactsSlice
   | FiftyFiftySectionSlice
@@ -74,6 +131,145 @@ export type HomepageDocument<Lang extends string = string> =
     'homepage',
     Lang
   >;
+
+/**
+ * Item in *Main Navigation → Items*
+ */
+export interface MainNavigationDocumentDataItemsItem {
+  /**
+   * Item field in *Main Navigation → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: mainNavigation.items[].item
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  item: prismic.ContentRelationshipField<'page' | 'homepage'>;
+}
+
+/**
+ * Content for Main Navigation documents
+ */
+interface MainNavigationDocumentData {
+  /**
+   * Items field in *Main Navigation*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: mainNavigation.items[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  items: prismic.GroupField<Simplify<MainNavigationDocumentDataItemsItem>>;
+}
+
+/**
+ * Main Navigation document from Prismic
+ *
+ * - **API ID**: `mainNavigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type MainNavigationDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<MainNavigationDocumentData>,
+    'mainNavigation',
+    Lang
+  >;
+
+type PageDocumentDataSlicesSlice =
+  | MediaBannerSlice
+  | ListItemsSlice
+  | ContactsSlice
+  | FiftyFiftySectionSlice
+  | IntroBlockSlice
+  | TestimonialsRowSlice
+  | TeamSlice
+  | GridSlice;
+
+/**
+ * Content for Page documents
+ */
+interface PageDocumentData {
+  /**
+   * Navigation label field in *Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Label used in navigation menu
+   * - **API ID Path**: page.navigationLabel
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  navigationLabel: prismic.KeyTextField;
+
+  /**
+   * Tint field in *Page*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: primary
+   * - **API ID Path**: page.tint
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  tint: prismic.SelectField<'primary' | 'secondary', 'filled'>;
+
+  /**
+   * Slice Zone field in *Page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
+   * Meta Title field in *Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: page.metaTitle
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  metaTitle: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: page.metaDescription
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  metaDescription: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.metaImage
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  metaImage: prismic.ImageField<never>;
+}
+
+/**
+ * Page document from Prismic
+ *
+ * - **API ID**: `page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, 'page', Lang>;
 
 /**
  * Content for Person documents
@@ -307,7 +503,10 @@ export type TestimonialDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
+  | CourseSessionsDocument
   | HomepageDocument
+  | MainNavigationDocument
+  | PageDocument
   | PersonDocument
   | ServiceDocument
   | ServiceDescriptionDocument
@@ -326,7 +525,7 @@ export interface ContactsSliceDefaultPrimaryFormItem {
    * - **API ID Path**: contacts.default.primary.form[].fieldType
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  fieldType: prismic.SelectField<'textField' | 'textarea', 'filled'>;
+  fieldType: prismic.SelectField<'textField' | 'select' | 'textarea', 'filled'>;
 
   /**
    * Field Name field in *Contacts → Default → Primary → Form*
@@ -358,6 +557,16 @@ export interface ContactsSliceDefaultPrimaryFormItem {
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   required: prismic.BooleanField;
+
+  /**
+   * Field Meta field in *Contacts → Default → Primary → Form*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.form[].fieldMeta
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  fieldMeta: prismic.ContentRelationshipField<'courseSessions'>;
 }
 
 /**
@@ -375,15 +584,45 @@ export interface ContactsSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Scroll Spy field in *Contacts → Default → Primary*
+   * Subtitle field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subtitle: prismic.KeyTextField;
+
+  /**
+   * Show in Sub Navigation field in *Contacts → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: contacts.default.primary.scrollSpy
+   * - **Default Value**: true
+   * - **API ID Path**: contacts.default.primary.subNavigation
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.BooleanField;
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contacts.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
 
   /**
    * Form field in *Contacts → Default → Primary*
@@ -414,6 +653,31 @@ export interface ContactsSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   information: prismic.RichTextField;
+
+  /**
+   * Background Color field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: primary
+   * - **API ID Path**: contacts.default.primary.backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<
+    'primary' | 'secondaryContainer',
+    'filled'
+  >;
+
+  /**
+   * Form Type field in *Contacts → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: message
+   * - **API ID Path**: contacts.default.primary.formType
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  formType: prismic.SelectField<'message' | 'inscription', 'filled'>;
 }
 
 /**
@@ -461,15 +725,35 @@ export interface FiftyFiftySectionSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Scroll Spy field in *FiftyFiftySection → Default → Primary*
+   * Show in Sub Navigation field in *FiftyFiftySection → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: fifty_fifty_section.default.primary.scrollSpy
+   * - **Default Value**: true
+   * - **API ID Path**: fifty_fifty_section.default.primary.subNavigation
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.BooleanField;
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fifty_fifty_section.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *FiftyFiftySection → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fifty_fifty_section.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
 
   /**
    * Background Color field in *FiftyFiftySection → Default → Primary*
@@ -577,15 +861,35 @@ export interface GridSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Scroll Spy field in *ServicesGrid → Default → Primary*
+   * Show in Sub Navigation field in *ServicesGrid → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: grid.default.primary.scrollSpy
+   * - **Default Value**: true
+   * - **API ID Path**: grid.default.primary.subNavigation
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.BooleanField;
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *ServicesGrid → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: grid.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *ServicesGrid → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: grid.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
 
   /**
    * Items field in *ServicesGrid → Default → Primary*
@@ -626,6 +930,45 @@ type GridSliceVariation = GridSliceDefault;
 export type GridSlice = prismic.SharedSlice<'grid', GridSliceVariation>;
 
 /**
+ * Item in *IntroBlock → With Link to Media → Primary → CTA*
+ */
+export interface IntroBlockSliceWithLinkToMediaPrimaryCtaItem {
+  /**
+   * Label field in *IntroBlock → With Link to Media → Primary → CTA*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.cta[].label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Media field in *IntroBlock → With Link to Media → Primary → CTA*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.cta[].media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  media: prismic.LinkToMediaField;
+
+  /**
+   * Variant field in *IntroBlock → With Link to Media → Primary → CTA*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: filled
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.cta[].variant
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  variant: prismic.SelectField<
+    'filled' | 'outlined' | 'bare' | 'ghost',
+    'filled'
+  >;
+}
+
+/**
  * Primary content in *IntroBlock → Default → Primary*
  */
 export interface IntroBlockSliceDefaultPrimary {
@@ -640,15 +983,35 @@ export interface IntroBlockSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Scroll Spy field in *IntroBlock → Default → Primary*
+   * Show in Sub Navigation field in *IntroBlock → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: intro_block.default.primary.scrollSpy
+   * - **Default Value**: true
+   * - **API ID Path**: intro_block.default.primary.subNavigation
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.BooleanField;
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *IntroBlock → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *IntroBlock → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
 
   /**
    * Text field in *IntroBlock → Default → Primary*
@@ -659,6 +1022,20 @@ export interface IntroBlockSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
+
+  /**
+   * Background Color field in *IntroBlock → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: primary
+   * - **API ID Path**: intro_block.default.primary.backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<
+    'primary' | 'secondaryContainer',
+    'filled'
+  >;
 }
 
 /**
@@ -675,9 +1052,106 @@ export type IntroBlockSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *IntroBlock → With Link to Media → Primary*
+ */
+export interface IntroBlockSliceWithLinkToMediaPrimary {
+  /**
+   * Title field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Show in Sub Navigation field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.subNavigation
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
+
+  /**
+   * Text field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Background Color field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: primary
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<
+    'primary' | 'secondaryContainer',
+    'filled'
+  >;
+
+  /**
+   * CTA field in *IntroBlock → With Link to Media → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: intro_block.withLinkToMedia.primary.cta[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  cta: prismic.GroupField<
+    Simplify<IntroBlockSliceWithLinkToMediaPrimaryCtaItem>
+  >;
+}
+
+/**
+ * With Link to Media variation for IntroBlock Slice
+ *
+ * - **API ID**: `withLinkToMedia`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type IntroBlockSliceWithLinkToMedia = prismic.SharedSliceVariation<
+  'withLinkToMedia',
+  Simplify<IntroBlockSliceWithLinkToMediaPrimary>,
+  never
+>;
+
+/**
  * Slice variation for *IntroBlock*
  */
-type IntroBlockSliceVariation = IntroBlockSliceDefault;
+type IntroBlockSliceVariation =
+  | IntroBlockSliceDefault
+  | IntroBlockSliceWithLinkToMedia;
 
 /**
  * IntroBlock Shared Slice
@@ -689,6 +1163,228 @@ type IntroBlockSliceVariation = IntroBlockSliceDefault;
 export type IntroBlockSlice = prismic.SharedSlice<
   'intro_block',
   IntroBlockSliceVariation
+>;
+
+/**
+ * Item in *ListItems → Default → Primary → Items*
+ */
+export interface ListItemsSliceDefaultPrimaryItemsItem {
+  /**
+   * Label field in *ListItems → Default → Primary → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: list_items.default.primary.items[].label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *ListItems → Default → Primary*
+ */
+export interface ListItemsSliceDefaultPrimary {
+  /**
+   * Title field in *ListItems → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: list_items.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Show in Sub Navigation field in *ListItems → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: list_items.default.primary.subNavigation
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *ListItems → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: list_items.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *ListItems → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: list_items.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
+
+  /**
+   * Background Color field in *ListItems → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: secondaryContainer
+   * - **API ID Path**: list_items.default.primary.backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<
+    'secondaryContainer' | 'primary',
+    'filled'
+  >;
+
+  /**
+   * Items field in *ListItems → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: list_items.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  items: prismic.GroupField<Simplify<ListItemsSliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * Default variation for ListItems Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ListItemsSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<ListItemsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ListItems*
+ */
+type ListItemsSliceVariation = ListItemsSliceDefault;
+
+/**
+ * ListItems Shared Slice
+ *
+ * - **API ID**: `list_items`
+ * - **Description**: ListItems
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ListItemsSlice = prismic.SharedSlice<
+  'list_items',
+  ListItemsSliceVariation
+>;
+
+/**
+ * Primary content in *MediaBanner → Default → Primary*
+ */
+export interface MediaBannerSliceDefaultPrimary {
+  /**
+   * Title field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Show in Sub Navigation field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: media_banner.default.primary.subNavigation
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
+
+  /**
+   * Content field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Image field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'16:9' | '2:3'>;
+
+  /**
+   * Direction field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: start
+   * - **API ID Path**: media_banner.default.primary.direction
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  direction: prismic.SelectField<'start' | 'end', 'filled'>;
+}
+
+/**
+ * Default variation for MediaBanner Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaBannerSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<MediaBannerSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *MediaBanner*
+ */
+type MediaBannerSliceVariation = MediaBannerSliceDefault;
+
+/**
+ * MediaBanner Shared Slice
+ *
+ * - **API ID**: `media_banner`
+ * - **Description**: MediaBanner
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaBannerSlice = prismic.SharedSlice<
+  'media_banner',
+  MediaBannerSliceVariation
 >;
 
 /**
@@ -746,15 +1442,35 @@ export interface TeamSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Scroll Spy field in *Team → Default → Primary*
+   * Show in Sub Navigation field in *Team → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: team.default.primary.scrollSpy
+   * - **Default Value**: true
+   * - **API ID Path**: team.default.primary.subNavigation
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.BooleanField;
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
 
   /**
    * Items field in *Team → Default → Primary*
@@ -807,6 +1523,16 @@ export interface TestimonialsRowSliceDefaultPrimaryItemsItem {
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   item: prismic.ContentRelationshipField<'testimonial'>;
+
+  /**
+   * Background Color field in *TestimonialsRow → Default → Primary → Items*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: testimonials_row.default.primary.items[].backgroundColor
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  backgroundColor: prismic.SelectField<'primary' | 'secondaryContainer'>;
 }
 
 /**
@@ -824,15 +1550,35 @@ export interface TestimonialsRowSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Scroll Spy field in *TestimonialsRow → Default → Primary*
+   * Show in Sub Navigation field in *TestimonialsRow → Default → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: testimonials_row.default.primary.scrollSpy
+   * - **Default Value**: true
+   * - **API ID Path**: testimonials_row.default.primary.subNavigation
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  scrollSpy: prismic.BooleanField;
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *TestimonialsRow → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: testimonials_row.default.primary.subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *TestimonialsRow → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: testimonials_row.default.primary.slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
 
   /**
    * Items field in *TestimonialsRow → Default → Primary*
@@ -887,9 +1633,18 @@ declare module '@prismicio/client' {
 
   namespace Content {
     export type {
+      CourseSessionsDocument,
+      CourseSessionsDocumentData,
+      CourseSessionsDocumentDataItemsItem,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      MainNavigationDocument,
+      MainNavigationDocumentData,
+      MainNavigationDocumentDataItemsItem,
+      PageDocument,
+      PageDocumentData,
+      PageDocumentDataSlicesSlice,
       PersonDocument,
       PersonDocumentData,
       ServiceDocument,
@@ -915,8 +1670,20 @@ declare module '@prismicio/client' {
       GridSliceDefault,
       IntroBlockSlice,
       IntroBlockSliceDefaultPrimary,
+      IntroBlockSliceWithLinkToMediaPrimaryCtaItem,
+      IntroBlockSliceWithLinkToMediaPrimary,
       IntroBlockSliceVariation,
       IntroBlockSliceDefault,
+      IntroBlockSliceWithLinkToMedia,
+      ListItemsSlice,
+      ListItemsSliceDefaultPrimaryItemsItem,
+      ListItemsSliceDefaultPrimary,
+      ListItemsSliceVariation,
+      ListItemsSliceDefault,
+      MediaBannerSlice,
+      MediaBannerSliceDefaultPrimary,
+      MediaBannerSliceVariation,
+      MediaBannerSliceDefault,
       TeamSlice,
       TeamSliceDefaultPrimaryItemsItem,
       TeamSliceDefaultPrimary,

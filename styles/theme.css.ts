@@ -8,6 +8,9 @@ const typeface = {
 };
 
 export const themeClass = createTheme(vars.system, {
+  layout: {
+    measure: '75ch',
+  },
   color: {
     primary: vars.ref.color.primary72,
     onPrimary: vars.ref.color.primary10,

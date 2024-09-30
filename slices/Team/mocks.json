@@ -44,9 +44,19 @@
 				"value": "wool",
 				"type": "Text"
 			},
-			"scrollSpy": {
+			"slug": {
+				"__TYPE__": "FieldContent",
+				"value": "ran",
+				"type": "Text"
+			},
+			"subNavigation": {
 				"__TYPE__": "BooleanContent",
 				"value": false
+			},
+			"subNavigationLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "spent",
+				"type": "Text"
 			}
 		},
 		"items": []

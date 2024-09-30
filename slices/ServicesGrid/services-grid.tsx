@@ -32,9 +32,7 @@ export async function ServicesGrid({ slice }: GridProps) {
       data-slice-variation={slice.variation}
       size="2xl"
     >
-      {slice.primary.title && (
-        <SectionHeading>{slice.primary.title}</SectionHeading>
-      )}
+      <SectionHeading slice={slice} />
 
       <div className={servicesGrid}>
         {services.results.map(({ id, type, data }) => {

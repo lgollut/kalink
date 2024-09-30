@@ -14,11 +14,10 @@ export const FiftyFiftySection = ({ slice }: FiftyFiftySectionProps) => {
       size="2xl"
       paddingInline={{ xs: 'none', md: 'md', lg: 'lg', xl: '5xl' }}
     >
-      {slice.primary.title && (
-        <SectionHeading paddingInlineStart={{ xs: 'base', md: 'none' }}>
-          {slice.primary.title}
-        </SectionHeading>
-      )}
+      <SectionHeading
+        paddingInlineStart={{ xs: 'base', md: 'none' }}
+        slice={slice}
+      />
       <FiftyFifty {...slice.primary} />
     </Container>
   );

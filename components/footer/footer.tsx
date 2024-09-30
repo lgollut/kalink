@@ -15,10 +15,13 @@ const Footer = <TUse extends ElementType>(
   { tintScheme = 'primary', paddingBlock = '5xl', ...props }: FooterProps<TUse>,
   ref: ForwardedRef<any>,
 ) => {
+  const normalizedTintScheme =
+    tintScheme === 'secondary' ? 'secondaryContainer' : tintScheme;
+
   return (
     <Box
       ref={ref}
-      tintScheme={tintScheme}
+      tintScheme={normalizedTintScheme}
       paddingBlock={paddingBlock}
       {...props}
     >

@@ -1,34 +1,55 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { vars } from '@/styles/contract.css';
 
-export const introBlockFigure = style({
-  '::before': {
-    content: '""',
+export const introBlock = style({
+  scrollMarginBlockStart: vars.ref.spacing['8xl'],
+});
 
-    flexShrink: 0,
-    flexGrow: 0,
+export const introBlockFigure = recipe({
+  base: {
+    '::before': {
+      content: '""',
 
-    display: 'block',
-    width: vars.ref.spacing.base,
+      flexShrink: 0,
+      flexGrow: 0,
 
-    backgroundColor: vars.system.color.primary,
-    borderStartEndRadius: vars.ref.radius.default,
-    borderEndEndRadius: vars.ref.radius.default,
-  },
+      display: 'block',
+      width: vars.ref.spacing.base,
 
-  '@media': {
-    'screen and (min-width: 768px)': {
-      '::before': {
-        width: vars.ref.spacing['6xl'],
-      },
+      borderStartEndRadius: vars.ref.radius.default,
+      borderEndEndRadius: vars.ref.radius.default,
     },
 
-    'screen and (min-width: 1024px)': {
-      '::before': {
-        width: '32rem',
-        borderStartStartRadius: vars.ref.radius.default,
-        borderEndStartRadius: vars.ref.radius.default,
+    '@media': {
+      'screen and (min-width: 768px)': {
+        '::before': {
+          width: vars.ref.spacing['6xl'],
+        },
+      },
+
+      'screen and (min-width: 1024px)': {
+        '::before': {
+          width: '32rem',
+          borderStartStartRadius: vars.ref.radius.default,
+          borderEndStartRadius: vars.ref.radius.default,
+        },
+      },
+    },
+  },
+
+  variants: {
+    color: {
+      primary: {
+        '::before': {
+          backgroundColor: vars.system.color.primary,
+        },
+      },
+      secondaryContainer: {
+        '::before': {
+          backgroundColor: vars.system.color.secondaryContainer,
+        },
       },
     },
   },

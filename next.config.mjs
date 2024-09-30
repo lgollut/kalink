@@ -19,6 +19,20 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/homepage',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/cours',
+        destination: '/courses',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withVanillaExtract(nextConfig);

@@ -5,8 +5,22 @@
 		"primary": {
 			"title": {
 				"__TYPE__": "FieldContent",
-				"type": "Text",
-				"value": "Fondé par Stéphanie Giorgis, KalinK Studio se distingue par son expertise et son approche atypique."
+				"value": "Créativité et polyvalence",
+				"type": "Text"
+			},
+			"slug": {
+				"__TYPE__": "FieldContent",
+				"value": "ran",
+				"type": "Text"
+			},
+			"subNavigation": {
+				"__TYPE__": "BooleanContent",
+				"value": false
+			},
+			"subNavigationLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "spent",
+				"type": "Text"
 			},
 			"text": {
 				"__TYPE__": "StructuredTextContent",
@@ -14,14 +28,99 @@
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Consectetur laborum qui mollit labore do cupidatat enim mollit. Eu eu aliqua enim nostrud nisi culpa labore nostrud aliqua nostrud tempor. Laborum deserunt dolor quis sint enim excepteur Lorem irure consectetur ad reprehenderit proident eu."
+							"text": "Vous souhaitez promouvoir un événement, un produit ou augmenter l’impact de votre marque ? Vous avez un projet, mais vous n’arrivez pas à lui donner forme ? Vous n’avez pas les connaissances pour réaliser les visuels que vous aimeriez avec des logiciels professionnels ? Vous appréciez particulièrement certaines images, mais vous n’arrivez pas à les réinterpréter pour mettre en avant une certaine identité ? Vous trouvez difficile de définir une stratégie de communication ? Vous souhaitez mettre toutes les chances de votre côté avec des dossiers de présentation qui font la différence ?\nVous êtes chef·fe d’entreprise, directeur·rice d’un espace culturel ou d’un événement, artiste, artisan·e ou juste à la recherche d’un regard avisé ? N’hésitez pas à nous contacter et nous trouverons ensemble la meilleure façon de réaliser des contenus de qualité qui vous ressemblent."
 						}
 					}
 				]
 			},
-			"scrollSpy": {
+			"backgroundColor": {
+				"__TYPE__": "FieldContent",
+				"value": "primary",
+				"type": "Select"
+			}
+		},
+		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "withLinkToMedia",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "Créativité et polyvalence"
+			},
+			"slug": {
+				"__TYPE__": "FieldContent",
+				"value": "ran",
+				"type": "Text"
+			},
+			"subNavigation": {
 				"__TYPE__": "BooleanContent",
 				"value": false
+			},
+			"subNavigationLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "spent",
+				"type": "Text"
+			},
+			"text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Vous souhaitez promouvoir un événement, un produit ou augmenter l’impact de votre marque ? Vous avez un projet, mais vous n’arrivez pas à lui donner forme ? Vous n’avez pas les connaissances pour réaliser les visuels que vous aimeriez avec des logiciels professionnels ? Vous appréciez particulièrement certaines images, mais vous n’arrivez pas à les réinterpréter pour mettre en avant une certaine identité ? Vous trouvez difficile de définir une stratégie de communication ? Vous souhaitez mettre toutes les chances de votre côté avec des dossiers de présentation qui font la différence ?\nVous êtes chef·fe d’entreprise, directeur·rice d’un espace culturel ou d’un événement, artiste, artisan·e ou juste à la recherche d’un regard avisé ? N’hésitez pas à nous contacter et nous trouverons ensemble la meilleure façon de réaliser des contenus de qualité qui vous ressemblent."
+						}
+					}
+				]
+			},
+			"backgroundColor": {
+				"__TYPE__": "FieldContent",
+				"value": "primary",
+				"type": "Select"
+			},
+			"cta": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"label",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "Télécharger notre portfolio",
+									"type": "Text"
+								}
+							],
+							[
+								"media",
+								{
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "ImageLink",
+										"id": "QeVmJxZOv3k",
+										"name": "MacBook Pro beside plant in vase",
+										"kind": "image",
+										"url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw2fHxwb3J0Zm9saW98ZW58MHx8fHwxNzI3ODE2Mjg4fDA&ixlib=rb-4.0.3&q=85",
+										"size": "0",
+										"height": "5340",
+										"width": "3560"
+									}
+								}
+							],
+							[
+								"variant",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Select",
+									"value": "filled"
+								}
+							]
+						]
+					}
+				]
 			}
 		},
 		"items": []

@@ -1,0 +1,28 @@
+{
+  "format": "custom",
+  "id": "mainNavigation",
+  "label": "Main Navigation",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "items": {
+        "type": "Group",
+        "config": {
+          "label": "Items",
+          "repeat": true,
+          "fields": {
+            "item": {
+              "type": "Link",
+              "config": {
+                "label": "Item",
+                "select": "document",
+                "customtypes": ["page", "homepage"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
