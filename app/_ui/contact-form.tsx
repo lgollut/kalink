@@ -62,7 +62,7 @@ export const ContactForm = ({
         reset();
       });
     },
-    [reset, startTransition, addToast],
+    [reset, startTransition, addToast, type],
   );
 
   return (

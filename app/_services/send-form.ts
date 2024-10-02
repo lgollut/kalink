@@ -2,8 +2,8 @@
 
 import { Resend } from 'resend';
 
-import { Message } from './Message';
 import { Inscription } from './Inscription';
+import { Message } from './Message';
 
 export type SendFormData = {
   name: string;
