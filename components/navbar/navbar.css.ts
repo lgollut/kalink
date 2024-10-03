@@ -2,7 +2,6 @@ import { createVar, style } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { backgroundColor } from '@/app/common-layout.css';
 import { vars } from '@/styles/contract.css';
 import { transition } from '@/styles/transition';
 
@@ -18,8 +17,7 @@ export const navbar = recipe({
     insetInline: 0,
     zIndex: 10,
 
-    backgroundColor,
-    borderBottom: `1px solid ${backgroundColor}`,
+    borderBottom: `1px solid transparent`,
 
     transition: transition('border-bottom', {
       duration: 'short',

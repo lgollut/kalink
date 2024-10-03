@@ -1235,7 +1235,7 @@ export interface ListItemsSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   backgroundColor: prismic.SelectField<
-    'secondaryContainer' | 'primary',
+    'secondaryContainer' | 'primaryContainer' | 'primary',
     'filled'
   >;
 
@@ -1279,6 +1279,83 @@ export type ListItemsSlice = prismic.SharedSlice<
   'list_items',
   ListItemsSliceVariation
 >;
+
+/**
+ * Item in *MediaBanner → Default → Primary → Items*
+ */
+export interface MediaBannerSliceDefaultPrimaryItemsItem {
+  /**
+   * Title field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.items[].title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Show in Sub Navigation field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: media_banner.default.primary.items[].subNavigation
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  subNavigation: prismic.BooleanField;
+
+  /**
+   * Sub Navigation Label field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.items[].subNavigationLabel
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subNavigationLabel: prismic.KeyTextField;
+
+  /**
+   * Slug field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.items[].slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
+
+  /**
+   * Content field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.items[].content
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Image field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.items[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'16:9' | '2:3'>;
+
+  /**
+   * Direction field in *MediaBanner → Default → Primary → Items*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: start
+   * - **API ID Path**: media_banner.default.primary.items[].direction
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  direction: prismic.SelectField<'start' | 'end', 'filled'>;
+}
 
 /**
  * Primary content in *MediaBanner → Default → Primary*
@@ -1355,6 +1432,16 @@ export interface MediaBannerSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   direction: prismic.SelectField<'start' | 'end', 'filled'>;
+
+  /**
+   * Items field in *MediaBanner → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media_banner.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  items: prismic.GroupField<Simplify<MediaBannerSliceDefaultPrimaryItemsItem>>;
 }
 
 /**
@@ -1525,14 +1612,18 @@ export interface TestimonialsRowSliceDefaultPrimaryItemsItem {
   item: prismic.ContentRelationshipField<'testimonial'>;
 
   /**
-   * Background Color field in *TestimonialsRow → Default → Primary → Items*
+   * Tint Scheme field in *TestimonialsRow → Default → Primary → Items*
    *
    * - **Field Type**: Select
    * - **Placeholder**: *None*
-   * - **API ID Path**: testimonials_row.default.primary.items[].backgroundColor
+   * - **Default Value**: secondaryContainer
+   * - **API ID Path**: testimonials_row.default.primary.items[].tintScheme
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  backgroundColor: prismic.SelectField<'primary' | 'secondaryContainer'>;
+  tintScheme: prismic.SelectField<
+    'secondaryContainer' | 'primaryContainer',
+    'filled'
+  >;
 }
 
 /**
@@ -1681,6 +1772,7 @@ declare module '@prismicio/client' {
       ListItemsSliceVariation,
       ListItemsSliceDefault,
       MediaBannerSlice,
+      MediaBannerSliceDefaultPrimaryItemsItem,
       MediaBannerSliceDefaultPrimary,
       MediaBannerSliceVariation,
       MediaBannerSliceDefault,

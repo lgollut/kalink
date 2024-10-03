@@ -81,6 +81,85 @@
             ],
             "default_value": "start"
           }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Items",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "subNavigation": {
+                "type": "Boolean",
+                "config": {
+                  "label": "Show in Sub Navigation",
+                  "placeholder_false": "Hide from sub navigation",
+                  "placeholder_true": "Show in sub navigation",
+                  "default_value": true
+                }
+              },
+              "subNavigationLabel": {
+                "type": "Text",
+                "config": {
+                  "label": "Sub Navigation Label",
+                  "placeholder": ""
+                }
+              },
+              "slug": {
+                "type": "Text",
+                "config": {
+                  "label": "Slug",
+                  "placeholder": ""
+                }
+              },
+              "content": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Content",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                }
+              },
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "constraint": {},
+                  "thumbnails": [
+                    {
+                      "name": "16:9",
+                      "width": 1200,
+                      "height": 675
+                    },
+                    {
+                      "name": "2:3",
+                      "width": 512,
+                      "height": 768
+                    }
+                  ]
+                }
+              },
+              "direction": {
+                "type": "Select",
+                "config": {
+                  "label": "Direction",
+                  "placeholder": "",
+                  "options": [
+                    "start",
+                    "end"
+                  ],
+                  "default_value": "start"
+                }
+              }
+            }
+          }
         }
       },
       "items": {}

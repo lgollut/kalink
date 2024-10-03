@@ -3,7 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { vars } from '@/styles/contract.css';
 
-const backgroundColor = createVar();
+export const backgroundColor = createVar();
 
 export const pageBackground = recipe({
   base: {

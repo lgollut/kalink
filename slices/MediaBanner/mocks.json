@@ -34,7 +34,6 @@
 				]
 			},
 			"image": {
-				"__TYPE__": "ImageContent",
 				"origin": {
 					"id": "main",
 					"url": "https://images.unsplash.com/photo-1607582278038-6bebbd4d7b72",
@@ -52,6 +51,9 @@
 					},
 					"background": "transparent"
 				},
+				"credits": null,
+				"alt": null,
+				"__TYPE__": "ImageContent",
 				"thumbnails": {
 					"16:9": {
 						"origin": {
@@ -70,7 +72,9 @@
 								"y": 1669
 							},
 							"background": "transparent"
-						}
+						},
+						"credits": null,
+						"alt": null
 					},
 					"2:3": {
 						"origin": {
@@ -89,7 +93,9 @@
 								"y": 0
 							},
 							"background": "transparent"
-						}
+						},
+						"credits": null,
+						"alt": null
 					}
 				}
 			},
@@ -97,6 +103,138 @@
 				"__TYPE__": "FieldContent",
 				"value": "end",
 				"type": "Select"
+			},
+			"items": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"title",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "basket",
+									"type": "Text"
+								}
+							],
+							[
+								"subNavigation",
+								{
+									"__TYPE__": "BooleanContent",
+									"value": false
+								}
+							],
+							[
+								"subNavigationLabel",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "lungs",
+									"type": "Text"
+								}
+							],
+							[
+								"slug",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "melted",
+									"type": "Text"
+								}
+							],
+							[
+								"content",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Cupidatat nulla aute et consequat nostrud labore amet id culpa nisi reprehenderit."
+											}
+										}
+									]
+								}
+							],
+							[
+								"image",
+								{
+									"origin": {
+										"id": "main",
+										"url": "https://images.unsplash.com/photo-1589652717521-10c0d092dea9",
+										"width": 4752,
+										"height": 3168
+									},
+									"url": "https://images.unsplash.com/photo-1589652717521-10c0d092dea9",
+									"width": 4752,
+									"height": 3168,
+									"edit": {
+										"zoom": 1,
+										"crop": {
+											"x": 0,
+											"y": 0
+										},
+										"background": "transparent"
+									},
+									"credits": null,
+									"alt": null,
+									"__TYPE__": "ImageContent",
+									"thumbnails": {
+										"16:9": {
+											"origin": {
+												"id": "16:9",
+												"url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+												"width": 5243,
+												"height": 3495
+											},
+											"url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?rect=0%2C273%2C5243%2C2949&w=1200&h=675",
+											"width": 1200,
+											"height": 675,
+											"edit": {
+												"zoom": 1,
+												"crop": {
+													"x": 0,
+													"y": 273
+												},
+												"background": "transparent"
+											},
+											"credits": null,
+											"alt": null
+										},
+										"2:3": {
+											"origin": {
+												"id": "2:3",
+												"url": "https://images.unsplash.com/photo-1504198070170-4ca53bb1c1fa",
+												"width": 2747,
+												"height": 4120
+											},
+											"url": "https://images.unsplash.com/photo-1504198070170-4ca53bb1c1fa?rect=0%2C0%2C2747%2C4120&w=512&h=768",
+											"width": 512,
+											"height": 768,
+											"edit": {
+												"zoom": 1,
+												"crop": {
+													"x": 0,
+													"y": 0
+												},
+												"background": "transparent"
+											},
+											"credits": null,
+											"alt": null
+										}
+									}
+								}
+							],
+							[
+								"direction",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "start",
+									"type": "Select"
+								}
+							]
+						]
+					}
+				]
 			}
 		},
 		"items": []
