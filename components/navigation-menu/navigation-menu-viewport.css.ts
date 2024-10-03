@@ -5,7 +5,18 @@ import { vars } from '@/styles/contract.css';
 export const navigationMenuViewportContainer = style({
   position: 'absolute',
   insetBlockStart: vars.ref.spacing['3xl'],
-  insetInlineStart: vars.ref.spacing['2xl'],
+
+  '@media': {
+    'screen and (max-width: 1023px)': {
+      insetInlineStart: '50%',
+
+      transform: 'translateX(-50%)',
+    },
+
+    'screen and (min-width: 1024px)': {
+      insetInlineEnd: vars.ref.spacing['2xl'],
+    },
+  },
 });
 
 const zoomIn = keyframes({
