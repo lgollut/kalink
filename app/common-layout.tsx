@@ -1,6 +1,5 @@
 import { type Content } from '@prismicio/client';
 import { isFilled } from '@prismicio/client';
-import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { ReactNode } from 'react';
 
 import { Footer } from '@/components/footer';
@@ -8,10 +7,9 @@ import { Navbar } from '@/components/navbar';
 import { NavbarItem } from '@/components/navbar/navbar.types';
 import { Stack } from '@/components/stack';
 import { createClient } from '@/prismicio';
-import { vars } from '@/styles/contract.css';
 import { slugify } from '@/utils/slugify';
 
-import { backgroundColor, pageBackground } from './common-layout.css';
+import { pageBackground } from './common-layout.css';
 
 type CommonLayoutProps = {
   children: ReactNode;
@@ -26,11 +24,6 @@ export const CommonLayout = async ({
 
   const mainNavigation = await client.getSingle('mainNavigation');
   const navItemIds: Set<string> = new Set();
-
-  const pageBackgroundColor = {
-    primary: vars.ref.color.primary99,
-    secondary: vars.ref.color.secondary99,
-  } as const;
 
   for (const { item } of mainNavigation.data.items) {
     if (!isFilled.contentRelationship(item)) {
@@ -73,21 +66,15 @@ export const CommonLayout = async ({
     });
   }
 
+  const backgroundClass = pageBackground({ tint: currentPage.data.tint });
+
   return (
     <Stack
       gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}
       paddingBlockStart="9xl"
-      className={pageBackground}
-      style={assignInlineVars({
-        [backgroundColor]: pageBackgroundColor[currentPage.data.tint],
-      })}
+      className={backgroundClass}
     >
-      <Navbar
-        navItems={navItems}
-        style={assignInlineVars({
-          [backgroundColor]: pageBackgroundColor[currentPage.data.tint],
-        })}
-      />
+      <Navbar navItems={navItems} className={backgroundClass} />
       {children}
       <Footer tintScheme={currentPage.data.tint} />
     </Stack>
