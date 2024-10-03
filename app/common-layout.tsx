@@ -88,8 +88,6 @@ export const CommonLayout = async ({
 
     const subItems: [string, string][] = [];
 
-    console.log(page.data.slices);
-
     walkNavigationItems(page.data.slices, subItems);
 
     navItems.push({
