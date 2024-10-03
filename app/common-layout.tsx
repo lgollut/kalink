@@ -44,19 +44,13 @@ function walkNavigationItems(
       slugItem = item;
     }
 
-    if (!('subNavigation' in slugItem) || !slugItem.subNavigation) {
-      continue;
+    if ('subNavigation' in slugItem && slugItem.subNavigation) {
+      const label = slugItem.subNavigationLabel ?? slugItem.title;
+
+      if (label) {
+        subItems.push([label, slugItem.slug || slugify(label)]);
+      }
     }
-
-    const label = slugItem.subNavigationLabel ?? slugItem.title;
-
-    if (!label) {
-      continue;
-    }
-
-    const slug = slugItem.slug || slugify(label);
-
-    subItems.push([label, slug]);
 
     if (slugItem.items) {
       walkNavigationItems(slugItem.items, subItems);
@@ -93,6 +87,8 @@ export const CommonLayout = async ({
     }
 
     const subItems: [string, string][] = [];
+
+    console.log(page.data.slices);
 
     walkNavigationItems(page.data.slices, subItems);
 
