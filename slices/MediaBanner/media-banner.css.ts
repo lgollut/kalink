@@ -31,7 +31,7 @@ export const mediaBannerContent = recipe({
     position: 'absolute',
     insetBlockEnd: contentSpacing,
 
-    backgroundColor: vars.ref.color.secondary99,
+    backgroundColor: vars.ref.color.primary99,
     borderRadius: vars.ref.radius.default,
 
     '@media': {
