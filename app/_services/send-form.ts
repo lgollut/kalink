@@ -2,6 +2,7 @@
 
 import { Resend } from 'resend';
 
+import { Inscription } from './Inscription';
 import { Message } from './Message';
 
 export type SendFormData = {
@@ -11,13 +12,16 @@ export type SendFormData = {
   [key: string]: string;
 };
 
-export async function sendForm(formData: SendFormData) {
+export async function sendForm(
+  formData: SendFormData,
+  type: 'message' | 'inscription',
+) {
   const resend = new Resend(process.env.RESEND_KEY);
 
   return await resend.emails.send({
     from: 'info@kalink.ch',
     to: 'info@kalink.ch',
-    subject: 'Contact depuis Kalink Studio',
-    react: Message(formData),
+    subject: `${type.charAt(0).toUpperCase() + type.slice(1)} depuis Kalink Studio`,
+    react: type === 'message' ? Message(formData) : Inscription(formData),
   });
 }

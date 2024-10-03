@@ -8,6 +8,9 @@ const typeface = {
 };
 
 export const themeClass = createTheme(vars.system, {
+  layout: {
+    measure: '75ch',
+  },
   color: {
     primary: vars.ref.color.primary72,
     onPrimary: vars.ref.color.primary10,
@@ -87,14 +90,14 @@ export const themeClass = createTheme(vars.system, {
       },
       medium: {
         font: typeface.brand,
-        size: vars.ref.fontSize['5xl'],
+        size: vars.ref.fontSize['4xl'],
         weight: vars.ref.fontWeight.thin,
         tracking: 'normal',
         lineHeight: 'normal',
       },
       small: {
         font: typeface.brand,
-        size: vars.ref.fontSize['4xl'],
+        size: vars.ref.fontSize['2xl'],
         weight: vars.ref.fontWeight.thin,
         tracking: 'normal',
         lineHeight: 'normal',
@@ -107,21 +110,21 @@ export const themeClass = createTheme(vars.system, {
         size: vars.ref.fontSize['3xl'],
         weight: vars.ref.fontWeight.thin,
         tracking: 'normal',
-        lineHeight: 'normal',
+        lineHeight: '1.2',
       },
       medium: {
         font: typeface.plain,
         size: vars.ref.fontSize['2xl'],
         weight: vars.ref.fontWeight.thin,
         tracking: 'normal',
-        lineHeight: 'normal',
+        lineHeight: '1.2',
       },
       small: {
         font: typeface.plain,
         size: vars.ref.fontSize.xl,
         weight: vars.ref.fontWeight.thin,
         tracking: 'normal',
-        lineHeight: 'normal',
+        lineHeight: '1.2',
       },
     },
 

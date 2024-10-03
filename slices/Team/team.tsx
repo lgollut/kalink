@@ -33,9 +33,7 @@ export async function Team({ slice }: TeamProps) {
       data-slice-variation={slice.variation}
       size="2xl"
     >
-      {slice.primary.title && (
-        <SectionHeading>{slice.primary.title}</SectionHeading>
-      )}
+      <SectionHeading slice={slice} />
       <Stack gap="5xl">
         {people.results.map(({ id, data }) => {
           const item = items.get(id);

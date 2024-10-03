@@ -16,8 +16,13 @@ export const repositoryName =
  */
 const routes: prismic.ClientConfig['routes'] = [
   {
-    type: 'homepage',
+    type: 'page',
+    uid: 'homepage',
     path: '/',
+  },
+  {
+    type: 'page',
+    path: '/:uid',
   },
 ];
 
@@ -29,6 +34,7 @@ const routes: prismic.ClientConfig['routes'] = [
  */
 export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
   const client = prismic.createClient(repositoryName, {
+    accessToken: process.env.PRISMIC_KEY,
     routes,
     fetchOptions:
       process.env.NODE_ENV === 'production'
@@ -42,6 +48,10 @@ export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
     previewData: config.previewData,
     req: config.req,
   });
+
+  if (process.env.PRISMIC_RELEASE_ID) {
+    client.queryContentFromReleaseByID(process.env.PRISMIC_RELEASE_ID);
+  }
 
   return client;
 };

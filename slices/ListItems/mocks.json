@@ -1,0 +1,51 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "Créativité et polyvalence"
+			},
+			"slug": {
+				"__TYPE__": "FieldContent",
+				"value": "ran",
+				"type": "Text"
+			},
+			"subNavigation": {
+				"__TYPE__": "BooleanContent",
+				"value": false
+			},
+			"subNavigationLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "spent",
+				"type": "Text"
+			},
+			"backgroundColor": {
+				"__TYPE__": "FieldContent",
+				"value": "secondaryContainer",
+				"type": "Select"
+			},
+			"items": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"label",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "port",
+									"type": "Text"
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

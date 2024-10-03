@@ -19,13 +19,27 @@
             "placeholder": ""
           }
         },
-        "scrollSpy": {
+        "subNavigation": {
           "type": "Boolean",
           "config": {
-            "label": "Scroll Spy",
-            "placeholder_false": "Hide from page navigation",
-            "placeholder_true": "Display in page navigation",
-            "default_value": false
+            "label": "Show in Sub Navigation",
+            "placeholder_false": "Hide from sub navigation",
+            "placeholder_true": "Show in sub navigation",
+            "default_value": true
+          }
+        },
+        "subNavigationLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Sub Navigation Label",
+            "placeholder": ""
+          }
+        },
+        "slug": {
+          "type": "Text",
+          "config": {
+            "label": "Slug",
+            "placeholder": ""
           }
         },
         "backgroundColor": {
@@ -33,11 +47,7 @@
           "config": {
             "label": "Background Color",
             "placeholder": "",
-            "options": [
-              "primary",
-              "primaryContainer",
-              "secondaryContainer"
-            ],
+            "options": ["primary", "primaryContainer", "secondaryContainer"],
             "default_value": "primary"
           }
         },
@@ -69,10 +79,7 @@
           "config": {
             "label": "Direction",
             "placeholder": "",
-            "options": [
-              "start",
-              "end"
-            ],
+            "options": ["start", "end"],
             "default_value": "start"
           }
         }

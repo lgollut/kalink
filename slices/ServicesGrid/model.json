@@ -19,13 +19,27 @@
             "placeholder": ""
           }
         },
-        "scrollSpy": {
+        "subNavigation": {
           "type": "Boolean",
           "config": {
-            "label": "Scroll Spy",
-            "placeholder_false": "Hide from page navigation",
-            "placeholder_true": "Display in page navigation",
-            "default_value": false
+            "label": "Show in Sub Navigation",
+            "placeholder_false": "Hide from sub navigation",
+            "placeholder_true": "Show in sub navigation",
+            "default_value": true
+          }
+        },
+        "subNavigationLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Sub Navigation Label",
+            "placeholder": ""
+          }
+        },
+        "slug": {
+          "type": "Text",
+          "config": {
+            "label": "Slug",
+            "placeholder": ""
           }
         },
         "items": {
@@ -39,10 +53,7 @@
                 "config": {
                   "label": "Item",
                   "select": "document",
-                  "customtypes": [
-                    "service",
-                    "serviceDescription"
-                  ]
+                  "customtypes": ["service", "serviceDescription"]
                 }
               }
             }

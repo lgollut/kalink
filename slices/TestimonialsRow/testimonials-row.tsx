@@ -3,6 +3,7 @@ import { SliceComponentProps } from '@prismicio/react';
 
 import { Box } from '@/components/box';
 import { Container } from '@/components/container';
+import { SectionHeading } from '@/components/section-heading';
 import { Testimonial } from '@/components/testimonial';
 import { createClient } from '@/prismicio';
 
@@ -29,6 +30,7 @@ export async function TestimonialsRow({ slice }: TestimonialsProps) {
       data-slice-variation={slice.variation}
       size="2xl"
     >
+      <SectionHeading slice={slice} />
       <Box
         display="flex"
         flexDirection={{ xs: 'column', md: 'row' }}

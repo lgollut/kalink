@@ -7,6 +7,8 @@ export const components = {
   fifty_fifty_section: dynamic(() => import('./FiftyFiftySection')),
   grid: dynamic(() => import('./ServicesGrid')),
   intro_block: dynamic(() => import('./IntroBlock')),
+  list_items: dynamic(() => import('./ListItems')),
+  media_banner: dynamic(() => import('./MediaBanner')),
   team: dynamic(() => import('./Team')),
   testimonials_row: dynamic(() => import('./TestimonialsRow')),
 };

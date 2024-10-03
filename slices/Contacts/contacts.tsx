@@ -22,12 +22,14 @@ export const Contacts = ({ slice }: ContactsProps) => {
 
   return (
     <Container size="2xl">
-      {slice.primary.title && (
-        <SectionHeading>{slice.primary.title}</SectionHeading>
-      )}
+      <SectionHeading slice={slice} />
       <div className={contactsGrid}>
         <div className={contactForm}>
-          <ContactForm fields={slice.primary.form} />
+          <ContactForm
+            fields={slice.primary.form}
+            tintScheme={slice.primary.backgroundColor}
+            type={slice.primary.formType}
+          />
         </div>
         <pre className={contactInformation}>
           <RichText field={slice.primary.information} />

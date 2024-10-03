@@ -35,6 +35,8 @@ export const sheetContent = recipe({
   base: {
     zIndex: 50,
     overflow: 'hidden',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
 
     position: 'fixed',
 

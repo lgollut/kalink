@@ -37,7 +37,7 @@ const PersonCard = <TUse extends ElementType = 'div'>(
       />
       <Box tintScheme={backgroundColor} className={personCardContent}>
         <Stack gap="md" className={personCardContentInner}>
-          <Heading use="h4" subtitle={jobTitle ?? ''} color="onPrimary">
+          <Heading use="h3" subtitle={jobTitle ?? ''} color="onPrimary">
             {givenName} {surname}
           </Heading>
           <RichText field={summary} />

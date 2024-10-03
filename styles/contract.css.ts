@@ -156,6 +156,9 @@ export const vars = createThemeContract({
   },
 
   system: {
+    layout: {
+      measure: null,
+    },
     color: {
       primary: null,
       onPrimary: null,

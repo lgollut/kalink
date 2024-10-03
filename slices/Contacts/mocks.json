@@ -5,7 +5,21 @@
 		"primary": {
 			"title": {
 				"__TYPE__": "FieldContent",
-				"value": "bat",
+				"value": "wool",
+				"type": "Text"
+			},
+			"slug": {
+				"__TYPE__": "FieldContent",
+				"value": "ran",
+				"type": "Text"
+			},
+			"subNavigation": {
+				"__TYPE__": "BooleanContent",
+				"value": true
+			},
+			"subNavigationLabel": {
+				"__TYPE__": "FieldContent",
+				"value": "spent",
 				"type": "Text"
 			},
 			"form": {
@@ -44,6 +58,16 @@
 									"__TYPE__": "BooleanContent",
 									"value": true
 								}
+							],
+							[
+								"fieldMeta",
+								{
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "DocumentLink",
+										"id": "mock_document_id"
+									}
+								}
 							]
 						]
 					}
@@ -67,9 +91,20 @@
 					}
 				]
 			},
-			"scrollSpy": {
-				"__TYPE__": "BooleanContent",
-				"value": true
+			"subtitle": {
+				"__TYPE__": "FieldContent",
+				"value": "cage",
+				"type": "Text"
+			},
+			"backgroundColor": {
+				"__TYPE__": "FieldContent",
+				"value": "primary",
+				"type": "Select"
+			},
+			"formType": {
+				"__TYPE__": "FieldContent",
+				"value": "inscription",
+				"type": "Select"
 			}
 		},
 		"items": []

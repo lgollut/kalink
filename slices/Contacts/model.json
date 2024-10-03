@@ -19,13 +19,34 @@
             "placeholder": ""
           }
         },
-        "scrollSpy": {
+        "subtitle": {
+          "type": "Text",
+          "config": {
+            "label": "Subtitle",
+            "placeholder": ""
+          }
+        },
+        "subNavigation": {
           "type": "Boolean",
           "config": {
-            "label": "Scroll Spy",
-            "placeholder_false": "Hide from page navigation",
-            "placeholder_true": "Display in page navigation",
-            "default_value": false
+            "label": "Show in Sub Navigation",
+            "placeholder_false": "Hide from sub navigation",
+            "placeholder_true": "Show in sub navigation",
+            "default_value": true
+          }
+        },
+        "subNavigationLabel": {
+          "type": "Text",
+          "config": {
+            "label": "Sub Navigation Label",
+            "placeholder": ""
+          }
+        },
+        "slug": {
+          "type": "Text",
+          "config": {
+            "label": "Slug",
+            "placeholder": ""
           }
         },
         "form": {
@@ -41,6 +62,7 @@
                   "placeholder": "",
                   "options": [
                     "textField",
+                    "select",
                     "textarea"
                   ],
                   "default_value": "textField"
@@ -68,6 +90,16 @@
                   "placeholder_true": "true",
                   "default_value": false
                 }
+              },
+              "fieldMeta": {
+                "type": "Link",
+                "config": {
+                  "label": "Field Meta",
+                  "select": "document",
+                  "customtypes": [
+                    "courseSessions"
+                  ]
+                }
               }
             }
           }
@@ -85,6 +117,30 @@
             "placeholder": "",
             "allowTargetBlank": true,
             "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "backgroundColor": {
+          "type": "Select",
+          "config": {
+            "label": "Background Color",
+            "placeholder": "",
+            "options": [
+              "primary",
+              "secondaryContainer"
+            ],
+            "default_value": "primary"
+          }
+        },
+        "formType": {
+          "type": "Select",
+          "config": {
+            "label": "Form Type",
+            "placeholder": "",
+            "options": [
+              "message",
+              "inscription"
+            ],
+            "default_value": "message"
           }
         }
       },

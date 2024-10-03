@@ -33,7 +33,7 @@ const ServiceCard = (
             gap="md"
             height="full"
           >
-            <Heading use="h4">{props.title}</Heading>
+            <Heading use="h6">{props.title}</Heading>
             <Text>{props.description}</Text>
           </Stack>
         </ScrollArea>
