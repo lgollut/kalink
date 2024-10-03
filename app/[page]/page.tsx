@@ -24,22 +24,24 @@ export async function generateMetadata({
   const page = await createClient().getByUID('page', params.page);
 
   return {
-    metadataBase: new URL('https://kalink.ch'),
+    metadataBase: new URL('https://www.kalink.ch'),
     title: page.data.metaTitle,
     description: page.data.metaDescription,
     openGraph: {
       title: page.data.metaTitle ?? undefined,
       description: page.data.metaDescription ?? undefined,
-      url: `https://kalink.ch/${params.page}`,
+      url: `https://www.kalink.ch/${params.page}`,
       siteName: 'KalinK Studio',
       type: 'website',
-      images: [
-        {
-          url: page.data.metaImage.url ?? '',
-          width: page.data.metaImage.dimensions?.width,
-          height: page.data.metaImage.dimensions?.height,
-        },
-      ],
+      ...(page.data.metaImage.url && {
+        images: [
+          {
+            url: page.data.metaImage.url,
+            width: page.data.metaImage.dimensions.width,
+            height: page.data.metaImage.dimensions.height,
+          },
+        ],
+      }),
     },
     twitter: {
       card: 'summary_large_image',

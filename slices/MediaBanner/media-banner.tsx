@@ -7,7 +7,7 @@ import { Heading } from '@/components/heading';
 import { RichText } from '@/components/rich-text';
 import { sectionHeading } from '@/components/section-heading/section-heading.css';
 import { Stack } from '@/components/stack';
-import { useSliceSlug } from '@/utils/use-slice-slug';
+import { getSliceSlug } from '@/utils/get-slice-slug';
 
 import { MediaBannerImage } from './media-banner-image';
 import { mediaBanner, mediaBannerContent } from './media-banner.css';
@@ -21,34 +21,45 @@ export type MediaBannerProps = SliceComponentProps<Content.MediaBannerSlice>;
  * Component for "MediaBanner" Slices.
  */
 export function MediaBanner({ slice }: MediaBannerProps) {
-  const slug = useSliceSlug(slice);
+  if (!slice.primary.items || slice.primary.items.length === 0) {
+    return null;
+  }
 
   return (
-    <Box
-      use="section"
-      data-slice-type={slice.slice_type}
-      data-slice-variation={slice.variation}
-      className={sectionHeading}
-      {...(slug ? { id: slug } : {})}
-    >
-      <Container
-        size="xl"
-        paddingInline={{ xs: 'none', md: 'md', lg: 'lg', xl: '5xl' }}
-      >
-        <Box className={mediaBanner}>
-          <MediaBannerImage image={slice.primary.image} />
-          <Stack
-            className={mediaBannerContent({
-              direction: slice.primary.direction,
-            })}
+    <Stack gap="lg">
+      {slice.primary.items.map((item) => {
+        const slug = getSliceSlug(item);
+
+        return (
+          <Box
+            key={slug}
+            use="section"
+            data-slice-type={slice.slice_type}
+            data-slice-variation={slice.variation}
+            className={sectionHeading}
+            {...(slug ? { id: slug } : {})}
           >
-            <Heading use="h3" color="currentColor">
-              {slice.primary.title}
-            </Heading>
-            <RichText field={slice.primary.content} />
-          </Stack>
-        </Box>
-      </Container>
-    </Box>
+            <Container
+              size="xl"
+              paddingInline={{ xs: 'none', md: 'md', lg: 'lg', xl: '5xl' }}
+            >
+              <Box className={mediaBanner}>
+                <MediaBannerImage image={item.image} />
+                <Stack
+                  className={mediaBannerContent({
+                    direction: item.direction,
+                  })}
+                >
+                  <Heading use="h3" color="currentColor">
+                    {item.title}
+                  </Heading>
+                  <RichText field={item.content} />
+                </Stack>
+              </Box>
+            </Container>
+          </Box>
+        );
+      })}
+    </Stack>
   );
 }

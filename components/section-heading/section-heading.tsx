@@ -3,7 +3,7 @@ import { ForwardedRef, forwardRef } from 'react';
 import { Heading } from '../heading';
 import { HeadingTypes } from '../heading/heading.types';
 import { PageDocument } from '@/prismicio-types';
-import { useSliceSlug } from '@/utils/use-slice-slug';
+import { getSliceSlug } from '@/utils/get-slice-slug';
 
 import { sectionHeading } from './section-heading.css';
 import { SectionHeadingProps } from './section-heading.types';
@@ -23,11 +23,11 @@ const SectionHeading = <
     ...rest
   } = props;
 
-  const slug = useSliceSlug(slice);
-
-  if (!slice.primary.title) {
+  if (!('title' in slice.primary) || !slice.primary.title) {
     return null;
   }
+
+  const slug = getSliceSlug(slice.primary);
 
   return (
     <Heading

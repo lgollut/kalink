@@ -49,73 +49,78 @@ function parseText(text: unknown, nb: number = 2): ReactNode {
 }
 
 const markdownSerializer = wrapMapSerializer({
-  heading1: ({ children }) => {
+  heading1: ({ children, key }) => {
     return (
-      <Heading use="h1" marginBlockEnd="none">
+      <Heading key={key} use="h1" marginBlockEnd="none">
         {parseText(children, 1)}
       </Heading>
     );
   },
-  heading2: ({ children }) => {
+  heading2: ({ children, key }) => {
     return (
-      <Heading use="h2" marginBlockEnd="none">
+      <Heading key={key} use="h2" marginBlockEnd="none">
         {parseText(children, 1)}
       </Heading>
     );
   },
-  heading3: ({ children }) => {
+  heading3: ({ children, key }) => {
     return (
-      <Heading use="h3" marginBlockEnd="none">
+      <Heading key={key} use="h3" marginBlockEnd="none">
         {parseText(children, 1)}
       </Heading>
     );
   },
-  heading4: ({ children }) => {
+  heading4: ({ children, key }) => {
     return (
-      <Heading use="h4" marginBlockEnd="none">
+      <Heading key={key} use="h4" marginBlockEnd="none">
         {parseText(children, 1)}
       </Heading>
     );
   },
-  heading5: ({ children }) => {
+  heading5: ({ children, key }) => {
     return (
-      <Heading use="h5" marginBlockEnd="none">
+      <Heading key={key} use="h5" marginBlockEnd="none">
         {parseText(children, 1)}
       </Heading>
     );
   },
-  heading6: ({ children }) => {
+  heading6: ({ children, key }) => {
     return (
-      <Heading use="h6" marginBlockEnd="none">
+      <Heading key={key} use="h6" marginBlockEnd="none">
         {parseText(children, 1)}
       </Heading>
     );
   },
-  paragraph: ({ node, children }) => {
+  paragraph: ({ node, children, key }) => {
     const labelSpan = node.spans.find((span) => span.type === 'label');
 
     const parsedText = parseText(children) as NonNullable<ReactNode>;
 
     if (!labelSpan || labelSpan.type !== 'label') {
-      return <Text use="p">{parsedText}</Text>;
+      return (
+        <Text key={key} use="p">
+          {parsedText}
+        </Text>
+      );
     }
 
     switch (labelSpan.data.label) {
       case 'quote':
         return (
-          <Text use="blockquote" className={blockquote}>
+          <Text key={key} use="blockquote" className={blockquote}>
             {parsedText}
           </Text>
         );
       case 'align-end':
         return (
-          <Text use="p" className={alignEnd}>
+          <Text key={key} use="p" className={alignEnd}>
             {parsedText}
           </Text>
         );
       case 'legend':
         return (
           <Text
+            key={key}
             use="p"
             typography="bodySmall"
             textAlign="end"
@@ -125,36 +130,52 @@ const markdownSerializer = wrapMapSerializer({
           </Text>
         );
       default:
-        return <Text use="p">{parsedText}</Text>;
+        return (
+          <Text key={key} use="p">
+            {parsedText}
+          </Text>
+        );
     }
   },
-  preformatted: ({ text }) => <pre>{text}</pre>,
-  strong: ({ children }) => <strong>{parseText(children)}</strong>,
-  em: ({ children }) => <em>{parseText(children)}</em>,
-  listItem: ({ children }) => <li>{parseText(children)}</li>,
-  oListItem: ({ children }) => <li>{parseText(children)}</li>,
-  list: ({ children }) => <ul>{parseText(children)}</ul>,
-  oList: ({ children }) => <ol>{parseText(children)}</ol>,
-  image: ({ node }) => <Image alt={node.alt ?? ''} src={node.url} />,
+  preformatted: ({ text, key }) => <pre key={key}>{text}</pre>,
+  strong: ({ children, key }) => (
+    <strong key={key}>{parseText(children)}</strong>
+  ),
+  em: ({ children, key }) => <em key={key}>{parseText(children)}</em>,
+  listItem: ({ children, key }) => <li key={key}>{parseText(children)}</li>,
+  oListItem: ({ children, key }) => <li key={key}>{parseText(children)}</li>,
+  list: ({ children, key }) => <ul key={key}>{parseText(children)}</ul>,
+  oList: ({ children, key }) => <ol key={key}>{parseText(children)}</ol>,
+  image: ({ node, key }) => (
+    <Image key={key} alt={node.alt ?? ''} src={node.url} />
+  ),
   embed: ({ node }) => `${node.oembed.html}\n\n`,
-  hyperlink: ({ node, children }) => (
-    <PrismicNextLink href={node.data.url as Route}>
+  hyperlink: ({ node, children, key }) => (
+    <PrismicNextLink key={key} href={node.data.url as Route}>
       <Text use="span" typography="bodySmall" color="primary">
         {parseText(children)}
       </Text>
     </PrismicNextLink>
   ),
-  label: ({ node, children }) => {
+  label: ({ node, children, key }) => {
     switch (node.data.label) {
       case 'codespan':
-        return <Text use="code">{parseText(children)}</Text>;
+        return (
+          <Text key={key} use="code">
+            {parseText(children)}
+          </Text>
+        );
       case 'quote':
       case 'align-end':
       case 'legend':
       case 'link':
         return <>{parseText(children)}</>;
       default:
-        return <Text className={node.data.label}>{parseText(children)}</Text>;
+        return (
+          <Text key={key} className={node.data.label}>
+            {parseText(children)}
+          </Text>
+        );
     }
   },
   span: ({ text }) => text, //text.replace('\n', '<br/>'),

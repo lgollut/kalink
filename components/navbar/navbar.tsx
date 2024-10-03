@@ -1,5 +1,6 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -43,6 +44,7 @@ const Navbar = (
     scrollThreshold = 100,
     fixedThreshold = 150,
     navItems,
+    className,
     ...props
   }: NavbarProps,
   ref: ForwardedRef<any>,
@@ -52,7 +54,6 @@ const Navbar = (
   const previousScrollY = useRef(0);
   const [state, setState] = useState<'idle' | 'visible' | 'hidden'>('idle');
   const scrollDown = useRef(true);
-  const [isOpen, setIsOpen] = useState(false);
   const [activeLinkId, setActiveLinkId] = useState<string | null>(null);
 
   const currentPage = useCallback(
@@ -128,7 +129,7 @@ const Navbar = (
     <Box
       use={motion.div}
       ref={ref}
-      className={navbar({ state })}
+      className={clsx(navbar({ state }), className)}
       animate={
         state === 'idle' || state === 'visible'
           ? { translateY: 0 }

@@ -49,6 +49,7 @@
             "placeholder": "",
             "options": [
               "secondaryContainer",
+              "primaryContainer",
               "primary"
             ],
             "default_value": "secondaryContainer"

@@ -53,15 +53,21 @@
                 "config": {
                   "label": "Item",
                   "select": "document",
-                  "customtypes": ["testimonial"]
+                  "customtypes": [
+                    "testimonial"
+                  ]
                 }
               },
-              "backgroundColor": {
+              "tintScheme": {
                 "type": "Select",
                 "config": {
-                  "label": "Background Color",
+                  "label": "Tint Scheme",
                   "placeholder": "",
-                  "options": ["primary", "secondaryContainer"]
+                  "options": [
+                    "secondaryContainer",
+                    "primaryContainer"
+                  ],
+                  "default_value": "secondaryContainer"
                 }
               }
             }

@@ -38,12 +38,17 @@ export async function TestimonialsRow({ slice }: TestimonialsProps) {
         gap={{ xs: 'base', md: 'md', lg: 'lg' }}
       >
         {testimonials.results.map(({ id, data }) => {
+          const sliceItem = slice.primary.items.find(
+            ({ item }) => isFilled.contentRelationship(item) && item.id === id,
+          );
+
           return (
             <Testimonial
               key={id}
               flexGrow={1}
               flexShrink={1}
               flexBasis="100%"
+              tintScheme={sliceItem?.tintScheme}
               {...data}
             />
           );

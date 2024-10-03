@@ -7,7 +7,7 @@ import { Container } from '@/components/container';
 import { Heading } from '@/components/heading';
 import { RichText } from '@/components/rich-text';
 import { Stack } from '@/components/stack';
-import { useSliceSlug } from '@/utils/use-slice-slug';
+import { getSliceSlug } from '@/utils/get-slice-slug';
 
 import { introBlock, introBlockFigure } from './intro-block.css';
 
@@ -20,7 +20,7 @@ export type IntroBlocProps = SliceComponentProps<Content.IntroBlockSlice>;
  * Component for "IntroBloc" Slices.
  */
 export function IntroBlock({ slice }: IntroBlocProps): JSX.Element {
-  const slug = useSliceSlug(slice);
+  const slug = getSliceSlug(slice.primary);
 
   return (
     <Container
