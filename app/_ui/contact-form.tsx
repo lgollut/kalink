@@ -117,6 +117,10 @@ export const ContactForm = ({
                             label: '4ème session : 15h00-16h30',
                             value: '15h00-16h30',
                           },
+                          {
+                            label: 'Autre',
+                            value: 'autre',
+                          },
                         ].map(({ label, value }) => (
                           <SelectItem key={value} value={value}>
                             {label}
