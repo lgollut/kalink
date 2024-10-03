@@ -31,7 +31,10 @@ export function MediaBanner({ slice }: MediaBannerProps) {
       className={sectionHeading}
       {...(slug ? { id: slug } : {})}
     >
-      <Container size="xl">
+      <Container
+        size="xl"
+        paddingInline={{ xs: 'none', md: 'md', lg: 'lg', xl: '5xl' }}
+      >
         <Box className={mediaBanner}>
           <MediaBannerImage image={slice.primary.image} />
           <Stack
