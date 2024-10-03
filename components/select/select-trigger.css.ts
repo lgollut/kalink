@@ -17,7 +17,7 @@ export const selectTrigger = style([
      * if no selection has been made, we need to make sure the height
      * is at least the same as the input.
      */
-    minHeight: 42,
+    minHeight: 50,
   },
 ]);
 
