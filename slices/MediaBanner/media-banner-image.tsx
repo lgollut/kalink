@@ -7,7 +7,7 @@ import { Image } from '@/components/image';
 import { MediaBannerSlice } from '@/prismicio-types';
 
 type MediaBannerImageProps = {
-  image: MediaBannerSlice['primary']['image'];
+  image: MediaBannerSlice['primary']['items'][number]['image'];
 };
 
 const InternalMediaBannerImage = forwardRef(

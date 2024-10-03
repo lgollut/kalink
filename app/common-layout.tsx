@@ -7,6 +7,7 @@ import { Navbar } from '@/components/navbar';
 import { NavbarItem } from '@/components/navbar/navbar.types';
 import { Stack } from '@/components/stack';
 import { createClient } from '@/prismicio';
+import { SlugItem } from '@/utils/get-slice-slug';
 import { slugify } from '@/utils/slugify';
 
 import { pageBackground } from './common-layout.css';
@@ -15,6 +16,53 @@ type CommonLayoutProps = {
   children: ReactNode;
   currentPage: Content.PageDocument;
 };
+
+type ConditionalSlugItem = SlugItem & {
+  subNavigation?: boolean;
+  [key: string]: unknown;
+};
+
+type MayBeSlugItem = {
+  primary: ConditionalSlugItem & { items?: ConditionalSlugItem[] };
+};
+
+function walkNavigationItems(
+  items: MayBeSlugItem[] | ConditionalSlugItem[],
+  subItems: [string, string][],
+) {
+  for (const item of items) {
+    if (Array.isArray(item)) {
+      walkNavigationItems(item, subItems);
+      continue;
+    }
+
+    let slugItem: MayBeSlugItem['primary'];
+
+    if ('primary' in item) {
+      slugItem = item.primary as MayBeSlugItem['primary'];
+    } else {
+      slugItem = item;
+    }
+
+    if (!('subNavigation' in slugItem) || !slugItem.subNavigation) {
+      continue;
+    }
+
+    const label = slugItem.subNavigationLabel ?? slugItem.title;
+
+    if (!label) {
+      continue;
+    }
+
+    const slug = slugItem.slug || slugify(label);
+
+    subItems.push([label, slug]);
+
+    if (slugItem.items) {
+      walkNavigationItems(slugItem.items, subItems);
+    }
+  }
+}
 
 export const CommonLayout = async ({
   children,
@@ -46,17 +94,7 @@ export const CommonLayout = async ({
 
     const subItems: [string, string][] = [];
 
-    for (const item of page.data.slices) {
-      const label = item.primary.subNavigationLabel ?? item.primary.title;
-
-      if (!item.primary.subNavigation || !label) {
-        continue;
-      }
-
-      const slug = item.primary.slug || slugify(label);
-
-      subItems.push([label, slug]);
-    }
+    walkNavigationItems(page.data.slices, subItems);
 
     navItems.push({
       uid: page.uid === 'homepage' ? '' : page.uid,

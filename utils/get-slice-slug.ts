@@ -2,13 +2,18 @@ import { KeyTextField } from '@prismicio/client';
 
 import { slugify } from './slugify';
 
-type SlugItem = {
+export type SlugItem = {
   slug?: KeyTextField;
   subNavigationLabel?: KeyTextField;
   title?: KeyTextField;
+  subNavigation?: boolean;
 };
 
 export const getSliceSlug = (item: SlugItem) => {
+  if (!item.subNavigation) {
+    return null;
+  }
+
   if (item.slug) {
     return item.slug;
   }

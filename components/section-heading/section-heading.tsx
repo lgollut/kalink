@@ -23,7 +23,7 @@ const SectionHeading = <
     ...rest
   } = props;
 
-  if (!slice.primary.title) {
+  if (!('title' in slice.primary) || !slice.primary.title) {
     return null;
   }
 
