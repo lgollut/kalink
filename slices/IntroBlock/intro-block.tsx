@@ -3,6 +3,7 @@ import { SliceComponentProps } from '@prismicio/react';
 
 import { Box } from '@/components/box';
 import { ButtonLink } from '@/components/button';
+import { Cluster } from '@/components/cluster';
 import { Container } from '@/components/container';
 import { Heading } from '@/components/heading';
 import { RichText } from '@/components/rich-text';
@@ -48,17 +49,24 @@ export function IntroBlock({ slice }: IntroBlocProps): JSX.Element {
             <RichText field={slice.primary.text} />
           </Stack>
           {slice.variation === 'withLinkToMedia' &&
-            isFilled.group(slice.primary.cta) &&
-            isFilled.linkToMedia(slice.primary.cta[0].media) && (
-              <ButtonLink
-                variant={slice.primary.cta[0].variant}
-                href={slice.primary.cta[0].media.url}
-                alignSelf="flex-start"
-                tintScheme={slice.primary.backgroundColor}
-                target="_blank"
-              >
-                {slice.primary.cta[0].label}
-              </ButtonLink>
+            isFilled.group(slice.primary.cta) && (
+              <Cluster gap="md">
+                {slice.primary.cta.map(
+                  (cta) =>
+                    isFilled.linkToMedia(cta.media) && (
+                      <ButtonLink
+                        key={cta.label}
+                        variant={cta.variant}
+                        href={cta.media.url}
+                        alignSelf="flex-start"
+                        tintScheme={slice.primary.backgroundColor}
+                        target="_blank"
+                      >
+                        {cta.label}
+                      </ButtonLink>
+                    ),
+                )}
+              </Cluster>
             )}
         </Stack>
       </Box>

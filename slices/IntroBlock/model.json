@@ -129,7 +129,7 @@
           "type": "Group",
           "config": {
             "label": "CTA",
-            "repeat": false,
+            "repeat": true,
             "fields": {
               "label": {
                 "type": "Text",
