@@ -76,6 +76,7 @@ export const CommonLayout = async ({
   return (
     <Stack
       gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}
+      marginBlockStart={{ xs: '5xl', md: '7xl', lg: '9xl' }}
       className={pageBackground}
       style={assignInlineVars({
         [backgroundColor]: pageBackgroundColor[currentPage.data.tint],

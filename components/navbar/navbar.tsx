@@ -1,10 +1,10 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import {
-  ElementType,
   ForwardedRef,
   forwardRef,
   useCallback,
@@ -38,13 +38,13 @@ import {
 } from './navbar.css';
 import { NavbarProps } from './navbar.types';
 
-const Navbar = <TUse extends ElementType>(
+const Navbar = (
   {
     scrollThreshold = 100,
     fixedThreshold = 150,
     navItems,
     ...props
-  }: NavbarProps<TUse>,
+  }: NavbarProps,
   ref: ForwardedRef<any>,
 ) => {
   const params = useParams<{ page: string }>();
@@ -66,6 +66,8 @@ const Navbar = <TUse extends ElementType>(
     if (Math.abs(previousScrollY.current - window.scrollY) > scrollThreshold) {
       if (window.scrollY < fixedThreshold) {
         setState('idle');
+      } else if (scrollDown.current) {
+        setState('hidden');
       } else {
         setState('visible');
       }
@@ -123,7 +125,18 @@ const Navbar = <TUse extends ElementType>(
   }, [navItems, params, pathName, setActiveLinkId, currentPage]);
 
   return (
-    <Box ref={ref} className={navbar({ state })} {...props}>
+    <Box
+      use={motion.div}
+      ref={ref}
+      className={navbar({ state })}
+      animate={
+        state === 'idle' || state === 'visible'
+          ? { translateY: 0 }
+          : { translateY: '-100%' }
+      }
+      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+      {...props}
+    >
       <Container
         size="2xl"
         display="flex"

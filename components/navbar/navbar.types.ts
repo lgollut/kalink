@@ -1,4 +1,4 @@
-import { ElementType } from 'react';
+import { motion } from 'framer-motion';
 
 import { BoxProps } from '../box/box.types';
 
@@ -9,8 +9,8 @@ export type NavbarItem = {
   subItems?: [string, string][];
 };
 
-export type NavbarProps<TUse extends ElementType> = {
+export type NavbarProps = {
   scrollThreshold?: number;
   fixedThreshold?: number;
   navItems: NavbarItem[];
-} & BoxProps<TUse>;
+} & BoxProps<typeof motion.div>;

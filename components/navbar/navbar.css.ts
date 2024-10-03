@@ -13,7 +13,7 @@ export const navbar = recipe({
     paddingBlockStart: vars.ref.spacing.lg,
     paddingBlockEnd: vars.ref.spacing.base,
 
-    position: 'sticky',
+    position: 'fixed',
     insetBlockStart: 0,
     insetInline: 0,
     zIndex: 10,
