@@ -17,7 +17,22 @@ const nextConfig = {
         port: '',
         pathname: '/kalink/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'files.stripe.com',
+        port: '',
+      },
     ],
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/',
+          destination: '/homepage',
+        },
+      ],
+    };
   },
   async redirects() {
     return [
