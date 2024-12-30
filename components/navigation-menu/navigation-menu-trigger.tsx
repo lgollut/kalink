@@ -1,16 +1,19 @@
 import { Trigger } from '@radix-ui/react-navigation-menu';
+import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import { ComponentPropsWithoutRef, ForwardedRef, forwardRef } from 'react';
 
 import { navigationMenuTrigger } from './navigation-menu-trigger.css';
 
-type NavigationMenuTriggerProps = ComponentPropsWithoutRef<typeof Trigger>;
+type NavigationMenuTriggerProps = {
+  hasSubmenu?: boolean;
+} & ComponentPropsWithoutRef<typeof Trigger>;
 
 const NavigationMenuTrigger = (
-  { className, children, ...props }: NavigationMenuTriggerProps,
+  { className, children, hasSubmenu, ...props }: NavigationMenuTriggerProps,
   ref: ForwardedRef<any>,
 ) => {
-  return (
+  return hasSubmenu ? (
     <Trigger
       ref={ref}
       className={clsx(navigationMenuTrigger, className)}
@@ -19,6 +22,14 @@ const NavigationMenuTrigger = (
     >
       {children}
     </Trigger>
+  ) : (
+    <Slot
+      ref={ref}
+      className={clsx(navigationMenuTrigger, className)}
+      {...props}
+    >
+      {children}
+    </Slot>
   );
 };
 

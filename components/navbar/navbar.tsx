@@ -160,7 +160,7 @@ const Navbar = (
 
               return (
                 <NavigationMenuItem key={uid}>
-                  <NavigationMenuTrigger>
+                  <NavigationMenuTrigger hasSubmenu={!!subItems?.length}>
                     <NavbarButton uid={uid}>
                       <Text
                         typography="headlineSmall"
