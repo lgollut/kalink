@@ -42,16 +42,16 @@ export async function POST(request: Request) {
   const headersList = await headers();
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 
-  const body = await request.json();
+  const payload = await request.text();
 
-  let event = body;
+  let event: Stripe.Event | null = null;
 
   if (process.env.STRIPE_WEBHOOK_SECRET) {
     const signature = headersList.get('stripe-signature') || '';
 
     try {
       event = stripe.webhooks.constructEvent(
-        body,
+        payload,
         signature,
         process.env.STRIPE_WEBHOOK_SECRET,
       );
@@ -60,11 +60,13 @@ export async function POST(request: Request) {
         `⚠️  Webhook signature verification failed.`,
         (err as Error).message,
       );
-
-      return new Response(`Webhook signature verification failed.`, {
-        status: 500,
-      });
     }
+  }
+
+  if (!event) {
+    return new Response('Webhook signature verification failed.', {
+      status: 500,
+    });
   }
 
   let webhookData: (ParsedProduct | string)[] = [];
@@ -97,7 +99,7 @@ export async function POST(request: Request) {
     });
   }
 
-  return new Response('Webhook received!', {
+  return new Response('Webhook received and processed!', {
     status: 200,
   });
 }
