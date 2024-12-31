@@ -46,7 +46,7 @@
     "stripe": "^17.4.0"
   },
   "devDependencies": {
-    "@slicemachine/adapter-next": "^0.3.43",
+    "@slicemachine/adapter-next": "^0.3.61",
     "@types/node": "^20.14.13",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -64,7 +64,7 @@
     "eslint-plugin-unused-imports": "^3.2.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
-    "slice-machine-ui": "^2.3.0",
+    "slice-machine-ui": "^2.11.1",
     "type-fest": "^4.23.0",
     "typescript": "^5.5.4"
   },
