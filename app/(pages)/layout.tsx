@@ -10,12 +10,11 @@ import { createClient } from '@/prismicio';
 import { SlugItem } from '@/utils/get-slice-slug';
 import { slugify } from '@/utils/slugify';
 
-import { pageBackground } from './common-layout.css';
+import { pageBackground } from './layout.css';
 
-type CommonLayoutProps = {
+type PagesLayoutProps = Readonly<{
   children: ReactNode;
-  currentPage: Content.PageDocument;
-};
+}>;
 
 type ConditionalSlugItem = SlugItem & {
   subNavigation?: boolean;
@@ -58,13 +57,11 @@ function walkNavigationItems(
   }
 }
 
-export const CommonLayout = async ({
-  children,
-  currentPage,
-}: CommonLayoutProps) => {
+export default async function PagesLayout({ children }: PagesLayoutProps) {
   const client = createClient();
 
   const mainNavigation = await client.getSingle('mainNavigation');
+
   const navItemIds: Set<string> = new Set();
 
   for (const { item } of mainNavigation.data.items) {
@@ -75,13 +72,13 @@ export const CommonLayout = async ({
     navItemIds.add(item.id);
   }
 
-  const pages = await client.getByIDs<Content.PageDocument>([
+  const allPages = await client.getByIDs<Content.PageDocument>([
     ...navItemIds.values(),
   ]);
 
   const navItems: NavbarItem[] = [];
 
-  for (const page of pages.results) {
+  for (const page of allPages.results) {
     if (!page.data.navigationLabel) {
       continue;
     }
@@ -98,17 +95,18 @@ export const CommonLayout = async ({
     });
   }
 
-  const backgroundClass = pageBackground({ tint: currentPage.data.tint });
-
   return (
     <Stack
       gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}
       paddingBlockStart="9xl"
-      className={backgroundClass}
+      className={pageBackground({ tint: 'primary' })}
     >
-      <Navbar navItems={navItems} className={backgroundClass} />
+      <Navbar
+        navItems={navItems}
+        className={pageBackground({ tint: 'primary' })}
+      />
       {children}
-      <Footer tintScheme={currentPage.data.tint} />
+      <Footer tintScheme={'primary'} />
     </Stack>
   );
-};
+}

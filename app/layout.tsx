@@ -2,6 +2,7 @@ import { PrismicPreview } from '@prismicio/next';
 import { Analytics } from '@vercel/analytics/react';
 import { clsx } from 'clsx';
 
+import { Cart } from '@/components/cart';
 import { Toaster } from '@/components/toaster/toaster';
 import { repositoryName } from '@/prismicio';
 import { fontClass } from '@/styles/font';
@@ -17,11 +18,13 @@ export default async function RootLayout({
   return (
     <html lang="en" className={clsx(html, fontClass)}>
       <body className={clsx(body, themeClass)}>
-        <Toaster>
-          {children}
-          <Analytics />
-          <PrismicPreview repositoryName={repositoryName} />
-        </Toaster>
+        <Cart>
+          <Toaster>
+            {children}
+            <Analytics />
+            <PrismicPreview repositoryName={repositoryName} />
+          </Toaster>
+        </Cart>
       </body>
     </html>
   );

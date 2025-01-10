@@ -15,6 +15,7 @@ import {
 } from 'react';
 
 import { Box } from '../box';
+import { CartButton } from '../cart/cart-button';
 import { Container } from '../container';
 import { Stack } from '../stack';
 import { Text } from '../text';
@@ -29,6 +30,7 @@ import {
 import kalink from '@/public/kalink.svg';
 
 import { NavbarButton } from './navbar-button';
+import { NavbarPanel } from './navbar-panel';
 import {
   navbar,
   navbarLink,
@@ -57,7 +59,16 @@ const Navbar = (
   const [activeLinkId, setActiveLinkId] = useState<string | null>(null);
 
   const currentPage = useCallback(
-    (uid: string) => (pathName === '/' ? uid === '' : uid === params.page),
+    (uid: string) => {
+      if (!('page' in params)) {
+        return pathName
+          .split('/')
+          .filter((segment) => segment !== '')
+          .includes(uid);
+      }
+
+      return pathName === '/' ? uid === '' : uid === params.page;
+    },
     [pathName, params],
   );
 
@@ -141,86 +152,101 @@ const Navbar = (
       <Container
         size="2xl"
         display="flex"
-        flexDirection={{ xs: 'column', lg: 'row' }}
+        flexDirection={{ xs: 'row', md: 'column', lg: 'row' }}
         alignItems="center"
         justifyContent={{ xs: 'center', lg: 'space-between' }}
         gap={{ xs: 'base', md: 'md', lg: 'lg' }}
       >
+        <NavbarPanel navItems={navItems} currentPage={currentPage} />
+
         <Link href="/">
           <Image src={kalink} alt="Kalink" className={navbarLogo} />
         </Link>
 
-        <NavigationMenu>
-          <NavigationMenuList display="flex" gap="none">
-            {navItems.map(({ uid, label, tint, subItems }) => {
-              const tintScheme = {
-                primary: 'primary',
-                secondary: 'secondaryContainer',
-              } as const;
+        <CartButton
+          display={{ xs: 'block', md: 'none' }}
+          position="absolute"
+          insetInlineEnd="base"
+        />
 
-              return (
-                <NavigationMenuItem key={uid}>
-                  <NavigationMenuTrigger hasSubmenu={!!subItems?.length}>
-                    <NavbarButton uid={uid}>
-                      <Text
-                        typography="headlineSmall"
-                        color="onPrimaryContainer"
-                        className={navbarLink({
-                          active: currentPage(uid),
-                          color: tint,
-                        })}
-                      >
-                        {label}
-                      </Text>
-                    </NavbarButton>
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Link href={`/${uid}`}>
-                      <Box
-                        tintScheme={tintScheme[tint]}
-                        borderRadius="small"
-                        className={navbarMenuLabel}
-                      >
+        <Box
+          display={{ xs: 'none', md: 'flex' }}
+          gap={{ xs: 'base', md: 'md', lg: 'lg' }}
+          alignItems="center"
+        >
+          <NavigationMenu>
+            <NavigationMenuList display="flex" gap="none">
+              {navItems.map(({ uid, label, tint, subItems }) => {
+                const tintScheme = {
+                  primary: 'primary',
+                  secondary: 'secondaryContainer',
+                } as const;
+
+                return (
+                  <NavigationMenuItem key={uid}>
+                    <NavigationMenuTrigger hasSubmenu={!!subItems?.length}>
+                      <NavbarButton uid={uid}>
                         <Text
-                          typography="headlineMedium"
-                          className={navbarMenuLabelText}
+                          typography="headlineSmall"
+                          color="onPrimaryContainer"
+                          className={navbarLink({
+                            active: currentPage(uid),
+                            color: tint,
+                          })}
                         >
                           {label}
                         </Text>
-                      </Box>
-                    </Link>
-                    <Stack gap="base">
-                      {(subItems || []).map(([label, slug]) => {
-                        return (
-                          <NavigationMenuLink
-                            key={slug}
-                            href={`/${uid}#${slug}`}
-                            className={subMenuLink({
-                              active: activeLinkId === slug,
-                              color: tint,
-                            })}
+                      </NavbarButton>
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <Link href={`/${uid}`}>
+                        <Box
+                          tintScheme={tintScheme[tint]}
+                          borderRadius="small"
+                          className={navbarMenuLabel}
+                        >
+                          <Text
+                            typography="headlineMedium"
+                            className={navbarMenuLabelText}
                           >
-                            <Text
-                              typography={
-                                activeLinkId === slug
-                                  ? 'labelLarge'
-                                  : 'bodyMedium'
-                              }
-                              color="onPrimaryContainer"
-                              textOverflow="ellipsis"
+                            {label}
+                          </Text>
+                        </Box>
+                      </Link>
+                      <Stack gap="base">
+                        {(subItems || []).map(([label, slug]) => {
+                          return (
+                            <NavigationMenuLink
+                              key={slug}
+                              href={`/${uid}#${slug}`}
+                              className={subMenuLink({
+                                active: activeLinkId === slug,
+                                color: tint,
+                              })}
                             >
-                              {label}
-                            </Text>
-                          </NavigationMenuLink>
-                        );
-                      })}
-                    </Stack>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              );
-            })}
-          </NavigationMenuList>
-        </NavigationMenu>
+                              <Text
+                                typography={
+                                  activeLinkId === slug
+                                    ? 'labelLarge'
+                                    : 'bodyMedium'
+                                }
+                                color="onPrimaryContainer"
+                                textOverflow="ellipsis"
+                              >
+                                {label}
+                              </Text>
+                            </NavigationMenuLink>
+                          );
+                        })}
+                      </Stack>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
+          <CartButton />
+        </Box>
       </Container>
     </Box>
   );

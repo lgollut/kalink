@@ -1,0 +1,107 @@
+{
+  "format": "custom",
+  "id": "product",
+  "label": "Product",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Name",
+          "placeholder": ""
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Description",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "images": {
+        "type": "Group",
+        "config": {
+          "label": "Images",
+          "repeat": true,
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "Image",
+                "constraint": {
+                  "width": null,
+                  "height": null
+                },
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "Stripe links": {
+      "product": {
+        "type": "IntegrationFields",
+        "config": {
+          "catalog": "kalink--product_catalog",
+          "label": "Product catalog",
+          "placeholder": "Select a Stripe Product from the catalog"
+        }
+      },
+      "variants": {
+        "type": "Group",
+        "config": {
+          "label": "Variants",
+          "repeat": true,
+          "fields": {
+            "variant": {
+              "type": "IntegrationFields",
+              "config": {
+                "catalog": "kalink--product_catalog",
+                "label": "Product catalog",
+                "placeholder": "Select a Stripe Product from the catalog"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "metaTitle": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
+      },
+      "metaDescription": {
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        },
+        "type": "Text"
+      },
+      "metaImage": {
+        "config": {
+          "label": "Meta Image",
+          "constraint": {
+            "height": 1260,
+            "width": 2400
+          },
+          "thumbnails": []
+        },
+        "type": "Image"
+      }
+    }
+  }
+}

@@ -289,6 +289,21 @@ export const unconditionalProperties = defineProperties({
         textDecoration: 'none',
       },
     },
+
+    textTransform: {
+      uppercase: {
+        textTransform: 'uppercase',
+      },
+      lowercase: {
+        textTransform: 'lowercase',
+      },
+      capitalize: {
+        textTransform: 'capitalize',
+      },
+      unset: {
+        textTransform: 'unset',
+      },
+    },
   },
 
   shorthands: {
@@ -370,6 +385,8 @@ export type TextOverflow = 'ellipsis';
 
 export type textDecoration = 'underline' | 'none';
 
+export type TextTransform = 'uppercase' | 'lowercase' | 'capitalize' | 'unset';
+
 export type UnconditionalProperties = {
   tintScheme?: TintSchemeValues;
   boxShadow?: BoxShadowValues;
@@ -380,4 +397,5 @@ export type UnconditionalProperties = {
   overflowWrap?: OverflowWrap;
   textOverflow?: TextOverflow;
   textDecoration?: textDecoration;
+  textTransform?: TextTransform;
 } & Borders;

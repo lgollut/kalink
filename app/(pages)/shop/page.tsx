@@ -1,27 +1,23 @@
-import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { Stack } from '@/components/stack';
 import { createClient } from '@/prismicio';
+import { PageDocument } from '@/prismicio-types';
 import { components } from '@/slices';
 
-type PageProps = Readonly<{ params: { page: string } }>;
+const pageName = 'shop';
 
-export async function generateStaticParams() {
-  const pages = await createClient().getAllByType('page', {
-    filters: [prismic.filter.not('my.page.uid', 'homepage')],
-  });
+export async function generateMetadata(): Promise<Metadata> {
+  let page: PageDocument;
 
-  return pages.map((page) => ({
-    page: page.uid,
-  }));
-}
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const page = await createClient().getByUID('page', params.page);
+  try {
+    page = await createClient().getByUID('page', 'shop');
+  } catch (error) {
+    console.log(error);
+    notFound();
+  }
 
   return {
     metadataBase: new URL('https://www.kalink.ch'),
@@ -30,7 +26,7 @@ export async function generateMetadata({
     openGraph: {
       title: page.data.metaTitle ?? undefined,
       description: page.data.metaDescription ?? undefined,
-      url: `https://www.kalink.ch/${params.page}`,
+      url: `https://www.kalink.ch/${pageName}`,
       siteName: 'KalinK Studio',
       type: 'website',
       ...(page.data.metaImage.url && {
@@ -53,8 +49,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps) {
-  const page = await createClient().getByUID('page', params.page);
+export default async function Page() {
+  const page = await createClient().getByUID('page', pageName);
 
   return (
     <Stack gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}>

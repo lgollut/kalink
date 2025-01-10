@@ -5,18 +5,29 @@ import { Box } from '../box';
 import { Button } from '../button';
 import { StackProps } from '../stack/stack.types';
 import { Stack } from '@/components/stack';
+import { FlexDirectionValues } from '@/styles/sprinkles.css';
 
 import { SheetClose } from './sheet';
 
+type SheetHeaderProps<TUse extends ElementType> = StackProps<TUse> & {
+  direction?: FlexDirectionValues;
+};
+
 const SheetHeader = <TUse extends ElementType>(
-  { gap = 'base', children, ...props }: StackProps<TUse>,
+  {
+    gap = 'base',
+    children,
+    direction = 'row',
+    ...props
+  }: SheetHeaderProps<TUse>,
   ref: ForwardedRef<any>,
 ) => (
   <Box
     ref={ref}
     display="flex"
-    alignItems="flex-start"
+    alignItems="center"
     justifyContent="space-between"
+    flexDirection={direction}
   >
     <Stack gap={gap} {...props}>
       {children}

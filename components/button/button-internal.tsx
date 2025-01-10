@@ -28,7 +28,7 @@ const ButtonInternal = <TUse extends ElementType>(
     className,
     flow,
     position = 'relative',
-    tintScheme = 'primary',
+    tintScheme,
     borderRadius = 'small',
     use = 'button',
     ...rest
@@ -43,8 +43,8 @@ const ButtonInternal = <TUse extends ElementType>(
       alignItems="center"
       justifyContent="center"
       gap={size}
-      paddingInline={variant === 'bare' ? 'none' : size}
-      tintScheme={tintScheme}
+      paddingInline={variant === 'bare' || iconOnly ? 'none' : size}
+      tintScheme={iconOnly ? tintScheme || 'surface' : tintScheme || 'primary'}
       borderRadius={borderRadius}
       typography={size === 'sm' ? 'labelSmall' : 'labelMedium'}
       className={clsx(button({ variant, size, flow, iconOnly }), className)}
