@@ -28,6 +28,14 @@
           "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
+      "type": {
+        "type": "Select",
+        "config": {
+          "label": "Type",
+          "placeholder": "",
+          "options": ["poster", "greetingsCard"]
+        }
+      },
       "images": {
         "type": "Group",
         "config": {
@@ -47,9 +55,33 @@
             }
           }
         }
+      },
+      "metadata": {
+        "type": "Group",
+        "config": {
+          "label": "Metadata",
+          "repeat": true,
+          "fields": {
+            "key": {
+              "type": "Select",
+              "config": {
+                "label": "Key",
+                "placeholder": "",
+                "options": ["measure", "medium", "year"]
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "Value",
+                "placeholder": ""
+              }
+            }
+          }
+        }
       }
     },
-    "Stripe links": {
+    "Product links": {
       "product": {
         "type": "IntegrationFields",
         "config": {
@@ -58,18 +90,27 @@
           "placeholder": "Select a Stripe Product from the catalog"
         }
       },
+      "shipping": {
+        "type": "IntegrationFields",
+        "config": {
+          "catalog": "kalink--shipping_rates",
+          "label": "Shipping rates",
+          "placeholder": "Select a shipping rate for this product"
+        }
+      },
       "variants": {
         "type": "Group",
         "config": {
           "label": "Variants",
           "repeat": true,
           "fields": {
-            "variant": {
-              "type": "IntegrationFields",
+            "product": {
+              "type": "Link",
               "config": {
-                "catalog": "kalink--product_catalog",
-                "label": "Product catalog",
-                "placeholder": "Select a Stripe Product from the catalog"
+                "label": "Product",
+                "select": "document",
+                "repeat": false,
+                "customtypes": ["product"]
               }
             }
           }

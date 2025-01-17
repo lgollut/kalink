@@ -34,10 +34,11 @@ const SheetContent = (
         boxShadow="low"
         tintScheme={tintScheme}
         className={clsx(sheetContent({ side, size }), className)}
-        {...props}
       >
         <ScrollArea>
-          <Stack gap={gap}>{children}</Stack>
+          <Box {...props}>
+            <Stack gap={gap}>{children}</Stack>
+          </Box>
         </ScrollArea>
       </Box>
     </Content>

@@ -22,7 +22,16 @@ const routes: prismic.ClientConfig['routes'] = [
   },
   {
     type: 'page',
+    uid: 'shop',
+    path: '/shop',
+  },
+  {
+    type: 'page',
     path: '/:uid',
+  },
+  {
+    type: 'product',
+    path: '/shop/:uid',
   },
 ];
 
@@ -49,8 +58,10 @@ export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
     req: config.req,
   });
 
-  if (process.env.PRISMIC_RELEASE_ID) {
-    client.queryContentFromReleaseByID(process.env.PRISMIC_RELEASE_ID);
+  if (process.env.NEXT_PUBLIC_PRISMIC_RELEASE_ID) {
+    client.queryContentFromReleaseByID(
+      process.env.NEXT_PUBLIC_PRISMIC_RELEASE_ID,
+    );
   }
 
   return client;

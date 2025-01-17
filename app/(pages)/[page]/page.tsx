@@ -8,7 +8,7 @@ import { createClient } from '@/prismicio';
 import { PageDocument } from '@/prismicio-types';
 import { components } from '@/slices';
 
-type PageProps = Readonly<{ params: { page: string } }>;
+type PageProps = Readonly<{ params: Promise<{ page: string }> }>;
 
 export async function generateStaticParams() {
   const pages = await createClient().getAllByType('page', {
@@ -20,9 +20,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   let page: PageDocument;
 
   try {
@@ -62,7 +61,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   const page = await createClient().getByUID('page', params.page);
 
   return (

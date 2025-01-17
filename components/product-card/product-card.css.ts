@@ -56,10 +56,10 @@ export const productCardImage = style({
   position: 'absolute',
   overflow: 'hidden',
 
-  borderRadius: vars.ref.radius.default,
-  borderStyle: 'solid',
-  borderWidth: 5,
-  borderColor: vars.system.color.primary,
+  // borderRadius: vars.ref.radius.default,
+  // borderStyle: 'solid',
+  // borderWidth: 5,
+  // borderColor: vars.system.color.primary,
 
   '@media': {
     'screen and (min-width: 768px)': {
@@ -110,6 +110,18 @@ export const productCardContentInner = style({
         'screen and (min-width: 768px)': {
           direction: 'ltr',
           textAlign: 'end',
+        },
+      },
+    },
+  },
+});
+
+export const productCardPrice = style({
+  selectors: {
+    [`${productCard.classNames.variants.direction.end} &`]: {
+      '@media': {
+        'screen and (min-width: 768px)': {
+          direction: 'ltr',
         },
       },
     },

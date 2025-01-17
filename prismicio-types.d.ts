@@ -360,18 +360,43 @@ export interface ProductDocumentDataImagesItem {
 }
 
 /**
+ * Item in *Product → Metadata*
+ */
+export interface ProductDocumentDataMetadataItem {
+  /**
+   * Key field in *Product → Metadata*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metadata[].key
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  key: prismic.SelectField<'measure' | 'medium' | 'year'>;
+
+  /**
+   * Value field in *Product → Metadata*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metadata[].value
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  value: prismic.KeyTextField;
+}
+
+/**
  * Item in *Product → Variants*
  */
 export interface ProductDocumentDataVariantsItem {
   /**
-   * Product catalog field in *Product → Variants*
+   * Product field in *Product → Variants*
    *
-   * - **Field Type**: Integration Fields (Catalog: `kalink--product_catalog`)
-   * - **Placeholder**: Select a Stripe Product from the catalog
-   * - **API ID Path**: product.variants[].variant
-   * - **Documentation**: https://prismic.io/docs/field#integration
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.variants[].product
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  variant: prismic.IntegrationField;
+  product: prismic.ContentRelationshipField<'product'>;
 }
 
 /**
@@ -401,6 +426,17 @@ interface ProductDocumentData {
   description: prismic.RichTextField;
 
   /**
+   * Type field in *Product*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.type
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  type: prismic.SelectField<'poster' | 'greetingsCard'>;
+
+  /**
    * Images field in *Product*
    *
    * - **Field Type**: Group
@@ -409,16 +445,38 @@ interface ProductDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#group
    */
-  images: prismic.GroupField<Simplify<ProductDocumentDataImagesItem>> /**
+  images: prismic.GroupField<Simplify<ProductDocumentDataImagesItem>>;
+
+  /**
+   * Metadata field in *Product*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metadata[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  metadata: prismic.GroupField<Simplify<ProductDocumentDataMetadataItem>> /**
    * Product catalog field in *Product*
    *
    * - **Field Type**: Integration Fields (Catalog: `kalink--product_catalog`)
    * - **Placeholder**: Select a Stripe Product from the catalog
    * - **API ID Path**: product.product
-   * - **Tab**: Stripe links
+   * - **Tab**: Product links
    * - **Documentation**: https://prismic.io/docs/field#integration
    */;
   product: prismic.IntegrationField;
+
+  /**
+   * Shipping rates field in *Product*
+   *
+   * - **Field Type**: Integration Fields (Catalog: `kalink--shipping_rates`)
+   * - **Placeholder**: Select a shipping rate for this product
+   * - **API ID Path**: product.shipping
+   * - **Tab**: Product links
+   * - **Documentation**: https://prismic.io/docs/field#integration
+   */
+  shipping: prismic.IntegrationField;
 
   /**
    * Variants field in *Product*
@@ -426,7 +484,7 @@ interface ProductDocumentData {
    * - **Field Type**: Group
    * - **Placeholder**: *None*
    * - **API ID Path**: product.variants[]
-   * - **Tab**: Stripe links
+   * - **Tab**: Product links
    * - **Documentation**: https://prismic.io/docs/field#group
    */
   variants: prismic.GroupField<Simplify<ProductDocumentDataVariantsItem>> /**
@@ -1877,6 +1935,7 @@ declare module '@prismicio/client' {
       ProductDocument,
       ProductDocumentData,
       ProductDocumentDataImagesItem,
+      ProductDocumentDataMetadataItem,
       ProductDocumentDataVariantsItem,
       ServiceDocument,
       ServiceDocumentData,

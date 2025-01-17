@@ -3,6 +3,7 @@
 import Stripe from 'stripe';
 
 import { ProductWithExpandedPrice } from './list-products';
+import { createClient } from '@/prismicio';
 
 export async function getProductById(productId: string) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');

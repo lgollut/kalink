@@ -12,10 +12,12 @@ import { RichText } from '@/components/rich-text';
 import { Stack } from '@/components/stack';
 import { Tag } from '@/components/tag';
 import { Text } from '@/components/text';
+import { getServerTranslation } from '@/i18n';
 import { createClient } from '@/prismicio';
 import { ProductDocument } from '@/prismicio-types';
 
 import { AddToBag } from './_ui/add-to-bag';
+import { ProductVariants } from './_ui/product-variants';
 import {
   productPageHeader,
   productPageImage,
@@ -24,7 +26,7 @@ import {
   productSpecsItem,
 } from './page.css';
 
-type PageProps = Readonly<{ params: { product: string } }>;
+type PageProps = Readonly<{ params: Promise<{ product: string }> }>;
 
 export async function generateStaticParams() {
   const products = await createClient().getAllByType('product');
@@ -34,9 +36,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   let page: ProductDocument;
 
   try {
@@ -76,7 +77,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const { t } = await getServerTranslation('fr', 'product');
+  const params = await props.params;
   const productPage = await createClient().getByUID('product', params.product);
 
   if (!isFilled.integrationField(productPage.data.product)) {
@@ -106,63 +109,69 @@ export default async function Page({ params }: PageProps) {
   const allowedKeys = ['measure', 'medium'] as const;
   type MetadataKey = (typeof allowedKeys)[number];
 
-  const metadataKeys = Object.keys(product.metadata).filter(
-    (key): key is MetadataKey => ['measure', 'medium'].includes(key),
-  );
+  const displayedMetadata = productPage.data.metadata.filter((metadata) => {
+    if (!metadata.key) {
+      return false;
+    }
 
-  const keyMap: Record<MetadataKey, string> = {
-    measure: 'Dimensions',
-    medium: 'Technique',
-  };
+    return allowedKeys.includes(metadata.key as MetadataKey);
+  });
 
   return (
     <Container size="2xl">
-      <div className={productPageHeader}>
-        <Tag
-          position="absolute"
-          insetInlineStart="md"
-          insetBlockStart="md"
-          display={{ xs: 'block', md: 'none' }}
-          tintScheme="primary"
-          alignSelf="flex-start"
-        >
-          {product.metadata.type}
-        </Tag>
-        <Image {...imageProps} />
-        <Box flexGrow={1}>
-          <Stack gap="3xl">
+      <Stack gap="xl">
+        <div className={productPageHeader}>
+          {productPage.data.type && (
             <Tag
-              display={{ xs: 'none', md: 'block' }}
+              position="absolute"
+              insetInlineStart="md"
+              insetBlockStart="md"
+              display={{ xs: 'block', md: 'none' }}
               tintScheme="primary"
               alignSelf="flex-start"
             >
-              {product.metadata.type}
+              {t(`type.${productPage.data.type}`)}
             </Tag>
-            <Stack gap="xs">
-              <Heading>{productPage.data.name}</Heading>
-              <RichText field={productPage.data.description} />
+          )}
+          <Image {...imageProps} />
+          <Box flexGrow={1}>
+            <Stack gap="3xl">
+              <Tag
+                display={{ xs: 'none', md: 'block' }}
+                tintScheme="primary"
+                alignSelf="flex-start"
+              >
+                {t(`type.${productPage.data.type}`)}
+              </Tag>
+              <Stack gap="xs">
+                <Heading>{productPage.data.name}</Heading>
+                <RichText field={productPage.data.description} />
+              </Stack>
+              <Heading use="h3" className={productPagePrice}>
+                {`${(product.default_price.unit_amount || 0) / 100} ${
+                  product.default_price.currency
+                }`}
+              </Heading>
+              {displayedMetadata.length > 0 && (
+                <dl className={productSpecs}>
+                  {displayedMetadata.map(({ key, value }) => (
+                    <div key={key} className={productSpecsItem}>
+                      <dt>
+                        <Text typography="labelMedium">
+                          {t(`metadata.${key}`)}
+                        </Text>
+                      </dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <AddToBag id={productPage.uid} />
             </Stack>
-            <Heading use="h3" className={productPagePrice}>
-              {`${(product.default_price.unit_amount || 0) / 100} ${
-                product.default_price.currency
-              }`}
-            </Heading>
-            {metadataKeys.length > 0 && (
-              <dl className={productSpecs}>
-                {metadataKeys.map((key) => (
-                  <div key={key} className={productSpecsItem}>
-                    <dt>
-                      <Text typography="labelMedium">{keyMap[key]}</Text>
-                    </dt>
-                    <dd>{product.metadata[key]}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            <AddToBag id={productPage.uid} />
-          </Stack>
-        </Box>
-      </div>
+          </Box>
+        </div>
+        <ProductVariants product={productPage} />
+      </Stack>
     </Container>
   );
 }

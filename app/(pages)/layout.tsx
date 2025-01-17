@@ -11,6 +11,7 @@ import { SlugItem } from '@/utils/get-slice-slug';
 import { slugify } from '@/utils/slugify';
 
 import { pageBackground } from './layout.css';
+import { CartPanel } from '@/components/cart/cart-panel';
 
 type PagesLayoutProps = Readonly<{
   children: ReactNode;
@@ -107,6 +108,7 @@ export default async function PagesLayout({ children }: PagesLayoutProps) {
       />
       {children}
       <Footer tintScheme={'primary'} />
+      <CartPanel />
     </Stack>
   );
 }

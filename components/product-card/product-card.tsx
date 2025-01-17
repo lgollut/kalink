@@ -13,6 +13,7 @@ import { Stack } from '../stack';
 import { Tag } from '../tag';
 import { Text } from '../text';
 import { getProductById } from '@/app/(pages)/shop/services/get-product';
+import { getServerTranslation } from '@/i18n';
 
 import {
   productCard,
@@ -20,6 +21,7 @@ import {
   productCardContentInner,
   productCardCurrency,
   productCardImage,
+  productCardPrice,
 } from './product-card.css';
 
 type ProductCardProps<TUse extends ElementType> = BoxProps<TUse> &
@@ -31,6 +33,8 @@ async function ProductCard<TUse extends ElementType = 'div'>(
   { uid, data, direction, backgroundColor = 'primary' }: ProductCardProps<TUse>,
   ref: ForwardedRef<any>,
 ) {
+  const { t } = await getServerTranslation('fr', 'product');
+
   if (!isFilled.integrationField(data.product)) {
     return null;
   }
@@ -46,9 +50,8 @@ async function ProductCard<TUse extends ElementType = 'div'>(
   const imageProps = {
     ...(isFilled.group(data.images) && data.images[0]
       ? { field: data.images[0].image }
-      : { src: product.images[0] }),
+      : { src: product.images[0], alt: data.name as '' }),
     className: productCardImage,
-    alt: data.name as '',
     fill: true,
     sizes: '(max-width: 768px) 100vw, (max-width: 1024px) 392px, 464px',
   };
@@ -63,8 +66,14 @@ async function ProductCard<TUse extends ElementType = 'div'>(
       <Box backgroundColor={backgroundColor} className={productCardContent}>
         <Stack gap="xl">
           <Cluster gap="md" justifyContent="space-between">
-            <Tag alignSelf="flex-start">{product.metadata.type}</Tag>
-            <Cluster gap="sm" alignItems="baseline">
+            {data.type && (
+              <Tag alignSelf="flex-start">{t(`type.${data.type}`)}</Tag>
+            )}
+            <Cluster
+              className={productCardPrice}
+              gap="sm"
+              alignItems="baseline"
+            >
               <Text typography="titleSmall" color="onPrimary">
                 {(product.default_price.unit_amount || 0) / 100}
               </Text>

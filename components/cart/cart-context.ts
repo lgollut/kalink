@@ -9,6 +9,8 @@ type CartContext = {
   removeFromCart: (id: string) => void;
   updateCart: (id: string, quantity: number) => void;
   cart: CartItem[];
+  isCartOpen: boolean;
+  setIsCartOpen: (isCartOpen: boolean) => void;
 };
 
 export const [useCartContext, CartContextProvider] =

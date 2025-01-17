@@ -1,6 +1,6 @@
 import { RecipeVariants } from '@vanilla-extract/recipes';
-import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { ElementType } from 'react';
 

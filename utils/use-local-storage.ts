@@ -44,6 +44,8 @@ function getLocalStorageServerSnapshot<T>(initialValue: T) {
   return () => initialSnapshot;
 }
 
+const cachedStore: Map<string, Serializable> = new Map();
+
 export function useLocalStorage<T extends Serializable>(
   key: string,
   initialValue: T,
@@ -82,5 +84,14 @@ export function useLocalStorage<T extends Serializable>(
     }
   }, [key, initialValue]);
 
-  return [store ? JSON.parse(store) : initialValue, setValue];
+  if (!store) {
+    return [initialValue, setValue];
+  }
+
+  if (!cachedStore.has(store)) {
+    cachedStore.clear();
+    cachedStore.set(store, JSON.parse(store));
+  }
+
+  return [cachedStore.get(store) as T, setValue];
 }

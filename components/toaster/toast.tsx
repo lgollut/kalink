@@ -1,7 +1,7 @@
 import { Root } from '@radix-ui/react-toast';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { clsx } from 'clsx';
-import { cubicBezier } from 'framer-motion';
+import { cubicBezier } from 'motion/react';
 import {
   ForwardedRef,
   forwardRef,
