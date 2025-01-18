@@ -2,6 +2,7 @@ import { type Content } from '@prismicio/client';
 import { isFilled } from '@prismicio/client';
 import { ReactNode } from 'react';
 
+import { CartPanel } from '@/components/cart/cart-panel';
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 import { NavbarItem } from '@/components/navbar/navbar.types';
@@ -11,7 +12,6 @@ import { SlugItem } from '@/utils/get-slice-slug';
 import { slugify } from '@/utils/slugify';
 
 import { pageBackground } from './layout.css';
-import { CartPanel } from '@/components/cart/cart-panel';
 
 type PagesLayoutProps = Readonly<{
   children: ReactNode;
