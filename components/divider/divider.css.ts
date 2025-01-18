@@ -1,4 +1,4 @@
-import { recipe } from '@vanilla-extract/recipes';
+import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
 import { vars } from '@/styles/contract.css';
 

@@ -20,12 +20,10 @@
         }
       },
       "description": {
-        "type": "StructuredText",
+        "type": "Text",
         "config": {
           "label": "Description",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          "placeholder": ""
         }
       },
       "type": {
@@ -81,23 +79,7 @@
         }
       }
     },
-    "Product links": {
-      "product": {
-        "type": "IntegrationFields",
-        "config": {
-          "catalog": "kalink--product_catalog",
-          "label": "Product catalog",
-          "placeholder": "Select a Stripe Product from the catalog"
-        }
-      },
-      "shipping": {
-        "type": "IntegrationFields",
-        "config": {
-          "catalog": "kalink--shipping_rates",
-          "label": "Shipping rates",
-          "placeholder": "Select a shipping rate for this product"
-        }
-      },
+    "Sale": {
       "variants": {
         "type": "Group",
         "config": {
@@ -114,6 +96,40 @@
               }
             }
           }
+        }
+      },
+      "priceData": {
+        "type": "Group",
+        "config": {
+          "label": "Price data",
+          "repeat": false,
+          "fields": {
+            "currency": {
+              "type": "Select",
+              "config": {
+                "label": "Currency",
+                "placeholder": "",
+                "options": ["chf", "eur", "usd"],
+                "default_value": "chf"
+              }
+            },
+            "unitAmount": {
+              "type": "Number",
+              "config": {
+                "label": "Unit Amount",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "shippable": {
+        "type": "Boolean",
+        "config": {
+          "label": "Shippable",
+          "placeholder_false": "false",
+          "placeholder_true": "true",
+          "default_value": true
         }
       }
     },

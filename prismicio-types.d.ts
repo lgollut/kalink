@@ -400,6 +400,32 @@ export interface ProductDocumentDataVariantsItem {
 }
 
 /**
+ * Item in *Product → Price data*
+ */
+export interface ProductDocumentDataPriceDataItem {
+  /**
+   * Currency field in *Product → Price data*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: chf
+   * - **API ID Path**: product.priceData[].currency
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  currency: prismic.SelectField<'chf' | 'eur' | 'usd', 'filled'>;
+
+  /**
+   * Unit Amount field in *Product → Price data*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.priceData[].unitAmount
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  unitAmount: prismic.NumberField;
+}
+
+/**
  * Content for Product documents
  */
 interface ProductDocumentData {
@@ -417,13 +443,13 @@ interface ProductDocumentData {
   /**
    * Description field in *Product*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: product.description
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  description: prismic.RichTextField;
+  description: prismic.KeyTextField;
 
   /**
    * Type field in *Product*
@@ -457,37 +483,38 @@ interface ProductDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#group
    */
   metadata: prismic.GroupField<Simplify<ProductDocumentDataMetadataItem>> /**
-   * Product catalog field in *Product*
-   *
-   * - **Field Type**: Integration Fields (Catalog: `kalink--product_catalog`)
-   * - **Placeholder**: Select a Stripe Product from the catalog
-   * - **API ID Path**: product.product
-   * - **Tab**: Product links
-   * - **Documentation**: https://prismic.io/docs/field#integration
-   */;
-  product: prismic.IntegrationField;
-
-  /**
-   * Shipping rates field in *Product*
-   *
-   * - **Field Type**: Integration Fields (Catalog: `kalink--shipping_rates`)
-   * - **Placeholder**: Select a shipping rate for this product
-   * - **API ID Path**: product.shipping
-   * - **Tab**: Product links
-   * - **Documentation**: https://prismic.io/docs/field#integration
-   */
-  shipping: prismic.IntegrationField;
-
-  /**
    * Variants field in *Product*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
    * - **API ID Path**: product.variants[]
-   * - **Tab**: Product links
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  variants: prismic.GroupField<Simplify<ProductDocumentDataVariantsItem>>;
+
+  /**
+   * Price data field in *Product*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.priceData[]
+   * - **Tab**: Sale
    * - **Documentation**: https://prismic.io/docs/field#group
    */
-  variants: prismic.GroupField<Simplify<ProductDocumentDataVariantsItem>> /**
+  priceData: prismic.GroupField<Simplify<ProductDocumentDataPriceDataItem>>;
+
+  /**
+   * Shippable field in *Product*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: product.shippable
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  shippable: prismic.BooleanField /**
    * Meta Title field in *Product*
    *
    * - **Field Type**: Text
@@ -1937,6 +1964,7 @@ declare module '@prismicio/client' {
       ProductDocumentDataImagesItem,
       ProductDocumentDataMetadataItem,
       ProductDocumentDataVariantsItem,
+      ProductDocumentDataPriceDataItem,
       ServiceDocument,
       ServiceDocumentData,
       ServiceDescriptionDocument,
