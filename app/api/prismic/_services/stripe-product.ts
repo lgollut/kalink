@@ -80,6 +80,7 @@ export function createStripeProductClient(stripeKey?: string) {
         });
       } catch (err) {
         console.error(err);
+        console.dir(product, { depth: null });
 
         throw new StripeWebhookException((err as Error).message, product.id);
       }
@@ -121,6 +122,7 @@ export function createStripeProductClient(stripeKey?: string) {
         }
       } catch (err) {
         console.error(err);
+        console.dir(product, { depth: null });
 
         throw new StripeWebhookException((err as Error).message, product.id);
       }

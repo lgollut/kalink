@@ -1,3 +1,4 @@
+import { type Content } from '@prismicio/client';
 import { NextResponse } from 'next/server';
 
 import { createStripeProductClient } from '../../_services/stripe-product';
@@ -16,13 +17,14 @@ export async function POST(request: Request) {
 
     const { addition = [], update = [] } = body.releases;
 
-    let upsertDocuments: string[] = [];
+    let prismicProducts: Content.ProductDocument[] = [];
 
     for (const release of [...addition, ...update]) {
-      upsertDocuments = [...upsertDocuments, ...release.documents];
+      prismicProducts = [
+        ...prismicProducts,
+        ...(await fetchPrismicProducts(release.documents, release.id)),
+      ];
     }
-
-    const prismicProducts = await fetchPrismicProducts(upsertDocuments);
 
     for (const product of prismicProducts) {
       const prismicId = product.id;

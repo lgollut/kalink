@@ -20,11 +20,17 @@ export async function readPrismicWebhookPayload(request: Request) {
   }
 }
 
-export async function fetchPrismicProducts(ids: string[]) {
+export async function fetchPrismicProducts(ids: string[], releaseId?: string) {
   try {
-    return await createClient()
+    const client = createClient();
+
+    if (releaseId) {
+      client.queryContentFromReleaseByID(releaseId);
+    }
+
+    return await client
       .getByIDs<Content.ProductDocument>(ids, {
-        filters: filter.at('document.type', 'product'),
+        filters: [filter.at('document.type', 'product')],
       })
       .then((res) => res.results);
   } catch (err) {
