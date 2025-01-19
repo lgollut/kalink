@@ -50,7 +50,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const page = await createClient().getByUID('page', pageName);
+  let page: PageDocument;
+
+  try {
+    page = await createClient().getByUID('page', pageName);
+  } catch (error) {
+    console.log(error);
+    notFound();
+  }
 
   return (
     <Stack gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}>
