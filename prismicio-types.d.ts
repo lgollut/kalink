@@ -505,16 +505,15 @@ interface ProductDocumentData {
   priceData: prismic.GroupField<Simplify<ProductDocumentDataPriceDataItem>>;
 
   /**
-   * Shippable field in *Product*
+   * Shipping field in *Product*
    *
-   * - **Field Type**: Boolean
+   * - **Field Type**: Select
    * - **Placeholder**: *None*
-   * - **Default Value**: true
-   * - **API ID Path**: product.shippable
+   * - **API ID Path**: product.shipping
    * - **Tab**: Sale
-   * - **Documentation**: https://prismic.io/docs/field#boolean
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
-  shippable: prismic.BooleanField /**
+  shipping: prismic.SelectField<'letter' | 'parcel'> /**
    * Meta Title field in *Product*
    *
    * - **Field Type**: Text

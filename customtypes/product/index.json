@@ -123,13 +123,12 @@
           }
         }
       },
-      "shippable": {
-        "type": "Boolean",
+      "shipping": {
+        "type": "Select",
         "config": {
-          "label": "Shippable",
-          "placeholder_false": "false",
-          "placeholder_true": "true",
-          "default_value": true
+          "label": "Shipping",
+          "placeholder": "",
+          "options": ["letter", "parcel"]
         }
       }
     },

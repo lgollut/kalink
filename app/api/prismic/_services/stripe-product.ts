@@ -1,18 +1,59 @@
 import { type Content } from '@prismicio/client';
 import Stripe from 'stripe';
 
-import { StripeWebhookException } from '../_utils/exceptions';
+import {
+  StripeClientException,
+  StripeWebhookException,
+} from '../_utils/exceptions';
 
 export function createStripeProductClient(stripeKey?: string) {
   let client = new Stripe(stripeKey ?? (process.env.STRIPE_SECRET_KEY || ''));
 
   return {
-    getByPrismicId: async (id: string) => {
+    getByPrismicId: async (
+      id: string,
+      options: Partial<Stripe.ProductSearchParams> = {},
+    ) => {
       try {
         return await client.products.search({
           limit: 1,
+          ...options,
           query: `metadata["prismicId"]:"${id}"`,
         });
+      } catch (err) {
+        console.error(err);
+
+        throw new StripeWebhookException((err as Error).message, id);
+      }
+    },
+
+    getByPrismicIds: async (ids: string[]) => {
+      try {
+        return await client.products.search({
+          query: ids.reduce((acc, id) => {
+            if (acc === '') {
+              return `metadata["prismicId"]:"${id}"`;
+            }
+
+            return `${acc} OR metadata["prismicId"]:"${id}"`;
+          }, ''),
+        });
+      } catch (err) {
+        console.error(err);
+
+        throw new StripeClientException((err as Error).message);
+      }
+    },
+
+    getDefaultPriceById: async (mayBeId: Stripe.Product['default_price']) => {
+      if (!mayBeId) {
+        return null;
+      }
+
+      const id = typeof mayBeId === 'string' ? mayBeId : mayBeId.id;
+
+      try {
+        return await client.prices.retrieve(id);
       } catch (err) {
         console.error(err);
 
@@ -35,7 +76,7 @@ export function createStripeProductClient(stripeKey?: string) {
           metadata: {
             prismicId: product.id,
           },
-          shippable: product.data.shippable,
+          shippable: !!product.data.shipping,
         });
       } catch (err) {
         console.error(err);
@@ -60,7 +101,7 @@ export function createStripeProductClient(stripeKey?: string) {
           metadata: {
             prismicId: product.id,
           },
-          shippable: product.data.shippable,
+          shippable: !!product.data.shipping,
         });
 
         if (!updatedProduct.default_price && product.data.priceData[0]) {

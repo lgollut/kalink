@@ -1,11 +1,11 @@
-export class KalinkWebhookException extends Error {
+export class KalinkException extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'KalinkWebhookException';
+    this.name = 'KalinkException';
   }
 }
 
-export class PrismicWebhookException extends KalinkWebhookException {
+export class PrismicWebhookException extends KalinkException {
   documentIds: string[];
 
   constructor(message: string, docukumentIds: string[] = []) {
@@ -15,7 +15,14 @@ export class PrismicWebhookException extends KalinkWebhookException {
   }
 }
 
-export class StripeWebhookException extends KalinkWebhookException {
+export class StripeClientException extends KalinkException {
+  constructor(message: string) {
+    super(message);
+    this.name = 'StripeClientException';
+  }
+}
+
+export class StripeWebhookException extends KalinkException {
   documentId: string;
 
   constructor(message: string, documentId: string) {

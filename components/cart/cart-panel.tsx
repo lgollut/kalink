@@ -1,6 +1,5 @@
 'use client';
 
-import { isFilled } from '@prismicio/client';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Fragment, useCallback, useMemo } from 'react';
 import Stripe from 'stripe';
@@ -35,15 +34,14 @@ export function CartPanel() {
       cart.reduce(
         (acc, item) =>
           acc +
-          ((item.data.product.default_price.unit_amount ?? 0) * item.quantity) /
-            100,
+          ((item.data.priceData[0]?.unitAmount ?? 0) * item.quantity) / 100,
         0,
       ),
     [cart],
   );
 
   const cartCurrency = useMemo(
-    () => cart[0]?.data.product.default_price.currency,
+    () => cart[0]?.data.priceData[0]?.currency || 'chf',
     [cart],
   );
 
@@ -56,12 +54,24 @@ export function CartPanel() {
     };
 
     for (const item of cart) {
+      let price: string;
+
+      if (!item.stripeProduct.default_price) {
+        continue;
+      }
+
+      if (typeof item.stripeProduct.default_price === 'string') {
+        price = item.stripeProduct.default_price;
+      } else if ('id' in item.stripeProduct.default_price) {
+        price = item.stripeProduct.default_price.id;
+      }
+
       cartItems.push({
-        price: item.data.product.default_price.id,
+        price: item.stripeProduct.default_price as string,
         quantity: item.quantity,
       });
 
-      if (!isFilled.integrationField(item.data.shipping)) {
+      if (!item.data.shipping) {
         continue;
       }
 

@@ -1,11 +1,11 @@
 'use client';
 
-import { type Content, isFilled } from '@prismicio/client';
+import { type Content } from '@prismicio/client';
 import { ReactNode, useEffect, useState, useTransition } from 'react';
 import Stripe from 'stripe';
 import useSWR from 'swr';
 
-import { ProductWithExpandedPrice } from '@/app/(pages)/shop/services/list-products';
+import { createStripeProductClient } from '@/app/api/prismic/_services/stripe-product';
 import { createClient } from '@/prismicio';
 import { useLocalStorage } from '@/utils/use-local-storage';
 
@@ -18,49 +18,35 @@ export type SavedCartItem = {
   quantity: number;
 };
 
-export type CartItem = Omit<Content.ProductDocument, 'data'> & {
-  data: Omit<Content.ProductDocument['data'], 'product'> & {
-    product: ProductWithExpandedPrice;
-  };
-} & { quantity: number };
+export type CartItem = Content.ProductDocument & {
+  quantity: number;
+  stripeProduct: Stripe.Product;
+};
 
-const prismicFetcher = async (ids: string[]) => {
+const productFetcher = async (ids: string[]) => {
   const client = createClient({
     accessToken: process.env.NEXT_PUBLIC_PRISMIC_KEY,
   });
 
-  const products = await client.getByUIDs('product', ids);
+  try {
+    return await client.getByUIDs('product', ids);
+  } catch (err) {
+    console.error(err);
+  }
 
-  return products.results;
+  return null;
 };
 
 const stripeFetcher = async (ids: string[]) => {
-  const stripe = new Stripe(
-    process.env.NEXT_PUBLIC_STRIPE_RESTRICTED_CLIENT_KEY || '',
+  const client = createStripeProductClient(
+    process.env.NEXT_PUBLIC_STRIPE_RESTRICTED_CLIENT_KEY || 'noop',
   );
 
-  try {
-    const prices = await Promise.all(
-      ids.map(async (id) => {
-        try {
-          return await stripe.prices.retrieve(id);
-        } catch (error) {
-          console.error(`Error retrieving price ${id}:`, error);
-          return null; // Return null if an error occurs for this price
-        }
-      }),
-    );
-
-    // Filter out any null values (if retrieval failed for some prices)
-    return prices.filter((price) => price !== null);
-  } catch (error) {
-    console.error('Error fetching prices:', error);
-    return [];
-  }
+  return await client.getByPrismicIds(ids);
 };
 
 export function Cart({ children }: { children: ReactNode }) {
-  const [isPending, startTransition] = useTransition();
+  const [_, startTransition] = useTransition();
   const [savedCart, setSavedCart] = useLocalStorage<SavedCartItem[]>(
     CART_KEY,
     [],
@@ -70,31 +56,12 @@ export function Cart({ children }: { children: ReactNode }) {
 
   const { data: prismicProducts } = useSWR(
     () => savedCart.map((item) => item.id),
-    prismicFetcher,
+    productFetcher,
     { keepPreviousData: true },
   );
 
-  const { data: stripePrices } = useSWR(
-    () => {
-      if (!prismicProducts) {
-        return null;
-      }
-      const ids: string[] = [];
-
-      for (const product of prismicProducts) {
-        if (
-          !isFilled.integrationField(product.data.product) ||
-          !product.data.product.default_price ||
-          typeof product.data.product.default_price !== 'string'
-        ) {
-          continue;
-        }
-
-        ids.push(product.data.product.default_price);
-      }
-
-      return ids;
-    },
+  const { data: stripeProducts } = useSWR(
+    () => savedCart.map((item) => item.id),
     stripeFetcher,
     { keepPreviousData: true },
   );
@@ -103,37 +70,23 @@ export function Cart({ children }: { children: ReactNode }) {
     startTransition(() => {
       const reconciledCart: CartItem[] = [];
 
-      for (const product of prismicProducts || []) {
-        if (
-          !isFilled.integrationField(product.data.product) ||
-          !product.data.product.default_price ||
-          typeof product.data.product.default_price !== 'string'
-        ) {
-          continue;
-        }
-
-        const price = stripePrices?.find(
-          (price) => price.id === product.data.product?.default_price,
+      for (const product of prismicProducts?.results ?? []) {
+        const stripeProduct = stripeProducts?.data.find(
+          (product) => product.metadata.prismicId === product.id,
         );
 
         const productQuantity = savedCart.find(
           (item) => item.id === product.uid,
         )?.quantity;
 
-        if (!price || !productQuantity) {
+        if (!stripeProduct || !productQuantity) {
           continue;
         }
 
         reconciledCart.push({
           ...product,
-          data: {
-            ...product.data,
-            product: {
-              ...(product.data.product as unknown as Stripe.Product),
-              default_price: price as Stripe.Price,
-            },
-          },
           quantity: productQuantity,
+          stripeProduct,
         });
       }
 
@@ -151,7 +104,7 @@ export function Cart({ children }: { children: ReactNode }) {
         }),
       );
     });
-  }, [prismicProducts, stripePrices, savedCart]);
+  }, [prismicProducts, stripeProducts, savedCart]);
 
   const addToCart = (id: string) => {
     setSavedCart((prevCart) => {

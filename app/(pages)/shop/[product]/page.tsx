@@ -1,14 +1,12 @@
 import { isFilled } from '@prismicio/client';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Stripe from 'stripe';
 
-import { getProductById } from '../services/get-product';
+import { createStripeProductClient } from '@/app/api/prismic/_services/stripe-product';
 import { Box } from '@/components/box';
 import { Container } from '@/components/container';
 import { Heading } from '@/components/heading';
 import { Image } from '@/components/image';
-import { RichText } from '@/components/rich-text';
 import { Stack } from '@/components/stack';
 import { Tag } from '@/components/tag';
 import { Text } from '@/components/text';
@@ -82,15 +80,18 @@ export default async function Page(props: PageProps) {
   const params = await props.params;
   const productPage = await createClient().getByUID('product', params.product);
 
-  if (!isFilled.integrationField(productPage.data.product)) {
+  const stripeClient = createStripeProductClient();
+
+  const productByPrismicId = await stripeClient.getByPrismicId(productPage.id);
+
+  if (productByPrismicId.data.length === 0) {
     notFound();
   }
 
-  const product = await getProductById(
-    (productPage.data.product as unknown as Stripe.Product).id,
-  );
+  const product = productByPrismicId.data[0];
+  const price = await stripeClient.getDefaultPriceById(product.default_price);
 
-  if (!product) {
+  if (!price) {
     notFound();
   }
 
@@ -145,12 +146,10 @@ export default async function Page(props: PageProps) {
               </Tag>
               <Stack gap="xs">
                 <Heading>{productPage.data.name}</Heading>
-                <RichText field={productPage.data.description} />
+                <Text>{productPage.data.description}</Text>
               </Stack>
               <Heading use="h3" className={productPagePrice}>
-                {`${(product.default_price.unit_amount || 0) / 100} ${
-                  product.default_price.currency
-                }`}
+                {`${(price.unit_amount || 0) / 100} ${price.currency}`}
               </Heading>
               {displayedMetadata.length > 0 && (
                 <dl className={productSpecs}>

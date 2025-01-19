@@ -1,18 +1,17 @@
 import { type Content, isFilled } from '@prismicio/client';
 import Link from 'next/link';
 import { ElementType, ForwardedRef, forwardRef } from 'react';
-import Stripe from 'stripe';
 
 import { Box } from '../box';
 import { BoxProps } from '../box/box.types';
 import { Cluster } from '../cluster';
 import { Heading } from '../heading';
 import { Image } from '../image';
-import { RichText } from '../rich-text';
 import { Stack } from '../stack';
 import { Tag } from '../tag';
 import { Text } from '../text';
-import { getProductById } from '@/app/(pages)/shop/services/get-product';
+import { ProductWithExpandedPrice } from '@/app/(pages)/shop/services/list-products';
+import { createStripeProductClient } from '@/app/api/prismic/_services/stripe-product';
 import { getServerTranslation } from '@/i18n';
 
 import {
@@ -30,27 +29,32 @@ type ProductCardProps<TUse extends ElementType> = BoxProps<TUse> &
   };
 
 async function ProductCard<TUse extends ElementType = 'div'>(
-  { uid, data, direction, backgroundColor = 'primary' }: ProductCardProps<TUse>,
+  {
+    id,
+    uid,
+    data,
+    direction,
+    backgroundColor = 'primary',
+  }: ProductCardProps<TUse>,
   ref: ForwardedRef<any>,
 ) {
   const { t } = await getServerTranslation('fr', 'product');
+  const stripeClient = createStripeProductClient();
 
-  if (!isFilled.integrationField(data.product)) {
-    return null;
-  }
+  const stripeProduct = (await stripeClient
+    .getByPrismicId(id, {
+      expand: ['data.default_price'],
+    })
+    .then((res) => res.data[0])) as ProductWithExpandedPrice;
 
-  const product = await getProductById(
-    (data.product as unknown as Stripe.Product).id,
-  );
-
-  if (!product) {
+  if (!stripeProduct) {
     return null;
   }
 
   const imageProps = {
     ...(isFilled.group(data.images) && data.images[0]
       ? { field: data.images[0].image }
-      : { src: product.images[0], alt: data.name as '' }),
+      : { src: stripeProduct.images[0], alt: data.name as '' }),
     className: productCardImage,
     fill: true,
     sizes: '(max-width: 768px) 100vw, (max-width: 1024px) 392px, 464px',
@@ -75,14 +79,14 @@ async function ProductCard<TUse extends ElementType = 'div'>(
               alignItems="baseline"
             >
               <Text typography="titleSmall" color="onPrimary">
-                {(product.default_price.unit_amount || 0) / 100}
+                {(stripeProduct.default_price.unit_amount || 0) / 100}
               </Text>
               <Text
                 typography="titleSmall"
                 color="onPrimary"
                 className={productCardCurrency}
               >
-                {product.default_price.currency}
+                {stripeProduct.default_price.currency}
               </Text>
             </Cluster>
           </Cluster>
@@ -90,7 +94,7 @@ async function ProductCard<TUse extends ElementType = 'div'>(
             <Heading use="h3" color="onPrimary">
               {data.name}
             </Heading>
-            <RichText field={data.description} />
+            <Text>{data.description}</Text>
           </Stack>
         </Stack>
       </Box>

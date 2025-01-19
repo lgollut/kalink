@@ -37,7 +37,7 @@ export function CartProduct({
           >
             <Stack gap="xs">
               <Heading use="h4">{data.name}</Heading>
-              <Text>{data.product.description}</Text>
+              <Text>{data.description}</Text>
             </Stack>
             <Button
               icon={Trash}
@@ -82,12 +82,12 @@ export function CartProduct({
 
             <Cluster gap="sm" alignItems="baseline">
               <Text typography="labelLarge">
-                {(data.product.default_price.unit_amount
-                  ? data.product.default_price.unit_amount / 100
+                {(data.priceData[0]?.unitAmount
+                  ? data.priceData[0]?.unitAmount / 100
                   : 0) * quantity}
               </Text>
               <Text typography="labelMedium" color="onPrimary">
-                {data.product.default_price.currency}
+                {data.priceData[0]?.currency || 'chf'}
               </Text>
             </Cluster>
           </Cluster>

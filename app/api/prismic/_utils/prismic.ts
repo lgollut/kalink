@@ -2,7 +2,7 @@ import { type Content, filter, WebhookBodyAPIUpdate } from '@prismicio/client';
 
 import { createClient } from '@/prismicio';
 
-import { KalinkWebhookException, PrismicWebhookException } from './exceptions';
+import { KalinkException, PrismicWebhookException } from './exceptions';
 
 export async function readPrismicWebhookPayload(request: Request) {
   try {
@@ -11,12 +11,12 @@ export async function readPrismicWebhookPayload(request: Request) {
     if (body.secret !== process.env.PRISMIC_WEBHOOK_PRODUCT_SECRET) {
       throw new Error('Invalid webhook secret');
     }
+
+    return body;
   } catch (err) {
     console.error(err);
 
-    throw new KalinkWebhookException(
-      'An error occured while reading webhook payload',
-    );
+    throw new KalinkException('An error occured while reading webhook payload');
   }
 }
 

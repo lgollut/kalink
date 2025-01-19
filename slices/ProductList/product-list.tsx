@@ -17,14 +17,13 @@ export async function ProductList({ slice }: ProductListProps) {
     if (!isFilled.contentRelationship(item.product)) {
       continue;
     }
-
     items.set(item.product.id, item);
   }
 
   const products = await client.getByIDs<Content.ProductDocument>([
     ...items.keys(),
   ]);
-
+  console.log(products);
   return (
     <Container
       data-slice-type={slice.slice_type}
