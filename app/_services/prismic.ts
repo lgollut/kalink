@@ -33,8 +33,15 @@ export const getByUID = async function getByUID<
   'use cache';
 
   const client = createClient<TDocument>();
+  let document: TDocument;
 
-  const document = await client.getByUID(documentType, uid, params);
+  try {
+    document = await client.getByUID(documentType, uid, params);
+  } catch (err) {
+    console.error(err);
+
+    throw new Error(`Document ${uid} not found`);
+  }
 
   cacheTag('prismic', document.id);
 
