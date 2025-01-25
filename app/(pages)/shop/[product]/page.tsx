@@ -2,7 +2,11 @@ import { isFilled } from '@prismicio/client';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { createStripeProductClient } from '@/app/api/prismic/_services/stripe-product';
+import { getAllByType, getByUID } from '@/app/_services/prismic';
+import {
+  getByPrismicId,
+  getDefaultPriceById,
+} from '@/app/api/prismic/_services/stripe-product';
 import { Box } from '@/components/box';
 import { Container } from '@/components/container';
 import { Heading } from '@/components/heading';
@@ -11,7 +15,6 @@ import { Stack } from '@/components/stack';
 import { Tag } from '@/components/tag';
 import { Text } from '@/components/text';
 import { getServerTranslation } from '@/i18n';
-import { createClient } from '@/prismicio';
 import { ProductDocument } from '@/prismicio-types';
 
 import { AddToBag } from './_ui/add-to-bag';
@@ -27,7 +30,7 @@ import {
 type PageProps = Readonly<{ params: Promise<{ product: string }> }>;
 
 export async function generateStaticParams() {
-  const products = await createClient().getAllByType('product');
+  const products = await getAllByType<ProductDocument>('product');
 
   return products.map((product) => ({
     product: product.uid,
@@ -39,7 +42,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   let page: ProductDocument;
 
   try {
-    page = await createClient().getByUID('product', params.product);
+    page = await getByUID('product', params.product);
   } catch (error) {
     console.log(error);
     notFound();
@@ -78,18 +81,24 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 export default async function Page(props: PageProps) {
   const { t } = await getServerTranslation('fr', 'product');
   const params = await props.params;
-  const productPage = await createClient().getByUID('product', params.product);
+  let productPage: ProductDocument;
 
-  const stripeClient = createStripeProductClient();
+  try {
+    productPage = await getByUID('product', params.product);
+  } catch (error) {
+    console.log(error);
+    notFound();
+  }
 
-  const productByPrismicId = await stripeClient.getByPrismicId(productPage.id);
+  const productByPrismicId = await getByPrismicId(productPage.id);
 
   if (productByPrismicId.data.length === 0) {
     notFound();
   }
 
   const product = productByPrismicId.data[0];
-  const price = await stripeClient.getDefaultPriceById(product.default_price);
+
+  const price = await getDefaultPriceById(product.default_price);
 
   if (!price) {
     notFound();

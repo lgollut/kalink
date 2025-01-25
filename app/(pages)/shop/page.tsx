@@ -2,8 +2,8 @@ import { SliceZone } from '@prismicio/react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { getByUID } from '@/app/_services/prismic';
 import { Stack } from '@/components/stack';
-import { createClient } from '@/prismicio';
 import { PageDocument } from '@/prismicio-types';
 import { components } from '@/slices';
 
@@ -13,9 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   let page: PageDocument;
 
   try {
-    page = await createClient().getByUID('page', 'shop');
+    page = await getByUID('page', 'shop');
   } catch (error) {
-    console.log(error);
     notFound();
   }
 
@@ -53,9 +52,8 @@ export default async function Page() {
   let page: PageDocument;
 
   try {
-    page = await createClient().getByUID('page', pageName);
+    page = await getByUID('page', pageName);
   } catch (error) {
-    console.log(error);
     notFound();
   }
 

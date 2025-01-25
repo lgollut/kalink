@@ -1,17 +1,16 @@
 import { type Content, isFilled } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 
+import { getByIDs } from '@/app/_services/prismic';
 import { Container } from '@/components/container';
 import { SectionHeading } from '@/components/section-heading';
 import { ServiceCard } from '@/components/service-card';
-import { createClient } from '@/prismicio';
 
 import { servicesGrid, servicesGridCell } from './services-grid.css';
 
 export type GridProps = SliceComponentProps<Content.GridSlice>;
 
 export async function ServicesGrid({ slice }: GridProps) {
-  const client = createClient();
   const ids: string[] = [];
 
   for (const { item } of slice.primary.items) {
@@ -22,7 +21,7 @@ export async function ServicesGrid({ slice }: GridProps) {
     ids.push(item.id);
   }
 
-  const services = await client.getByIDs<
+  const services = await getByIDs<
     Content.ServiceDocument | Content.ServiceDescriptionDocument
   >(ids);
 

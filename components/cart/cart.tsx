@@ -5,8 +5,8 @@ import { ReactNode, useEffect, useState, useTransition } from 'react';
 import Stripe from 'stripe';
 import useSWR from 'swr';
 
-import { createStripeProductClient } from '@/app/api/prismic/_services/stripe-product';
-import { createClient } from '@/prismicio';
+import { getByUIDs } from '@/app/_services/prismic';
+import { getByPrismicIds } from '@/app/api/prismic/_services/stripe-product';
 import { useLocalStorage } from '@/utils/use-local-storage';
 
 import { CartContextProvider } from './cart-context';
@@ -24,25 +24,7 @@ export type CartItem = Content.ProductDocument & {
 };
 
 const productFetcher = async (ids: string[]) => {
-  const client = createClient({
-    accessToken: process.env.NEXT_PUBLIC_PRISMIC_KEY,
-  });
-
-  try {
-    return await client.getByUIDs('product', ids);
-  } catch (err) {
-    console.error(err);
-  }
-
-  return null;
-};
-
-const stripeFetcher = async (ids: string[]) => {
-  const client = createStripeProductClient(
-    process.env.NEXT_PUBLIC_STRIPE_RESTRICTED_CLIENT_KEY || 'noop',
-  );
-
-  return await client.getByPrismicIds(ids);
+  return await getByUIDs<Content.ProductDocument>('product', ids);
 };
 
 export function Cart({ children }: { children: ReactNode }) {
@@ -61,8 +43,8 @@ export function Cart({ children }: { children: ReactNode }) {
   );
 
   const { data: stripeProducts } = useSWR(
-    () => savedCart.map((item) => item.id),
-    stripeFetcher,
+    () => prismicProducts?.results.map((item) => item.id),
+    getByPrismicIds,
     { keepPreviousData: true },
   );
 
@@ -71,9 +53,9 @@ export function Cart({ children }: { children: ReactNode }) {
       const reconciledCart: CartItem[] = [];
 
       for (const product of prismicProducts?.results ?? []) {
-        const stripeProduct = stripeProducts?.data.find(
-          (product) => product.metadata.prismicId === product.id,
-        );
+        const stripeProduct = stripeProducts?.data.find(({ metadata }) => {
+          return metadata.prismicId === product.id;
+        });
 
         const productQuantity = savedCart.find(
           (item) => item.id === product.uid,
@@ -109,7 +91,6 @@ export function Cart({ children }: { children: ReactNode }) {
   const addToCart = (id: string) => {
     setSavedCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === id);
-
       if (!existingItem) {
         return [...prevCart, { id, quantity: 1 }];
       }

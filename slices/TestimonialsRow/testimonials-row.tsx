@@ -1,17 +1,16 @@
 import { type Content, isFilled } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 
+import { getByIDs } from '@/app/_services/prismic';
 import { Box } from '@/components/box';
 import { Container } from '@/components/container';
 import { SectionHeading } from '@/components/section-heading';
 import { Testimonial } from '@/components/testimonial';
-import { createClient } from '@/prismicio';
 
 export type TestimonialsProps =
   SliceComponentProps<Content.TestimonialsRowSlice>;
 
 export async function TestimonialsRow({ slice }: TestimonialsProps) {
-  const client = createClient();
   const ids: string[] = [];
 
   for (const { item } of slice.primary.items) {
@@ -22,7 +21,7 @@ export async function TestimonialsRow({ slice }: TestimonialsProps) {
     ids.push(item.id);
   }
 
-  const testimonials = await client.getByIDs<Content.TestimonialDocument>(ids);
+  const testimonials = await getByIDs<Content.TestimonialDocument>(ids);
 
   return (
     <Container

@@ -22,12 +22,31 @@ export class StripeClientException extends KalinkException {
   }
 }
 
-export class StripeWebhookException extends KalinkException {
+export class StripeCreateWebhookException extends KalinkException {
   documentId: string;
 
   constructor(message: string, documentId: string) {
     super(message);
-    this.name = 'StripeWebhookException';
+    this.name = 'StripeCreateWebhookException';
+    this.documentId = documentId;
+  }
+}
+export class StripeUpdateWebhookException extends KalinkException {
+  documentId: string;
+
+  constructor(message: string, documentId: string) {
+    super(message);
+    this.name = 'StripeUpdateWebhookException';
+    this.documentId = documentId;
+  }
+}
+
+export class StripeDeleteWebhookException extends KalinkException {
+  documentId: string;
+
+  constructor(message: string, documentId: string) {
+    super(message);
+    this.name = 'StripeDeleteWebhookException';
     this.documentId = documentId;
   }
 }

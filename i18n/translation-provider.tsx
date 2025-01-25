@@ -1,16 +1,16 @@
 'use client';
 
 import { Resource, createInstance } from 'i18next';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
-import initTranslations from './init-translations';
+import { initClientTranslations } from './init-client-translations';
 
 type TranslationProvider = {
   children: ReactNode;
   locale: string;
   namespaces: string | string[];
-  resources?: Resource;
+  resources: Resource;
 };
 
 export function TranslationProvider({
@@ -19,8 +19,15 @@ export function TranslationProvider({
   namespaces,
   resources,
 }: TranslationProvider) {
-  const i18n = createInstance();
-  initTranslations(locale, namespaces, i18n, resources);
+  const instance = createInstance();
 
-  return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
+  useEffect(() => {
+    async function init() {
+      await initClientTranslations({ locale, resources, namespaces, instance });
+    }
+
+    init();
+  }, [instance, locale, namespaces, resources]);
+
+  return <I18nextProvider i18n={instance}>{children}</I18nextProvider>;
 }

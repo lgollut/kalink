@@ -1,10 +1,8 @@
 import { redirectToPreviewURL } from '@prismicio/next';
 import { NextRequest } from 'next/server';
 
-import { createClient } from '../../../prismicio';
+import { createClient } from '@/app/_services/prismic-client';
 
 export async function GET(request: NextRequest) {
-  const client = createClient();
-
-  return await redirectToPreviewURL({ client, request });
+  return await redirectToPreviewURL({ client: createClient(), request });
 }

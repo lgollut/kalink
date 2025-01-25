@@ -1,4 +1,4 @@
-import initTranslations from './init-translations';
+import { initServerTranslations } from './init-server-translations';
 import { UseTranslationOptions, i18nConfig } from './settings';
 
 export async function getServerTranslation(
@@ -6,10 +6,10 @@ export async function getServerTranslation(
   namespaces: string | string[] = i18nConfig.namespaces,
   options: UseTranslationOptions = {},
 ) {
-  const { i18n } = await initTranslations(locale, namespaces);
+  const { instance } = await initServerTranslations({ locale, namespaces });
 
   return {
-    t: i18n.getFixedT(
+    t: instance.getFixedT(
       locale,
       Array.isArray(namespaces) ? namespaces[0] : namespaces,
       options.keyPrefix,

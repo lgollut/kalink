@@ -1,143 +1,169 @@
+'use server';
+
 import { type Content } from '@prismicio/client';
+import { revalidateTag } from 'next/cache';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Stripe from 'stripe';
 
 import {
-  StripeClientException,
-  StripeWebhookException,
+  StripeCreateWebhookException,
+  StripeDeleteWebhookException,
+  StripeUpdateWebhookException,
 } from '../_utils/exceptions';
 
-export function createStripeProductClient(stripeKey?: string) {
-  let client = new Stripe(stripeKey ?? (process.env.STRIPE_SECRET_KEY || ''));
+import { createStripeClient } from './stripe-client';
 
-  return {
-    getByPrismicId: async (
-      id: string,
-      options: Partial<Stripe.ProductSearchParams> = {},
-    ) => {
-      try {
-        return await client.products.search({
-          limit: 1,
-          ...options,
-          query: `metadata["prismicId"]:"${id}"`,
-        });
-      } catch (err) {
-        console.error(err);
+export async function getByPrismicId(
+  id: string,
+  options: Partial<Stripe.ProductSearchParams> = {},
+) {
+  'use cache';
 
-        throw new StripeWebhookException((err as Error).message, id);
-      }
-    },
+  const client = createStripeClient();
 
-    getByPrismicIds: async (ids: string[]) => {
-      try {
-        return await client.products.search({
-          query: ids.reduce((acc, id) => {
-            if (acc === '') {
-              return `metadata["prismicId"]:"${id}"`;
-            }
+  const products = await client.products.search({
+    limit: 1,
+    ...options,
+    query: `metadata["prismicId"]:"${id}"`,
+  });
 
-            return `${acc} OR metadata["prismicId"]:"${id}"`;
-          }, ''),
-        });
-      } catch (err) {
-        console.error(err);
+  cacheTag.apply(null, [
+    'stripe',
+    id,
+    ...products.data.map((product) => product.id),
+  ]);
 
-        throw new StripeClientException((err as Error).message);
-      }
-    },
+  return { ...products };
+}
 
-    getDefaultPriceById: async (mayBeId: Stripe.Product['default_price']) => {
-      if (!mayBeId) {
-        return null;
+export async function getByPrismicIds(ids: string[]) {
+  'use cache';
+
+  const client = createStripeClient();
+
+  const products = await client.products.search({
+    query: ids.reduce((acc, id) => {
+      if (acc === '') {
+        return `metadata["prismicId"]:"${id}"`;
       }
 
-      const id = typeof mayBeId === 'string' ? mayBeId : mayBeId.id;
+      return `${acc} OR metadata["prismicId"]:"${id}"`;
+    }, ''),
+  });
 
-      try {
-        return await client.prices.retrieve(id);
-      } catch (err) {
-        console.error(err);
+  cacheTag.apply(null, [
+    'stripe',
+    ...ids,
+    ...products.data.map((product) => product.id),
+  ]);
 
-        throw new StripeWebhookException((err as Error).message, id);
-      }
-    },
+  return { ...products };
+}
 
-    create: async (product: Content.ProductDocument) => {
-      try {
-        return await client.products.create({
-          name: product.data.name || '',
-          description: product.data.description || '',
-          ...(product.data.images[0]?.image?.url && {
-            images: [product.data.images[0].image.url],
-          }),
-          default_price_data: {
-            currency: product.data.priceData[0]?.currency || 'chf',
+export async function getDefaultPriceById(
+  mayBeId: Stripe.Product['default_price'],
+) {
+  'use cache';
+
+  const client = createStripeClient();
+
+  if (!mayBeId) {
+    return null;
+  }
+
+  const id = typeof mayBeId === 'string' ? mayBeId : mayBeId.id;
+
+  cacheTag('stripe', id);
+
+  const products = await client.prices.retrieve(id);
+
+  return { ...products };
+}
+
+export async function create(product: Content.ProductDocument) {
+  const client = createStripeClient();
+  try {
+    return await client.products.create({
+      name: product.data.name || '',
+      description: product.data.description || '',
+      ...(product.data.images[0]?.image?.url && {
+        images: [product.data.images[0].image.url],
+      }),
+      default_price_data: {
+        currency: product.data.priceData[0]?.currency || 'chf',
+        unit_amount: product.data.priceData[0]?.unitAmount || 0,
+      },
+      metadata: {
+        prismicId: product.id,
+      },
+      shippable: !!product.data.shipping,
+    });
+  } catch (err) {
+    console.dir(product, { depth: null });
+
+    throw new StripeCreateWebhookException((err as Error).message, product.id);
+  } finally {
+    revalidateTag(product.id);
+  }
+}
+
+export async function update(
+  product: Content.ProductDocument,
+  stripeProduct: Stripe.Product,
+) {
+  const client = createStripeClient();
+
+  let updatedProduct: Stripe.Product;
+
+  try {
+    updatedProduct = await client.products.update(stripeProduct.id, {
+      name: product.data.name || '',
+      description: product.data.description || '',
+      ...(product.data.images[0]?.image?.url && {
+        images: [product.data.images[0].image.url],
+      }),
+      metadata: {
+        prismicId: product.id,
+      },
+      shippable: !!product.data.shipping,
+    });
+
+    if (!updatedProduct.default_price && product.data.priceData[0]) {
+      await client.prices.create({
+        product: stripeProduct.id,
+        currency: product.data.priceData[0]?.currency || 'chf',
+        unit_amount: product.data.priceData[0]?.unitAmount || 0,
+      });
+    } else if (typeof updatedProduct.default_price === 'string') {
+      await client.prices.update(updatedProduct.default_price, {
+        currency_options: {
+          [product.data.priceData[0]?.currency || 'chf']: {
             unit_amount: product.data.priceData[0]?.unitAmount || 0,
           },
-          metadata: {
-            prismicId: product.id,
-          },
-          shippable: !!product.data.shipping,
-        });
-      } catch (err) {
-        console.error(err);
-        console.dir(product, { depth: null });
+        },
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    console.dir(product, { depth: null });
 
-        throw new StripeWebhookException((err as Error).message, product.id);
-      }
-    },
+    throw new StripeUpdateWebhookException((err as Error).message, product.id);
+  } finally {
+    revalidateTag(product.id);
+  }
 
-    update: async (
-      product: Content.ProductDocument,
-      stripeProduct: Stripe.Product,
-    ) => {
-      let updatedProduct: Stripe.Product;
+  return updatedProduct;
+}
 
-      try {
-        updatedProduct = await client.products.update(stripeProduct.id, {
-          name: product.data.name || '',
-          description: product.data.description || '',
-          ...(product.data.images[0]?.image?.url && {
-            images: [product.data.images[0].image.url],
-          }),
-          metadata: {
-            prismicId: product.id,
-          },
-          shippable: !!product.data.shipping,
-        });
+export async function deleteProduct(id: string) {
+  const client = createStripeClient();
+  try {
+    return await client.products.del(id);
+  } catch (err) {
+    console.error(err);
 
-        if (!updatedProduct.default_price && product.data.priceData[0]) {
-          await client.prices.create({
-            product: stripeProduct.id,
-            currency: product.data.priceData[0]?.currency || 'chf',
-            unit_amount: product.data.priceData[0]?.unitAmount || 0,
-          });
-        } else if (typeof updatedProduct.default_price === 'string') {
-          await client.prices.update(updatedProduct.default_price, {
-            currency_options: {
-              [product.data.priceData[0]?.currency || 'chf']: {
-                unit_amount: product.data.priceData[0]?.unitAmount || 0,
-              },
-            },
-          });
-        }
-      } catch (err) {
-        console.error(err);
-        console.dir(product, { depth: null });
-
-        throw new StripeWebhookException((err as Error).message, product.id);
-      }
-
-      return updatedProduct;
-    },
-
-    delete: async (id: string) => {
-      try {
-        return await client.products.del(id);
-      } catch (err) {
-        console.error(err);
-
-        throw new StripeWebhookException((err as Error).message, id);
-      }
-    },
-  };
+    throw new StripeDeleteWebhookException((err as Error).message, id);
+  } finally {
+    revalidateTag(id);
+  }
 }

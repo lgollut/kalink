@@ -11,7 +11,7 @@ import { Stack } from '../stack';
 import { Tag } from '../tag';
 import { Text } from '../text';
 import { ProductWithExpandedPrice } from '@/app/(pages)/shop/services/list-products';
-import { createStripeProductClient } from '@/app/api/prismic/_services/stripe-product';
+import { getByPrismicId } from '@/app/api/prismic/_services/stripe-product';
 import { getServerTranslation } from '@/i18n';
 
 import {
@@ -39,22 +39,21 @@ async function ProductCard<TUse extends ElementType = 'div'>(
   ref: ForwardedRef<any>,
 ) {
   const { t } = await getServerTranslation('fr', 'product');
-  const stripeClient = createStripeProductClient();
 
-  const stripeProduct = (await stripeClient
-    .getByPrismicId(id, {
-      expand: ['data.default_price'],
-    })
-    .then((res) => res.data[0])) as ProductWithExpandedPrice;
+  const stripeProduct = await getByPrismicId(id, {
+    expand: ['data.default_price'],
+  });
 
-  if (!stripeProduct) {
+  if (!stripeProduct || stripeProduct.data.length === 0) {
     return null;
   }
+
+  const product = stripeProduct.data[0] as ProductWithExpandedPrice;
 
   const imageProps = {
     ...(isFilled.group(data.images) && data.images[0]
       ? { field: data.images[0].image }
-      : { src: stripeProduct.images[0], alt: data.name as '' }),
+      : { src: product.images[0], alt: data.name as '' }),
     className: productCardImage,
     fill: true,
     sizes: '(max-width: 768px) 100vw, (max-width: 1024px) 392px, 464px',
@@ -79,14 +78,14 @@ async function ProductCard<TUse extends ElementType = 'div'>(
               alignItems="baseline"
             >
               <Text typography="titleSmall" color="onPrimary">
-                {(stripeProduct.default_price.unit_amount || 0) / 100}
+                {(product.default_price.unit_amount || 0) / 100}
               </Text>
               <Text
                 typography="titleSmall"
                 color="onPrimary"
                 className={productCardCurrency}
               >
-                {stripeProduct.default_price.currency}
+                {product.default_price.currency}
               </Text>
             </Cluster>
           </Cluster>

@@ -1,17 +1,16 @@
 import { isFilled, type Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 
+import { getByIDs } from '@/app/_services/prismic';
 import { Container } from '@/components/container';
 import { PersonCard } from '@/components/person-card';
 import { SectionHeading } from '@/components/section-heading';
 import { Stack } from '@/components/stack';
-import { createClient } from '@/prismicio';
 import { isObject } from '@/utils/is-object';
 
 export type TeamProps = SliceComponentProps<Content.TeamSlice>;
 
 export async function Team({ slice }: TeamProps) {
-  const client = createClient();
   const items: Map<string, Content.TeamSliceDefaultPrimaryItemsItem> =
     new Map();
 
@@ -23,9 +22,7 @@ export async function Team({ slice }: TeamProps) {
     items.set(item.person.id, item);
   }
 
-  const people = await client.getByIDs<Content.PersonDocument>([
-    ...items.keys(),
-  ]);
+  const people = await getByIDs<Content.PersonDocument>([...items.keys()]);
 
   return (
     <Container

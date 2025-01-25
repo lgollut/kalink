@@ -1,16 +1,23 @@
-import { createInstance, i18n, InitOptions, Resource } from 'i18next';
+'use server';
+
+import { createInstance, InitOptions, Resource } from 'i18next';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next/initReactI18next';
 
 import { i18nConfig } from './settings';
 
-export default async function initTranslations(
-  locale?: string,
-  namespaces?: string | string[],
-  i18nInstance?: i18n,
-  resources?: Resource,
-) {
-  const instance = i18nInstance || createInstance();
+type ServerTranslationOptions = {
+  locale: string;
+  resources?: Resource;
+  namespaces?: string | string[];
+};
+
+export async function initServerTranslations({
+  locale,
+  namespaces,
+  resources,
+}: ServerTranslationOptions) {
+  const instance = createInstance();
 
   instance.use(initReactI18next);
 
@@ -40,7 +47,7 @@ export default async function initTranslations(
   await instance.init(options);
 
   return {
-    i18n: instance,
+    instance,
     resources: instance.services.resourceStore.data,
   };
 }

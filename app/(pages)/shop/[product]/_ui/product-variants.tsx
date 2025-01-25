@@ -1,6 +1,7 @@
-import { filter, isFilled, Query, type Content } from '@prismicio/client';
+import { filter, isFilled, type Content } from '@prismicio/client';
 import Link from 'next/link';
 
+import { getByIDs } from '@/app/_services/prismic';
 import { Box } from '@/components/box';
 import { Cluster } from '@/components/cluster';
 import { Divider } from '@/components/divider';
@@ -8,7 +9,7 @@ import { Heading } from '@/components/heading';
 import { Image } from '@/components/image';
 import { Stack } from '@/components/stack';
 import { getServerTranslation } from '@/i18n';
-import { createClient } from '@/prismicio';
+import { ProductDocument } from '@/prismicio-types';
 
 type ProductVariantsProps = { product: Content.ProductDocument };
 type Metadata = Content.ProductDocument['data']['metadata'];
@@ -96,9 +97,9 @@ export async function ProductVariants({ product }: ProductVariantsProps) {
     productIds.push(variant.product.id);
   }
 
-  const variants = (await createClient().getByIDs(productIds, {
+  const variants = await getByIDs<ProductDocument>(productIds, {
     filters: [filter.at('document.type', 'product')],
-  })) as Awaited<Query<Content.ProductDocument>>;
+  });
 
   const groupedVariants = groupVariantsByMetadataKeyDifference(
     product,

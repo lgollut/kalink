@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
 
-import { createStripeProductClient } from '../../_services/stripe-product';
+import { deleteProduct } from '../../_services/stripe-product';
 import { readPrismicWebhookPayload } from '../../_utils/prismic';
 
 export async function POST(request: Request) {
-  const stripeClient = createStripeProductClient(
-    process.env.STRIPE_SECRET_LIVE_KEY,
-  );
-
   try {
     const body = await readPrismicWebhookPayload(request);
 
+    if (body.secret !== process.env.PRISMIC_WEBHOOK_PRODUCT_SECRET) {
+      return new NextResponse('Invalid token', { status: 401 });
+    }
+
     for (const prismicId of body.documents) {
-      await stripeClient.delete(prismicId);
+      await deleteProduct(prismicId);
     }
   } catch (err) {
     console.error(err);

@@ -1,15 +1,14 @@
 import { type Content, isFilled } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 
+import { getByIDs } from '@/app/_services/prismic';
 import { Container } from '@/components/container';
 import { ProductCard } from '@/components/product-card';
 import { Stack } from '@/components/stack';
-import { createClient } from '@/prismicio';
 
 export type ProductListProps = SliceComponentProps<Content.ProductListSlice>;
 
 export async function ProductList({ slice }: ProductListProps) {
-  const client = createClient();
   const items: Map<string, Content.ProductListSliceDefaultPrimaryItemsItem> =
     new Map();
 
@@ -20,10 +19,8 @@ export async function ProductList({ slice }: ProductListProps) {
     items.set(item.product.id, item);
   }
 
-  const products = await client.getByIDs<Content.ProductDocument>([
-    ...items.keys(),
-  ]);
-  console.log(products);
+  const products = await getByIDs<Content.ProductDocument>([...items.keys()]);
+
   return (
     <Container
       data-slice-type={slice.slice_type}

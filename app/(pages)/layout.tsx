@@ -1,13 +1,14 @@
 import { type Content } from '@prismicio/client';
 import { isFilled } from '@prismicio/client';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
+import { getByIDs, getSingle } from '../_services/prismic';
 import { CartPanel } from '@/components/cart/cart-panel';
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 import { NavbarItem } from '@/components/navbar/navbar.types';
 import { Stack } from '@/components/stack';
-import { createClient } from '@/prismicio';
+import { MainNavigationDocument } from '@/prismicio-types';
 import { SlugItem } from '@/utils/get-slice-slug';
 import { slugify } from '@/utils/slugify';
 
@@ -59,9 +60,8 @@ function walkNavigationItems(
 }
 
 export default async function PagesLayout({ children }: PagesLayoutProps) {
-  const client = createClient();
-
-  const mainNavigation = await client.getSingle('mainNavigation');
+  const mainNavigation =
+    await getSingle<MainNavigationDocument>('mainNavigation');
 
   const navItemIds: Set<string> = new Set();
 
@@ -73,7 +73,7 @@ export default async function PagesLayout({ children }: PagesLayoutProps) {
     navItemIds.add(item.id);
   }
 
-  const allPages = await client.getByIDs<Content.PageDocument>([
+  const allPages = await getByIDs<Content.PageDocument>([
     ...navItemIds.values(),
   ]);
 
@@ -108,7 +108,9 @@ export default async function PagesLayout({ children }: PagesLayoutProps) {
       />
       {children}
       <Footer tintScheme={'primary'} />
-      <CartPanel />
+      <Suspense fallback={'Loading CartPanel...'}>
+        <CartPanel />
+      </Suspense>
     </Stack>
   );
 }

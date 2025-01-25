@@ -3,15 +3,15 @@ import { SliceZone } from '@prismicio/react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { getAllByType, getByUID } from '@/app/_services/prismic';
 import { Stack } from '@/components/stack';
-import { createClient } from '@/prismicio';
 import { PageDocument } from '@/prismicio-types';
 import { components } from '@/slices';
 
 type PageProps = Readonly<{ params: Promise<{ page: string }> }>;
 
 export async function generateStaticParams() {
-  const pages = await createClient().getAllByType('page', {
+  const pages = await getAllByType<PageDocument>('page', {
     filters: [prismic.filter.not('my.page.uid', 'shop')],
   });
 
@@ -25,9 +25,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   let page: PageDocument;
 
   try {
-    page = await createClient().getByUID('page', params.page);
+    page = await getByUID('page', params.page);
   } catch (error) {
-    console.log(error);
     notFound();
   }
 
@@ -66,9 +65,8 @@ export default async function Page(props: PageProps) {
   let page: PageDocument;
 
   try {
-    page = await createClient().getByUID('page', params.page);
+    page = await getByUID('page', params.page);
   } catch (error) {
-    console.log(error);
     notFound();
   }
 

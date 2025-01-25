@@ -1,6 +1,6 @@
 import { type Content, filter, WebhookBodyAPIUpdate } from '@prismicio/client';
 
-import { createClient } from '@/prismicio';
+import { getByIDs } from '@/app/_services/prismic';
 
 import { KalinkException, PrismicWebhookException } from './exceptions';
 
@@ -20,19 +20,13 @@ export async function readPrismicWebhookPayload(request: Request) {
   }
 }
 
-export async function fetchPrismicProducts(ids: string[], releaseId?: string) {
+export async function fetchFreshPrismicProducts(ids: string[], ref?: string) {
   try {
-    const client = createClient();
-
-    if (releaseId) {
-      client.queryContentFromReleaseByID(releaseId);
-    }
-
-    return await client
-      .getByIDs<Content.ProductDocument>(ids, {
-        filters: [filter.at('document.type', 'product')],
-      })
-      .then((res) => res.results);
+    return await getByIDs<Content.ProductDocument>(ids, {
+      filters: [filter.at('document.type', 'product')],
+      fetchOptions: { cache: 'no-store' },
+      ...(ref && { ref }),
+    }).then((res) => res.results);
   } catch (err) {
     console.error(err);
 
