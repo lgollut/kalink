@@ -27,7 +27,7 @@ export function createClient<
   TDocuments extends PrismicDocument = PrismicDocument,
 >() {
   const client = new Client<TDocuments>(config.repositoryName, {
-    accessToken: process.env.NEXT_PUBLIC_PRISMIC_KEY,
+    accessToken: process.env.PRISMIC_KEY,
     routes,
   });
 
