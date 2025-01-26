@@ -82,6 +82,10 @@ export async function getDefaultPriceById(
 
 export async function create(product: Content.ProductDocument) {
   const client = createStripeClient();
+
+  console.log('create product');
+  console.dir(product, { depth: null });
+
   try {
     return await client.products.create({
       name: product.data.name || '',
@@ -99,8 +103,6 @@ export async function create(product: Content.ProductDocument) {
       shippable: !!product.data.shipping,
     });
   } catch (err) {
-    console.dir(product, { depth: null });
-
     throw new StripeCreateWebhookException((err as Error).message, product.id);
   } finally {
     revalidateTag(product.id);
@@ -114,6 +116,9 @@ export async function update(
   const client = createStripeClient();
 
   let updatedProduct: Stripe.Product;
+
+  console.log('update product');
+  console.dir(product, { depth: null });
 
   try {
     updatedProduct = await client.products.update(stripeProduct.id, {
@@ -144,9 +149,6 @@ export async function update(
       });
     }
   } catch (err) {
-    console.error(err);
-    console.dir(product, { depth: null });
-
     throw new StripeUpdateWebhookException((err as Error).message, product.id);
   } finally {
     revalidateTag(product.id);
@@ -157,11 +159,12 @@ export async function update(
 
 export async function deleteProduct(id: string) {
   const client = createStripeClient();
+
+  console.log('delete product', id);
+
   try {
     return await client.products.del(id);
   } catch (err) {
-    console.error(err);
-
     throw new StripeDeleteWebhookException((err as Error).message, id);
   } finally {
     revalidateTag(id);
