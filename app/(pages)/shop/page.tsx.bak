@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   let page: PageDocument;
 
   try {
-    page = await getByUID('page', 'shop');
+    page = await getByUID('page', pageName);
   } catch (error) {
     notFound();
   }
