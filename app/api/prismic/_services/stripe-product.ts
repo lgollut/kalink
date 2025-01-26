@@ -133,11 +133,11 @@ export async function update(
       shippable: !!product.data.shipping,
     });
 
-    if (stripeProduct.default_price) {
+    if (updatedProduct.default_price) {
       const priceId =
-        typeof stripeProduct.default_price === 'string'
-          ? stripeProduct.default_price
-          : stripeProduct.default_price.id;
+        typeof updatedProduct.default_price === 'string'
+          ? updatedProduct.default_price
+          : updatedProduct.default_price.id;
 
       const currentPrice = await client.prices.retrieve(priceId);
 
