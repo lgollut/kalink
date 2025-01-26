@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     }
 
     for (const prismicId of body.documents) {
-      await deleteProduct(prismicId);
+      await deleteProduct({ id: prismicId });
     }
   } catch (err) {
     console.error(err);

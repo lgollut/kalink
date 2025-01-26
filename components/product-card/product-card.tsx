@@ -40,8 +40,11 @@ async function ProductCard<TUse extends ElementType = 'div'>(
 ) {
   const { t } = await getServerTranslation('fr', 'product');
 
-  const stripeProduct = await getByPrismicId(id, {
-    expand: ['data.default_price'],
+  const stripeProduct = await getByPrismicId({
+    id,
+    options: {
+      expand: ['data.default_price'],
+    },
   });
 
   if (!stripeProduct || stripeProduct.data.length === 0) {

@@ -19,12 +19,12 @@ export async function POST(request: Request) {
     for (const product of prismicProducts) {
       const prismicId = product.id;
 
-      const stripeProduct = await getByPrismicId(prismicId);
+      const stripeProduct = await getByPrismicId({ id: prismicId });
 
       if (stripeProduct.data.length === 0) {
-        await create(product);
+        await create({ product });
       } else {
-        await update(product, stripeProduct.data[0]);
+        await update({ product, stripeProduct: stripeProduct.data[0] });
       }
     }
   } catch (err) {

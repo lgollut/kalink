@@ -13,13 +13,20 @@ import {
 
 import { createStripeClient } from './stripe-client';
 
-export async function getByPrismicId(
-  id: string,
-  options: Partial<Stripe.ProductSearchParams> = {},
-) {
+type GetByPrismicId = {
+  id: string;
+  options?: Partial<Stripe.ProductSearchParams>;
+  releaseId?: string;
+};
+
+export async function getByPrismicId({
+  id,
+  options = {},
+  releaseId,
+}: GetByPrismicId) {
   'use cache';
 
-  const client = createStripeClient();
+  const client = createStripeClient({ testMode: !!releaseId });
 
   const products = await client.products.search({
     limit: 1,
@@ -27,19 +34,30 @@ export async function getByPrismicId(
     query: `metadata["prismicId"]:"${id}"`,
   });
 
-  cacheTag.apply(null, [
+  const tags: string[] = [
     'stripe',
     id,
     ...products.data.map((product) => product.id),
-  ]);
+  ];
+
+  if (releaseId) {
+    tags.push(releaseId);
+  }
+
+  cacheTag.apply(null, tags);
 
   return { ...products };
 }
 
-export async function getByPrismicIds(ids: string[]) {
+type GetByPrismicIds = {
+  ids: string[];
+  releaseId?: string;
+};
+
+export async function getByPrismicIds({ ids, releaseId }: GetByPrismicIds) {
   'use cache';
 
-  const client = createStripeClient();
+  const client = createStripeClient({ testMode: !!releaseId });
 
   const products = await client.products.search({
     query: ids.reduce((acc, id) => {
@@ -51,21 +69,33 @@ export async function getByPrismicIds(ids: string[]) {
     }, ''),
   });
 
-  cacheTag.apply(null, [
+  const tags: string[] = [
     'stripe',
     ...ids,
     ...products.data.map((product) => product.id),
-  ]);
+  ];
+
+  if (releaseId) {
+    tags.push(releaseId);
+  }
+
+  cacheTag.apply(null, tags);
 
   return { ...products };
 }
 
-export async function getDefaultPriceById(
-  mayBeId: Stripe.Product['default_price'],
-) {
+type GetDefaultPriceById = {
+  mayBeId: Stripe.Product['default_price'];
+  releaseId?: string;
+};
+
+export async function getDefaultPriceById({
+  mayBeId,
+  releaseId,
+}: GetDefaultPriceById) {
   'use cache';
 
-  const client = createStripeClient();
+  const client = createStripeClient({ testMode: !!releaseId });
 
   if (!mayBeId) {
     return null;
@@ -73,15 +103,26 @@ export async function getDefaultPriceById(
 
   const id = typeof mayBeId === 'string' ? mayBeId : mayBeId.id;
 
-  cacheTag('stripe', id);
+  const tags: string[] = ['stripe', id];
+
+  if (releaseId) {
+    tags.push(releaseId);
+  }
+
+  cacheTag.apply(null, tags);
 
   const products = await client.prices.retrieve(id);
 
   return { ...products };
 }
 
-export async function create(product: Content.ProductDocument) {
-  const client = createStripeClient();
+type CreateArgs = {
+  product: Content.ProductDocument;
+  testMode?: boolean;
+};
+
+export async function create({ product, testMode = false }: CreateArgs) {
+  const client = createStripeClient({ testMode });
 
   console.log('create product');
   console.dir(product, { depth: null });
@@ -109,11 +150,18 @@ export async function create(product: Content.ProductDocument) {
   }
 }
 
-export async function update(
-  product: Content.ProductDocument,
-  stripeProduct: Stripe.Product,
-) {
-  const client = createStripeClient();
+type UpdateArgs = {
+  product: Content.ProductDocument;
+  stripeProduct: Stripe.Product;
+  testMode?: boolean;
+};
+
+export async function update({
+  product,
+  stripeProduct,
+  testMode = false,
+}: UpdateArgs) {
+  const client = createStripeClient({ testMode });
 
   let updatedProduct: Stripe.Product;
 
@@ -158,8 +206,13 @@ export async function update(
   return updatedProduct;
 }
 
-export async function deleteProduct(id: string) {
-  const client = createStripeClient();
+type DeleteArgs = {
+  id: string;
+  testMode?: boolean;
+};
+
+export async function deleteProduct({ id, testMode = false }: DeleteArgs) {
+  const client = createStripeClient({ testMode });
 
   console.log('delete product', id);
 

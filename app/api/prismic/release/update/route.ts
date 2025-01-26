@@ -1,4 +1,3 @@
-import { type Content } from '@prismicio/client';
 import { NextResponse } from 'next/server';
 
 import { create, getByPrismicId, update } from '../../_services/stripe-product';
@@ -18,24 +17,27 @@ export async function POST(request: Request) {
     const { addition: releaseAddition = [], update: realeaseUpdate = [] } =
       body.releases;
 
-    let prismicProducts: Content.ProductDocument[] = [];
-
     for (const release of [...releaseAddition, ...realeaseUpdate]) {
-      prismicProducts = [
-        ...prismicProducts,
-        ...(await fetchFreshPrismicProducts(release.documents, release.ref)),
-      ];
-    }
+      const prismicProduct = await fetchFreshPrismicProducts(
+        release.documents,
+        release.ref,
+      );
 
-    for (const product of prismicProducts) {
-      const prismicId = product.id;
+      for (const product of prismicProduct) {
+        const stripeProduct = await getByPrismicId({
+          id: product.id,
+          releaseId: release.id,
+        });
 
-      const stripeProduct = await getByPrismicId(prismicId);
-
-      if (stripeProduct.data.length === 0) {
-        await create(product);
-      } else {
-        await update(product, stripeProduct.data[0]);
+        if (stripeProduct.data.length === 0) {
+          await create({ product, testMode: true });
+        } else {
+          await update({
+            product,
+            stripeProduct: stripeProduct.data[0],
+            testMode: true,
+          });
+        }
       }
     }
   } catch (err) {
