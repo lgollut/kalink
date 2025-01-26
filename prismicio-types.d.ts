@@ -400,32 +400,6 @@ export interface ProductDocumentDataVariantsItem {
 }
 
 /**
- * Item in *Product → Price data*
- */
-export interface ProductDocumentDataPriceDataItem {
-  /**
-   * Currency field in *Product → Price data*
-   *
-   * - **Field Type**: Select
-   * - **Placeholder**: *None*
-   * - **Default Value**: chf
-   * - **API ID Path**: product.priceData[].currency
-   * - **Documentation**: https://prismic.io/docs/field#select
-   */
-  currency: prismic.SelectField<'chf' | 'eur' | 'usd', 'filled'>;
-
-  /**
-   * Unit Amount field in *Product → Price data*
-   *
-   * - **Field Type**: Number
-   * - **Placeholder**: *None*
-   * - **API ID Path**: product.priceData[].unitAmount
-   * - **Documentation**: https://prismic.io/docs/field#number
-   */
-  unitAmount: prismic.NumberField;
-}
-
-/**
  * Content for Product documents
  */
 interface ProductDocumentData {
@@ -483,26 +457,27 @@ interface ProductDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#group
    */
   metadata: prismic.GroupField<Simplify<ProductDocumentDataMetadataItem>> /**
-   * Variants field in *Product*
+   * Currency field in *Product*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Select
    * - **Placeholder**: *None*
-   * - **API ID Path**: product.variants[]
+   * - **Default Value**: chf
+   * - **API ID Path**: product.currency
    * - **Tab**: Sale
-   * - **Documentation**: https://prismic.io/docs/field#group
+   * - **Documentation**: https://prismic.io/docs/field#select
    */;
-  variants: prismic.GroupField<Simplify<ProductDocumentDataVariantsItem>>;
+  currency: prismic.SelectField<'chf' | 'eur' | 'usd', 'filled'>;
 
   /**
-   * Price data field in *Product*
+   * Unit Amount field in *Product*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Number
    * - **Placeholder**: *None*
-   * - **API ID Path**: product.priceData[]
+   * - **API ID Path**: product.unitAmount
    * - **Tab**: Sale
-   * - **Documentation**: https://prismic.io/docs/field#group
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
-  priceData: prismic.GroupField<Simplify<ProductDocumentDataPriceDataItem>>;
+  unitAmount: prismic.NumberField;
 
   /**
    * Shipping field in *Product*
@@ -513,7 +488,18 @@ interface ProductDocumentData {
    * - **Tab**: Sale
    * - **Documentation**: https://prismic.io/docs/field#select
    */
-  shipping: prismic.SelectField<'letter' | 'parcel'> /**
+  shipping: prismic.SelectField<'letter' | 'parcel'>;
+
+  /**
+   * Variants field in *Product*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.variants[]
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  variants: prismic.GroupField<Simplify<ProductDocumentDataVariantsItem>> /**
    * Meta Title field in *Product*
    *
    * - **Field Type**: Text
@@ -1963,7 +1949,6 @@ declare module '@prismicio/client' {
       ProductDocumentDataImagesItem,
       ProductDocumentDataMetadataItem,
       ProductDocumentDataVariantsItem,
-      ProductDocumentDataPriceDataItem,
       ServiceDocument,
       ServiceDocumentData,
       ServiceDescriptionDocument,

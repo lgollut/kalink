@@ -94,8 +94,8 @@ export async function create(product: Content.ProductDocument) {
         images: [product.data.images[0].image.url],
       }),
       default_price_data: {
-        currency: product.data.priceData[0]?.currency || 'chf',
-        unit_amount: product.data.priceData[0]?.unitAmount || 0,
+        currency: product.data.currency,
+        unit_amount: product.data.unitAmount || 0,
       },
       metadata: {
         prismicId: product.id,
@@ -133,20 +133,21 @@ export async function update(
       shippable: !!product.data.shipping,
     });
 
-    if (!updatedProduct.default_price && product.data.priceData[0]) {
-      await client.prices.create({
-        product: stripeProduct.id,
-        currency: product.data.priceData[0]?.currency || 'chf',
-        unit_amount: product.data.priceData[0]?.unitAmount || 0,
-      });
-    } else if (typeof updatedProduct.default_price === 'string') {
-      await client.prices.update(updatedProduct.default_price, {
-        currency_options: {
-          [product.data.priceData[0]?.currency || 'chf']: {
-            unit_amount: product.data.priceData[0]?.unitAmount || 0,
-          },
-        },
-      });
+    if (stripeProduct.default_price) {
+      const priceId =
+        typeof stripeProduct.default_price === 'string'
+          ? stripeProduct.default_price
+          : stripeProduct.default_price.id;
+
+      const currentPrice = await client.prices.retrieve(priceId);
+
+      if (currentPrice.unit_amount !== product.data.unitAmount) {
+        await client.prices.create({
+          product: stripeProduct.id,
+          currency: product.data.currency,
+          unit_amount: product.data.unitAmount || 0,
+        });
+      }
     }
   } catch (err) {
     throw new StripeUpdateWebhookException((err as Error).message, product.id);

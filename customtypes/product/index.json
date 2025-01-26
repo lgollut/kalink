@@ -77,9 +77,7 @@
             }
           }
         }
-      }
-    },
-    "Sale": {
+      },
       "variants": {
         "type": "Group",
         "config": {
@@ -97,30 +95,23 @@
             }
           }
         }
-      },
-      "priceData": {
-        "type": "Group",
+      }
+    },
+    "Sale": {
+      "currency": {
+        "type": "Select",
         "config": {
-          "label": "Price data",
-          "repeat": false,
-          "fields": {
-            "currency": {
-              "type": "Select",
-              "config": {
-                "label": "Currency",
-                "placeholder": "",
-                "options": ["chf", "eur", "usd"],
-                "default_value": "chf"
-              }
-            },
-            "unitAmount": {
-              "type": "Number",
-              "config": {
-                "label": "Unit Amount",
-                "placeholder": ""
-              }
-            }
-          }
+          "label": "Currency",
+          "placeholder": "",
+          "options": ["chf", "eur", "usd"],
+          "default_value": "chf"
+        }
+      },
+      "unitAmount": {
+        "type": "Number",
+        "config": {
+          "label": "Unit Amount",
+          "placeholder": ""
         }
       },
       "shipping": {

@@ -33,17 +33,13 @@ export function CartPanel() {
     () =>
       cart.reduce(
         (acc, item) =>
-          acc +
-          ((item.data.priceData[0]?.unitAmount ?? 0) * item.quantity) / 100,
+          acc + ((item.data.unitAmount ?? 0) * item.quantity) / 100,
         0,
       ),
     [cart],
   );
 
-  const cartCurrency = useMemo(
-    () => cart[0]?.data.priceData[0]?.currency || 'chf',
-    [cart],
-  );
+  const cartCurrency = useMemo(() => cart[0]?.data.currency, [cart]);
 
   const formAction = useCallback(async () => {
     const cartItems: CheckoutData['items'] = [];

@@ -82,12 +82,10 @@ export function CartProduct({
 
             <Cluster gap="sm" alignItems="baseline">
               <Text typography="labelLarge">
-                {(data.priceData[0]?.unitAmount
-                  ? data.priceData[0]?.unitAmount / 100
-                  : 0) * quantity}
+                {(data.unitAmount ? data.unitAmount / 100 : 0) * quantity}
               </Text>
               <Text typography="labelMedium" color="onPrimary">
-                {data.priceData[0]?.currency || 'chf'}
+                {data.currency}
               </Text>
             </Cluster>
           </Cluster>
