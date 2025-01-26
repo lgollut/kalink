@@ -169,6 +169,21 @@ export async function update({
   console.dir(product, { depth: null });
 
   try {
+    let newPriceId: string | null = null;
+
+    const oldPriceId =
+      typeof stripeProduct.default_price === 'string'
+        ? stripeProduct.default_price
+        : stripeProduct.default_price?.id;
+
+    if (stripeProduct.default_price !== product.data.unitAmount) {
+      ({ id: newPriceId } = await client.prices.create({
+        product: stripeProduct.id,
+        currency: product.data.currency,
+        unit_amount: product.data.unitAmount || 0,
+      }));
+    }
+
     updatedProduct = await client.products.update(stripeProduct.id, {
       name: product.data.name || '',
       description: product.data.description || '',
@@ -179,23 +194,11 @@ export async function update({
         prismicId: product.id,
       },
       shippable: !!product.data.shipping,
+      ...(newPriceId && { default_price: newPriceId }),
     });
 
-    if (updatedProduct.default_price) {
-      const priceId =
-        typeof updatedProduct.default_price === 'string'
-          ? updatedProduct.default_price
-          : updatedProduct.default_price.id;
-
-      const currentPrice = await client.prices.retrieve(priceId);
-
-      if (currentPrice.unit_amount !== product.data.unitAmount) {
-        await client.prices.create({
-          product: stripeProduct.id,
-          currency: product.data.currency,
-          unit_amount: product.data.unitAmount || 0,
-        });
-      }
+    if (oldPriceId && newPriceId) {
+      await client.prices.update(oldPriceId, { active: false });
     }
   } catch (err) {
     throw new StripeUpdateWebhookException((err as Error).message, product.id);
