@@ -1,0 +1,9 @@
+{
+  "type.greetingsCard": "Carte de vœux",
+  "type.poster": "Affiche",
+  "metadata.measure": "Dimensions",
+  "metadata.medium": "Technique",
+  "metadata.year": "Année",
+  "variants.measure": "Variantes de $t(measure)",
+  "measure": "dimensions"
+}

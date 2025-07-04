@@ -8,6 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     typedRoutes: true,
+    dynamicIO: true,
   },
   images: {
     remotePatterns: [

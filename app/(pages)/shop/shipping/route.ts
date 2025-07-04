@@ -4,7 +4,7 @@ function parseShippingRate(shippingRate: Stripe.ShippingRate) {
   const amount = new Intl.NumberFormat('fr-CH', {
     style: 'currency',
     currency: shippingRate.fixed_amount?.currency ?? 'CHF',
-  }).format(shippingRate.fixed_amount?.amount ?? 0 / 100);
+  }).format((shippingRate.fixed_amount?.amount ?? 0) / 100);
 
   return {
     id: shippingRate.id,

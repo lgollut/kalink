@@ -99,7 +99,6 @@ export const button = recipe({
           '&:disabled': {
             backgroundColor: `hsl(${tintVar} / 0.12)`,
           },
-
           '&:hover:not(:disabled)': {
             boxShadow: vars.ref.elevation.low,
           },
@@ -117,12 +116,21 @@ export const button = recipe({
           '&:disabled': {
             borderColor: `hsl(${tintVar} / 0.12)`,
           },
+          '&::before': {
+            backgroundColor: 'black',
+          },
         },
       },
       ghost: {
         color: `hsl(${tintVar})`,
 
         backgroundColor: 'transparent',
+
+        selectors: {
+          '&::before': {
+            backgroundColor: 'black',
+          },
+        },
       },
     },
 

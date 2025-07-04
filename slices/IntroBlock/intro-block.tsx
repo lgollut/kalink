@@ -20,7 +20,7 @@ export type IntroBlocProps = SliceComponentProps<Content.IntroBlockSlice>;
 /**
  * Component for "IntroBloc" Slices.
  */
-export function IntroBlock({ slice }: IntroBlocProps): JSX.Element {
+export function IntroBlock({ slice }: IntroBlocProps) {
   const slug = getSliceSlug(slice.primary);
 
   return (

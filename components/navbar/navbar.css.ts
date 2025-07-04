@@ -10,7 +10,7 @@ const navbarLinkColor = createVar();
 export const navbar = recipe({
   base: {
     paddingBlockStart: vars.ref.spacing.lg,
-    paddingBlockEnd: vars.ref.spacing.base,
+    paddingBlockEnd: vars.ref.spacing.lg,
 
     position: 'fixed',
     insetBlockStart: 0,
@@ -25,6 +25,9 @@ export const navbar = recipe({
     }),
 
     '@media': {
+      'screen and (min-width: 768px)': {
+        paddingBlockEnd: vars.ref.spacing.base,
+      },
       'screen and (min-width: 1024px)': {
         paddingBlock: vars.ref.spacing.lg,
       },

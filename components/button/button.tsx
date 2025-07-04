@@ -22,7 +22,12 @@ const Button = (
     >
       <>
         {IconComp && (
-          <Box flexShrink={0}>
+          <Box
+            flexShrink={0}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
             <IconComp {...iconProps(size)} />
           </Box>
         )}

@@ -1,7 +1,7 @@
 'use client';
 
 import { Provider } from '@radix-ui/react-toast';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'motion/react';
 import { Reducer, useCallback, useReducer } from 'react';
 
 import { Toast } from './toast';

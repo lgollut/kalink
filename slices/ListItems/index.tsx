@@ -13,7 +13,7 @@ export type ListItemsProps = SliceComponentProps<Content.ListItemsSlice>;
 /**
  * Component for "ListItems" Slices.
  */
-const ListItems = ({ slice }: ListItemsProps): JSX.Element => {
+const ListItems = ({ slice }: ListItemsProps) => {
   return (
     <Box
       use="section"

@@ -1,0 +1,154 @@
+{
+  "format": "custom",
+  "id": "product",
+  "label": "Product",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Name",
+          "placeholder": ""
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Description",
+          "placeholder": ""
+        }
+      },
+      "type": {
+        "type": "Select",
+        "config": {
+          "label": "Type",
+          "placeholder": "",
+          "options": ["poster", "greetingsCard"]
+        }
+      },
+      "images": {
+        "type": "Group",
+        "config": {
+          "label": "Images",
+          "repeat": true,
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "Image",
+                "constraint": {
+                  "width": null,
+                  "height": null
+                },
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      },
+      "metadata": {
+        "type": "Group",
+        "config": {
+          "label": "Metadata",
+          "repeat": true,
+          "fields": {
+            "key": {
+              "type": "Select",
+              "config": {
+                "label": "Key",
+                "placeholder": "",
+                "options": ["measure", "medium", "year"]
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "Value",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "variants": {
+        "type": "Group",
+        "config": {
+          "label": "Variants",
+          "repeat": true,
+          "fields": {
+            "product": {
+              "type": "Link",
+              "config": {
+                "label": "Product",
+                "select": "document",
+                "repeat": false,
+                "customtypes": ["product"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "Sale": {
+      "currency": {
+        "type": "Select",
+        "config": {
+          "label": "Currency",
+          "placeholder": "",
+          "options": ["chf", "eur", "usd"],
+          "default_value": "chf"
+        }
+      },
+      "unitAmount": {
+        "type": "Number",
+        "config": {
+          "label": "Unit Amount",
+          "placeholder": ""
+        }
+      },
+      "shipping": {
+        "type": "Select",
+        "config": {
+          "label": "Shipping",
+          "placeholder": "",
+          "options": ["letter", "parcel"]
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "metaTitle": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
+      },
+      "metaDescription": {
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        },
+        "type": "Text"
+      },
+      "metaImage": {
+        "config": {
+          "label": "Meta Image",
+          "constraint": {
+            "height": 1260,
+            "width": 2400
+          },
+          "thumbnails": []
+        },
+        "type": "Image"
+      }
+    }
+  }
+}

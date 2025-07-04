@@ -9,17 +9,26 @@ import {
 } from 'react';
 
 import { Heading } from '../heading';
+import { HeadingProps, HeadingTypes } from '../heading/heading.types';
 
-const SheetTitle = (
-  { className, children, ...props }: ComponentPropsWithoutRef<typeof Title>,
+const SheetTitle = <TUse extends HeadingTypes>(
+  {
+    className,
+    children,
+    ...props
+  }: ComponentPropsWithoutRef<typeof Title> & HeadingProps<TUse>,
   ref: ForwardedRef<ElementRef<typeof Title>>,
-) => (
-  <Title ref={ref} asChild {...props}>
-    <Heading use="h2" className={className}>
-      {children}
-    </Heading>
-  </Title>
-);
+) => {
+  const { use = 'h2', ...rest } = props;
+
+  return (
+    <Title ref={ref} asChild {...rest}>
+      <Heading use={use} className={className}>
+        {children}
+      </Heading>
+    </Title>
+  );
+};
 
 const WrappedSheetTitle = forwardRef(SheetTitle);
 export { WrappedSheetTitle as SheetTitle };

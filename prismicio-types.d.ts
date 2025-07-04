@@ -180,6 +180,7 @@ export type MainNavigationDocument<Lang extends string = string> =
   >;
 
 type PageDocumentDataSlicesSlice =
+  | ProductListSlice
   | MediaBannerSlice
   | ListItemsSlice
   | ContactsSlice
@@ -342,6 +343,211 @@ interface PersonDocumentData {
  */
 export type PersonDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PersonDocumentData>, 'person', Lang>;
+
+/**
+ * Item in *Product → Images*
+ */
+export interface ProductDocumentDataImagesItem {
+  /**
+   * Image field in *Product → Images*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.images[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+}
+
+/**
+ * Item in *Product → Metadata*
+ */
+export interface ProductDocumentDataMetadataItem {
+  /**
+   * Key field in *Product → Metadata*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metadata[].key
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  key: prismic.SelectField<'measure' | 'medium' | 'year'>;
+
+  /**
+   * Value field in *Product → Metadata*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metadata[].value
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  value: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Product → Variants*
+ */
+export interface ProductDocumentDataVariantsItem {
+  /**
+   * Product field in *Product → Variants*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.variants[].product
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  product: prismic.ContentRelationshipField<'product'>;
+}
+
+/**
+ * Content for Product documents
+ */
+interface ProductDocumentData {
+  /**
+   * Name field in *Product*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * Description field in *Product*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  description: prismic.KeyTextField;
+
+  /**
+   * Type field in *Product*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.type
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  type: prismic.SelectField<'poster' | 'greetingsCard'>;
+
+  /**
+   * Images field in *Product*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.images[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  images: prismic.GroupField<Simplify<ProductDocumentDataImagesItem>>;
+
+  /**
+   * Metadata field in *Product*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metadata[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  metadata: prismic.GroupField<Simplify<ProductDocumentDataMetadataItem>> /**
+   * Currency field in *Product*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: chf
+   * - **API ID Path**: product.currency
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */;
+  currency: prismic.SelectField<'chf' | 'eur' | 'usd', 'filled'>;
+
+  /**
+   * Unit Amount field in *Product*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.unitAmount
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  unitAmount: prismic.NumberField;
+
+  /**
+   * Shipping field in *Product*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.shipping
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  shipping: prismic.SelectField<'letter' | 'parcel'>;
+
+  /**
+   * Variants field in *Product*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.variants[]
+   * - **Tab**: Sale
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  variants: prismic.GroupField<Simplify<ProductDocumentDataVariantsItem>> /**
+   * Meta Title field in *Product*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: product.metaTitle
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  metaTitle: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Product*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: product.metaDescription
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  metaDescription: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Product*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product.metaImage
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  metaImage: prismic.ImageField<never>;
+}
+
+/**
+ * Product document from Prismic
+ *
+ * - **API ID**: `product`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProductDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<ProductDocumentData>,
+    'product',
+    Lang
+  >;
 
 /**
  * Content for Service documents
@@ -508,6 +714,7 @@ export type AllDocumentTypes =
   | MainNavigationDocument
   | PageDocument
   | PersonDocument
+  | ProductDocument
   | ServiceDocument
   | ServiceDescriptionDocument
   | TestimonialDocument;
@@ -1403,6 +1610,66 @@ export type MediaBannerSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Item in *ProductList → Default → Primary → Items*
+ */
+export interface ProductListSliceDefaultPrimaryItemsItem {
+  /**
+   * product field in *ProductList → Default → Primary → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product_list.default.primary.items[].product
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  product: prismic.ContentRelationshipField<'product'>;
+}
+
+/**
+ * Primary content in *ProductList → Default → Primary*
+ */
+export interface ProductListSliceDefaultPrimary {
+  /**
+   * Items field in *ProductList → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product_list.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  items: prismic.GroupField<Simplify<ProductListSliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * Default variation for ProductList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ProductListSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<ProductListSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ProductList*
+ */
+type ProductListSliceVariation = ProductListSliceDefault;
+
+/**
+ * ProductList Shared Slice
+ *
+ * - **API ID**: `product_list`
+ * - **Description**: ProductList
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ProductListSlice = prismic.SharedSlice<
+  'product_list',
+  ProductListSliceVariation
+>;
+
+/**
  * Item in *Team → Default → Primary → Items*
  */
 export interface TeamSliceDefaultPrimaryItemsItem {
@@ -1650,6 +1917,17 @@ declare module '@prismicio/client' {
     ): prismic.Client<AllDocumentTypes>;
   }
 
+  interface CreateWriteClient {
+    (
+      repositoryNameOrEndpoint: string,
+      options: prismic.WriteClientConfig,
+    ): prismic.WriteClient<AllDocumentTypes>;
+  }
+
+  interface CreateMigration {
+    (): prismic.Migration<AllDocumentTypes>;
+  }
+
   namespace Content {
     export type {
       CourseSessionsDocument,
@@ -1666,6 +1944,11 @@ declare module '@prismicio/client' {
       PageDocumentDataSlicesSlice,
       PersonDocument,
       PersonDocumentData,
+      ProductDocument,
+      ProductDocumentData,
+      ProductDocumentDataImagesItem,
+      ProductDocumentDataMetadataItem,
+      ProductDocumentDataVariantsItem,
       ServiceDocument,
       ServiceDocumentData,
       ServiceDescriptionDocument,
@@ -1704,6 +1987,11 @@ declare module '@prismicio/client' {
       MediaBannerSliceDefaultPrimary,
       MediaBannerSliceVariation,
       MediaBannerSliceDefault,
+      ProductListSlice,
+      ProductListSliceDefaultPrimaryItemsItem,
+      ProductListSliceDefaultPrimary,
+      ProductListSliceVariation,
+      ProductListSliceDefault,
       TeamSlice,
       TeamSliceDefaultPrimaryItemsItem,
       TeamSliceDefaultPrimary,

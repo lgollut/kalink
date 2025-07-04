@@ -10,5 +10,5 @@ export async function POST(request: Request) {
 
   revalidateTag('prismic');
 
-  return NextResponse.json({ revalidated: true, now: Date.now() });
+  return NextResponse.json({ revalidated: true });
 }

@@ -9,6 +9,7 @@ export const components = {
   intro_block: dynamic(() => import('./IntroBlock')),
   list_items: dynamic(() => import('./ListItems')),
   media_banner: dynamic(() => import('./MediaBanner')),
+  product_list: dynamic(() => import('./ProductList')),
   team: dynamic(() => import('./Team')),
   testimonials_row: dynamic(() => import('./TestimonialsRow')),
 };

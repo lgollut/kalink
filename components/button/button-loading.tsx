@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { ElementType, ForwardedRef, forwardRef } from 'react';
 
 import { Box } from '@/components/box';
