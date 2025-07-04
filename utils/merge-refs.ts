@@ -1,4 +1,15 @@
-import { ForwardedRef } from 'react';
+import { ForwardedRef, Ref, RefCallback } from 'react';
+
+export function assignRef<T>(
+  ref: Ref<T> | undefined | null,
+  value: T | null,
+): ReturnType<RefCallback<T>> {
+  if (typeof ref === 'function') {
+    return ref(value);
+  } else if (ref) {
+    ref.current = value;
+  }
+}
 
 export const mergeRefs: <T>(
   refs: (ForwardedRef<T> | undefined)[],
@@ -7,11 +18,17 @@ export const mergeRefs: <T>(
     return;
   }
 
+  const cleanups: (() => void)[] = [];
+
   for (const ref of refs) {
-    if (typeof ref === 'function') {
-      ref(el);
-    } else if (ref) {
-      ref.current = el;
-    }
+    const cleanup = assignRef(ref, el);
+
+    cleanups.push(
+      typeof cleanup === 'function' ? cleanup : () => assignRef(ref, null),
+    );
   }
+
+  return () => {
+    for (const cleanup of cleanups) cleanup();
+  };
 };

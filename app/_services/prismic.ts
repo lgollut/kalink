@@ -1,6 +1,7 @@
 'use server';
 
 import { Client, PrismicDocument } from '@prismicio/client';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 
 import { createClient } from './prismic-client';
@@ -17,7 +18,11 @@ export const getByID = async function getByID<
 
   const document = await client.getByID(id, params);
 
-  cacheTag('prismic', document.id);
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    cacheTag('prismic', document.id);
+  }
 
   return document as Awaited<ReturnType<Client<TDocument>['getByID']>>;
 };
@@ -33,17 +38,13 @@ export const getByUID = async function getByUID<
   'use cache';
 
   const client = createClient<TDocument>();
-  let document: TDocument;
+  const document = await client.getByUID(documentType, uid, params);
 
-  try {
-    document = await client.getByUID(documentType, uid, params);
-  } catch (err) {
-    console.error(err);
-
-    throw new Error(`Document ${uid} not found`);
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    cacheTag('prismic', document.id);
   }
-
-  cacheTag('prismic', document.id);
 
   return document;
 };
@@ -58,7 +59,11 @@ export const getSingle = async function getSingle<
 
   const document = await client.getSingle(documentType, params);
 
-  cacheTag('prismic', document.id);
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    cacheTag('prismic', document.id);
+  }
 
   return document as Awaited<ReturnType<Client<TDocument>['getSingle']>>;
 };
@@ -75,10 +80,14 @@ export const getByIDs = async function getByIDs<
 
   const documents = await client.getByIDs(ids, params);
 
-  cacheTag.apply(undefined, [
-    'prismic',
-    ...documents.results.map((document) => document.id),
-  ]);
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    cacheTag.apply(undefined, [
+      'prismic',
+      ...documents.results.map((document) => document.id),
+    ]);
+  }
 
   return documents;
 };
@@ -97,10 +106,14 @@ export const getByUIDs = async function getByUIDs<
 
   const documents = await client.getByUIDs(documentType, ids, params);
 
-  cacheTag.apply(undefined, [
-    'prismic',
-    ...documents.results.map((document) => document.id),
-  ]);
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    cacheTag.apply(undefined, [
+      'prismic',
+      ...documents.results.map((document) => document.id),
+    ]);
+  }
 
   return documents;
 };
@@ -115,10 +128,14 @@ export const getAllByType = async function getAllByType<
 
   const documents = await client.getAllByType(documentType, params);
 
-  cacheTag.apply(undefined, [
-    'prismic',
-    ...documents.map((document) => document.id),
-  ]);
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    cacheTag.apply(undefined, [
+      'prismic',
+      ...documents.map((document) => document.id),
+    ]);
+  }
 
   return documents;
 };

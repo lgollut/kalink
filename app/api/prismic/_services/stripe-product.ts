@@ -2,6 +2,7 @@
 
 import { type Content } from '@prismicio/client';
 import { revalidateTag } from 'next/cache';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Stripe from 'stripe';
 
@@ -34,17 +35,21 @@ export async function getByPrismicId({
     query: `metadata["prismicId"]:"${id}"`,
   });
 
-  const tags: string[] = [
-    'stripe',
-    id,
-    ...products.data.map((product) => product.id),
-  ];
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    const tags: string[] = [
+      'stripe',
+      id,
+      ...products.data.map((product) => product.id),
+    ];
 
-  if (releaseId) {
-    tags.push(releaseId);
+    if (releaseId) {
+      tags.push(releaseId);
+    }
+
+    cacheTag.apply(null, tags);
   }
-
-  cacheTag.apply(null, tags);
 
   return { ...products };
 }
@@ -69,17 +74,21 @@ export async function getByPrismicIds({ ids, releaseId }: GetByPrismicIds) {
     }, ''),
   });
 
-  const tags: string[] = [
-    'stripe',
-    ...ids,
-    ...products.data.map((product) => product.id),
-  ];
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    const tags: string[] = [
+      'stripe',
+      ...ids,
+      ...products.data.map((product) => product.id),
+    ];
 
-  if (releaseId) {
-    tags.push(releaseId);
+    if (releaseId) {
+      tags.push(releaseId);
+    }
+
+    cacheTag.apply(null, tags);
   }
-
-  cacheTag.apply(null, tags);
 
   return { ...products };
 }
@@ -103,13 +112,17 @@ export async function getDefaultPriceById({
 
   const id = typeof mayBeId === 'string' ? mayBeId : mayBeId.id;
 
-  const tags: string[] = ['stripe', id];
+  if (process.env.NODE_ENV === 'development') {
+    cacheLife('seconds');
+  } else {
+    const tags: string[] = ['stripe', id];
 
-  if (releaseId) {
-    tags.push(releaseId);
+    if (releaseId) {
+      tags.push(releaseId);
+    }
+
+    cacheTag.apply(null, tags);
   }
-
-  cacheTag.apply(null, tags);
 
   const products = await client.prices.retrieve(id);
 

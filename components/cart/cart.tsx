@@ -23,8 +23,12 @@ export type CartItem = Content.ProductDocument & {
   stripeProduct: Stripe.Product;
 };
 
-const productFetcher = async (ids: string[]) => {
+const prismicProductFetcher = async (ids: string[]) => {
   return await getByUIDs<Content.ProductDocument>('product', ids);
+};
+
+const stripeProductFetcher = async (ids: string[]) => {
+  return await getByPrismicIds({ ids });
 };
 
 export function Cart({ children }: { children: ReactNode }) {
@@ -38,13 +42,13 @@ export function Cart({ children }: { children: ReactNode }) {
 
   const { data: prismicProducts } = useSWR(
     () => savedCart.map((item) => item.id),
-    productFetcher,
+    prismicProductFetcher,
     { keepPreviousData: true },
   );
 
   const { data: stripeProducts } = useSWR(
     () => prismicProducts?.results.map((item) => item.id),
-    getByPrismicIds,
+    stripeProductFetcher,
     { keepPreviousData: true },
   );
 

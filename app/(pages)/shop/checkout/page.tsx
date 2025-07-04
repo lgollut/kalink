@@ -1,13 +1,21 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
-
+import { getCheckoutSession } from '@/app/api/prismic/_services/stripe-checkout';
 import { Box } from '@/components/box';
+import { Container } from '@/components/container';
 
-export default function Page() {
-  const searchParams = useSearchParams();
+type CheckoutPageProps = Readonly<{
+  searchParams: Promise<{ session_id: string }>;
+}>;
 
-  console.log(searchParams);
+export default async function Page({ searchParams }: CheckoutPageProps) {
+  const sessionId = (await searchParams).session_id;
 
-  return <Box>Checkout Page</Box>;
+  const session = await getCheckoutSession(sessionId);
+
+  console.log(session);
+
+  return (
+    <Container size="2xl">
+      <Box>Checkout Page</Box>
+    </Container>
+  );
 }

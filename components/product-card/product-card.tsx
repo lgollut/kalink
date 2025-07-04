@@ -1,4 +1,4 @@
-import { type Content, isFilled } from '@prismicio/client';
+import { type Content } from '@prismicio/client';
 import Link from 'next/link';
 import { ElementType, ForwardedRef, forwardRef } from 'react';
 
@@ -47,20 +47,7 @@ async function ProductCard<TUse extends ElementType = 'div'>(
     },
   });
 
-  if (!stripeProduct || stripeProduct.data.length === 0) {
-    return null;
-  }
-
   const product = stripeProduct.data[0] as ProductWithExpandedPrice;
-
-  const imageProps = {
-    ...(isFilled.group(data.images) && data.images[0]
-      ? { field: data.images[0].image }
-      : { src: product.images[0], alt: data.name as '' }),
-    className: productCardImage,
-    fill: true,
-    sizes: '(max-width: 768px) 100vw, (max-width: 1024px) 392px, 464px',
-  };
 
   return (
     <Link
@@ -68,29 +55,36 @@ async function ProductCard<TUse extends ElementType = 'div'>(
       href={`/shop/${uid}`}
       className={productCard({ direction })}
     >
-      <Image {...imageProps} />
+      <Image
+        field={data.images[0]?.image}
+        className={productCardImage}
+        fill={true}
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 392px, 464px"
+      />
       <Box backgroundColor={backgroundColor} className={productCardContent}>
         <Stack gap="xl">
           <Cluster gap="md" justifyContent="space-between">
             {data.type && (
               <Tag alignSelf="flex-start">{t(`type.${data.type}`)}</Tag>
             )}
-            <Cluster
-              className={productCardPrice}
-              gap="sm"
-              alignItems="baseline"
-            >
-              <Text typography="titleSmall" color="onPrimary">
-                {(product.default_price.unit_amount || 0) / 100}
-              </Text>
-              <Text
-                typography="titleSmall"
-                color="onPrimary"
-                className={productCardCurrency}
+            {product && (
+              <Cluster
+                className={productCardPrice}
+                gap="sm"
+                alignItems="baseline"
               >
-                {product.default_price.currency}
-              </Text>
-            </Cluster>
+                <Text typography="titleSmall" color="onPrimary">
+                  {(product.default_price.unit_amount || 0) / 100}
+                </Text>
+                <Text
+                  typography="titleSmall"
+                  color="onPrimary"
+                  className={productCardCurrency}
+                >
+                  {product.default_price.currency}
+                </Text>
+              </Cluster>
+            )}
           </Cluster>
           <Stack color="onPrimary" gap="xs" className={productCardContentInner}>
             <Heading use="h3" color="onPrimary">

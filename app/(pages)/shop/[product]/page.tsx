@@ -1,4 +1,3 @@
-import { isFilled } from '@prismicio/client';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -90,7 +89,7 @@ export default async function Page(props: PageProps) {
     notFound();
   }
 
-  const productByPrismicId = await getByPrismicId(productPage.id);
+  const productByPrismicId = await getByPrismicId({ id: productPage.id });
 
   if (productByPrismicId.data.length === 0) {
     notFound();
@@ -98,23 +97,11 @@ export default async function Page(props: PageProps) {
 
   const product = productByPrismicId.data[0];
 
-  const price = await getDefaultPriceById(product.default_price);
+  const price = await getDefaultPriceById({ mayBeId: product.default_price });
 
   if (!price) {
     notFound();
   }
-
-  const imageProps = {
-    ...(isFilled.group(productPage.data.images) && productPage.data.images[0]
-      ? { field: productPage.data.images[0].image }
-      : {
-          src: product.images[0],
-          width: 648,
-          height: 648,
-          alt: productPage.data.name as '',
-        }),
-    className: productPageImage,
-  };
 
   const allowedKeys = ['measure', 'medium'] as const;
   type MetadataKey = (typeof allowedKeys)[number];
@@ -143,7 +130,10 @@ export default async function Page(props: PageProps) {
               {t(`type.${productPage.data.type}`)}
             </Tag>
           )}
-          <Image {...imageProps} />
+          <Image
+            className={productPageImage}
+            field={productPage.data.images[0]?.image}
+          />
           <Box flexGrow={1}>
             <Stack gap="3xl">
               <Tag

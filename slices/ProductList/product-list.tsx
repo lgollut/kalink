@@ -1,7 +1,7 @@
-import { type Content, isFilled } from '@prismicio/client';
+import { type Content, filter, isFilled } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 
-import { getByIDs } from '@/app/_services/prismic';
+import { getAllByType } from '@/app/_services/prismic';
 import { Container } from '@/components/container';
 import { ProductCard } from '@/components/product-card';
 import { Stack } from '@/components/stack';
@@ -19,7 +19,10 @@ export async function ProductList({ slice }: ProductListProps) {
     items.set(item.product.id, item);
   }
 
-  const products = await getByIDs<Content.ProductDocument>([...items.keys()]);
+  const products = await getAllByType<Content.ProductDocument>('product', {
+    limit: 100,
+    filters: [filter.at('document.tags', ['searchable'])],
+  });
 
   return (
     <Container
@@ -28,7 +31,7 @@ export async function ProductList({ slice }: ProductListProps) {
       size="2xl"
     >
       <Stack gap={{ xs: '5xl', md: '7xl', lg: '9xl' }}>
-        {products.results.map((product, index) => {
+        {products.map((product, index) => {
           return (
             <ProductCard
               key={product.id}
