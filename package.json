@@ -40,7 +40,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "lucide-react": "^0.473.0",
     "motion": "^11.18.1",
-    "next": "15.2.0-canary.25",
+    "next": "15.2.6",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.54.2",
