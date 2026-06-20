@@ -30,11 +30,11 @@ const MapLocator = (
         <Map
           defaultZoom={14}
           mapId={mapId}
-          defaultCenter={{ lat: 46.51401398768072, lng: 6.842526934453779 }}
+          defaultCenter={{ lat: 46.518651813171466, lng: 6.828546721793127 }}
           disableDefaultUI
         >
           <AdvancedMarker
-            position={{ lat: 46.51401398768072, lng: 6.842526934453779 }}
+            position={{ lat: 46.518651813171466, lng: 6.828546721793127 }}
           >
             <Pin
               background={vars.system.color.primary}
