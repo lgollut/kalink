@@ -11,13 +11,14 @@ import {
 type NavbarButtonProps = {
   children: ReactNode;
   uid: string;
+  hasSubmenu?: boolean;
 };
 
 type InternalNavbarButtonProps = NavbarButtonProps;
 
 const InternalNavbarButton = forwardRef(
   (
-    { children, uid, ...props }: InternalNavbarButtonProps,
+    { children, uid, hasSubmenu, ...props }: InternalNavbarButtonProps,
     ref: ForwardedRef<any>,
   ) => {
     const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -26,7 +27,7 @@ const InternalNavbarButton = forwardRef(
       setIsTouchDevice(matchMedia('(hover: none), (pointer: coarse)').matches);
     }, [setIsTouchDevice]);
 
-    return isTouchDevice ? (
+    return isTouchDevice && hasSubmenu ? (
       <button {...props}>{children}</button>
     ) : (
       <Link ref={ref} href={`/${uid !== 'homepage' ? uid : ''}`} {...props}>
