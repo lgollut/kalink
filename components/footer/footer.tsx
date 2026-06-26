@@ -30,7 +30,7 @@ const Footer = <TUse extends ElementType>(
       >
         <Box textAlign="center">
           <Heading use="h3">KalinK Studio ©2026</Heading>
-          <Text>Développement & arts visuels</Text>
+          <Text>Développement informatique & arts visuels</Text>
         </Box>
       </Container>
     </Box>
