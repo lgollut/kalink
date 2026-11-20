@@ -32,9 +32,14 @@ const routes: prismic.ClientConfig['routes'] = [
  *
  * @param config - Configuration for the Prismic client.
  */
-export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
+export const createClient = (config: prismic.ClientConfig = {}) => {
+  const fixturePort = process.env.KALINK_BUILD_FIXTURE_PORT;
   const client = prismic.createClient(repositoryName, {
-    accessToken: process.env.PRISMIC_KEY,
+    ...(fixturePort
+      ? {
+          documentAPIEndpoint: `http://127.0.0.1:${Number(fixturePort)}/api/v2`,
+        }
+      : { accessToken: process.env.PRISMIC_KEY }),
     routes,
     fetchOptions:
       process.env.NODE_ENV === 'production'
@@ -43,11 +48,7 @@ export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
     ...config,
   });
 
-  prismicNext.enableAutoPreviews({
-    client,
-    previewData: config.previewData,
-    req: config.req,
-  });
+  prismicNext.enableAutoPreviews({ client });
 
   if (process.env.PRISMIC_RELEASE_ID) {
     client.queryContentFromReleaseByID(process.env.PRISMIC_RELEASE_ID);

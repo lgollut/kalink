@@ -1,8 +1,10 @@
 import { headers } from 'next/headers';
-import Stripe from 'stripe';
 
 import { listProducts } from '../services/list-products';
 import { privateFeed } from '../services/private-feed';
+import { createStripeClient } from '../services/stripe';
+
+import type Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,7 +44,7 @@ export async function POST(request: Request) {
   }
 
   const headersList = await headers();
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+  const stripe = createStripeClient();
 
   const payload = await request.text();
 

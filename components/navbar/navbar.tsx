@@ -194,7 +194,7 @@ const Navbar = (
                         return (
                           <NavigationMenuLink
                             key={slug}
-                            href={`/${uid}#${slug}`}
+                            href={{ pathname: `/${uid}`, hash: slug }}
                             className={subMenuLink({
                               active: activeLinkId === slug,
                               color: tint,

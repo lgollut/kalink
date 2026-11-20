@@ -1,6 +1,7 @@
-import Stripe from 'stripe';
-
 import { privateFeed } from '../services/private-feed';
+import { createStripeClient, prismicReadOptions } from '../services/stripe';
+
+import type Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,8 +21,11 @@ function parseShippingRate(shippingRate: Stripe.ShippingRate) {
 
 export function GET(request: Request) {
   return privateFeed(request, async () => {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
-    const shippingRates = await stripe.shippingRates.list();
+    const stripe = createStripeClient();
+    const shippingRates = await stripe.shippingRates.list(
+      {},
+      prismicReadOptions,
+    );
     return {
       results_size: shippingRates.data.length,
       results: shippingRates.data.map(parseShippingRate),

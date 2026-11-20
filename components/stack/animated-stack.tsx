@@ -4,4 +4,4 @@ import { motion } from 'framer-motion';
 
 import { Stack } from './stack';
 
-export const AnimatedStack = motion(Stack);
+export const AnimatedStack = motion.create(Stack);

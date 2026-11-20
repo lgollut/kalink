@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     return new NextResponse('Invalid token', { status: 401 });
   }
 
-  revalidateTag('prismic');
+  revalidateTag('prismic', { expire: 0 });
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }

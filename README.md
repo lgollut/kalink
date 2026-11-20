@@ -2,17 +2,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Use Node.js 26 LTS and the pnpm version pinned in `package.json`. With nvm installed:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+nvm install
+npm install --global pnpm@12.21.0
+pnpm install --frozen-lockfile
 pnpm dev
-# or
-bun dev
 ```
+
+Set `PRISMIC_KEY` in `.env.local` for the project's private Prismic repository.
+Run `pnpm validate`, `pnpm tsc` and `pnpm build` to check changes. To run the
+same production build as pull-request CI with local Prismic fixtures, use
+`node scripts/build-with-fixtures.mjs`.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
