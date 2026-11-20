@@ -4,4 +4,4 @@ import { motion } from 'framer-motion';
 
 import { Cluster } from './cluster';
 
-export const AnimatedCluster = motion(Cluster);
+export const AnimatedCluster = motion.create(Cluster);

@@ -327,18 +327,11 @@ export type TintSchemeValues =
   | 'errorInverted';
 
 export type BoxShadowValues =
-  | 'none'
-  | 'minimal'
-  | 'low'
-  | 'moderate'
-  | 'high'
-  | 'peak';
+  'none' | 'minimal' | 'low' | 'moderate' | 'high' | 'peak';
 export type BorderValues = 0 | 1;
 
 export type ColorValues =
-  | keyof typeof vars.system.color
-  | 'currentColor'
-  | 'tint';
+  keyof typeof vars.system.color | 'currentColor' | 'tint';
 export type TransparentColorValues = ColorValues | 'transparent';
 
 export type Borders = {

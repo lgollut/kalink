@@ -4,13 +4,11 @@ import { createClient } from '@/prismicio';
 export default async function RootLayout({
   children,
   params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: { page: string };
-}>) {
+}: LayoutProps<'/[page]'>) {
   const client = createClient();
 
-  const currentPage = await client.getByUID('page', params.page);
+  const { page: uid } = await params;
+  const currentPage = await client.getByUID('page', uid);
 
   return <CommonLayout currentPage={currentPage}>{children}</CommonLayout>;
 }

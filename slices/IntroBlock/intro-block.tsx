@@ -1,5 +1,6 @@
 import { isFilled, type Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
+import { type Route } from 'next';
 
 import { Box } from '@/components/box';
 import { ButtonLink } from '@/components/button';
@@ -20,7 +21,7 @@ export type IntroBlocProps = SliceComponentProps<Content.IntroBlockSlice>;
 /**
  * Component for "IntroBloc" Slices.
  */
-export function IntroBlock({ slice }: IntroBlocProps): JSX.Element {
+export function IntroBlock({ slice }: IntroBlocProps) {
   const slug = getSliceSlug(slice.primary);
 
   return (
@@ -57,7 +58,7 @@ export function IntroBlock({ slice }: IntroBlocProps): JSX.Element {
                       <ButtonLink
                         key={cta.label}
                         variant={cta.variant}
-                        href={cta.media.url}
+                        href={cta.media.url as Route}
                         alignSelf="flex-start"
                         tintScheme={slice.primary.backgroundColor}
                         target="_blank"

@@ -1,12 +1,6 @@
-import { useIsClient } from '@uidotdev/usehooks';
+import { useIsClient, useMediaQuery } from '@uidotdev/usehooks';
 import Link from 'next/link';
-import {
-  ForwardedRef,
-  forwardRef,
-  ReactNode,
-  useEffect,
-  useState,
-} from 'react';
+import { ForwardedRef, forwardRef, ReactNode } from 'react';
 
 type NavbarButtonProps = {
   children: ReactNode;
@@ -21,14 +15,12 @@ const InternalNavbarButton = forwardRef(
     { children, uid, hasSubmenu, ...props }: InternalNavbarButtonProps,
     ref: ForwardedRef<any>,
   ) => {
-    const [isTouchDevice, setIsTouchDevice] = useState(false);
-
-    useEffect(() => {
-      setIsTouchDevice(matchMedia('(hover: none), (pointer: coarse)').matches);
-    }, [setIsTouchDevice]);
+    const isTouchDevice = useMediaQuery('(hover: none), (pointer: coarse)');
 
     return isTouchDevice && hasSubmenu ? (
-      <button {...props}>{children}</button>
+      <button ref={ref} {...props}>
+        {children}
+      </button>
     ) : (
       <Link ref={ref} href={`/${uid !== 'homepage' ? uid : ''}`} {...props}>
         {children}

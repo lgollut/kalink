@@ -11,7 +11,6 @@ export async function generateMetadata(): Promise<Metadata> {
   const page = await createClient().getByUID('page', 'homepage');
 
   return {
-    metadataBase: new URL('https://www.kalink.ch'),
     title: page.data.metaTitle,
     description: page.data.metaDescription,
     openGraph: {

@@ -10,7 +10,7 @@ import { ButtonInternalProps, ButtonProps } from './button.types';
 const fixedForwardRef = forwardRef as FixedForwardRef;
 
 export const iconProps = (size: ButtonProps<'button'>['size']) => {
-  const iconSize = size === 'md' ? 32 : 'sm' ? 18 : 20;
+  const iconSize = size === 'md' ? 32 : size === 'sm' ? 18 : 20;
   const strokeWidth = size === 'md' ? 1 : 2;
 
   return { size: iconSize, strokeWidth };

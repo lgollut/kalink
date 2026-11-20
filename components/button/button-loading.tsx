@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Transition } from 'framer-motion';
 import { ElementType, ForwardedRef, forwardRef } from 'react';
 
 import { Box } from '@/components/box';
@@ -12,7 +12,7 @@ import { ButtonLoadingProps } from './button.types';
 
 const fixedForwardRef = forwardRef as FixedForwardRef;
 
-const layoutTransition = {
+const layoutTransition: Transition = {
   layout: { type: 'spring', stiffness: 400, damping: 30 },
 };
 const initial = { opacity: 0 };

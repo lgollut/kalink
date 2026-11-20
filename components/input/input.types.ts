@@ -15,7 +15,7 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
 export type InputWrapperProps = {
   children: ReactNode;
   className?: string;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | null>;
   disabled?: boolean;
   tintScheme?: UnconditionalProperties['tintScheme'];
 } & InputAppearanceVariants;
