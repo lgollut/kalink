@@ -34,3 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Private shop feeds
+
+The catalog and shipping feeds return 404 by default. To enable a trusted
+server-side reader, configure the same secret on both sides: set
+`SHOP_FEED_TOKEN` on the server and send it as `Authorization: Bearer <token>`
+on each GET request. The Stripe webhook uses its own signature.
