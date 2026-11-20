@@ -1,8 +1,9 @@
+import { privateFeed } from '../services/private-feed';
 import { createStripeClient, prismicReadOptions } from '../services/stripe';
 
 import type Stripe from 'stripe';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 function parseShippingRate(shippingRate: Stripe.ShippingRate) {
   const amount = new Intl.NumberFormat('fr-CH', {
@@ -18,15 +19,16 @@ function parseShippingRate(shippingRate: Stripe.ShippingRate) {
   };
 }
 
-export async function GET() {
-  const stripe = createStripeClient();
-
-  const shippingRates = await stripe.shippingRates.list({}, prismicReadOptions);
-
-  const response = {
-    results_size: shippingRates.data.length,
-    results: shippingRates.data.map(parseShippingRate),
-  };
-
-  return Response.json(response);
+export function GET(request: Request) {
+  return privateFeed(request, async () => {
+    const stripe = createStripeClient();
+    const shippingRates = await stripe.shippingRates.list(
+      {},
+      prismicReadOptions,
+    );
+    return {
+      results_size: shippingRates.data.length,
+      results: shippingRates.data.map(parseShippingRate),
+    };
+  });
 }

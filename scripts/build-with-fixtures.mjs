@@ -1,4 +1,4 @@
-// Run the production build against local Prismic and Stripe fixtures in PR CI.
+// Run the production build against local Prismic fixtures in PR CI.
 import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
 import {
@@ -68,23 +68,6 @@ const server = createServer((request, response) => {
   response.setHeader('Content-Type', 'application/json');
   if (pathname === '/api/v2') {
     response.end(JSON.stringify({ refs: [{ ref: 'ci', isMasterRef: true }] }));
-  } else if (
-    pathname === '/v1/shipping_rates' &&
-    request.headers['stripe-version'] === '2024-11-20.acacia'
-  ) {
-    response.end(
-      JSON.stringify({
-        object: 'list',
-        has_more: false,
-        data: [
-          {
-            id: 'shr_fixture',
-            display_name: 'Collection',
-            fixed_amount: { amount: 0, currency: 'chf' },
-          },
-        ],
-      }),
-    );
   } else if (pathname === '/api/v2/documents/search') {
     const results = queryDocuments(searchParams.getAll('q'));
     if (results) {
@@ -127,6 +110,8 @@ try {
     env: {
       ...process.env,
       KALINK_BUILD_FIXTURE_PORT: String(server.address().port),
+      SHOP_FEED_TOKEN: '',
+      STRIPE_SECRET_KEY: '',
       PRISMIC_KEY: '',
       PRISMIC_RELEASE_ID: '',
     },

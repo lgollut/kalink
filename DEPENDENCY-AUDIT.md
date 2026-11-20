@@ -2,7 +2,7 @@
 
 ## Implemented and verified on 20 November 2026
 
-The project now uses Node.js 26 LTS, pnpm 12.21.0, Next.js 16.4.6 with Webpack, and React 19.3.1. CI installs the frozen lockfile, lints, checks formatting, generates route types, type-checks and builds with local Prismic and Stripe fixtures. The workflow passed actionlint. The two unused browser Stripe packages were removed. The catalog and shipping reads explicitly request Stripe API version `2024-11-20.acacia` to preserve the Prismic payload. Shipping rates are prerendered as before.
+The project now uses Node.js 26 LTS, pnpm 12.21.0, Next.js 16.4.6 with Webpack, and React 19.3.1. CI installs the frozen lockfile, lints, checks formatting, generates route types, type-checks and builds with local Prismic fixtures. The workflow passed actionlint. The two unused browser Stripe packages were removed. The catalog and shipping reads explicitly request Stripe API version `2024-11-20.acacia` to preserve the Prismic payload. Both private feeds check authorization on every request and send private, no-store responses.
 
 | Verification                                        | Result                                                                                                                                                                                                                                                                                    |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
