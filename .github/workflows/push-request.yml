@@ -23,5 +23,5 @@ jobs:
       - run: pnpm run validate
       - run: pnpm run tsc
 
-      - name: Build with Prismic fixtures
+      - name: Build with Prismic and Stripe fixtures
         run: node scripts/build-with-fixtures.mjs

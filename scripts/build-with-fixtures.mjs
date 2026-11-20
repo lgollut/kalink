@@ -1,23 +1,58 @@
-// Run the production build against a small local Prismic repository in PR CI.
-import { spawn } from 'node:child_process';
+// Run the production build against local Prismic and Stripe fixtures in PR CI.
+import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  symlinkSync,
+} from 'node:fs';
 import { createServer } from 'node:http';
+import { tmpdir } from 'node:os';
+import { dirname, join, resolve } from 'node:path';
 
 import { filter } from '@prismicio/client';
 
-const pages = ['homepage', 'courses'].map((uid) => ({
+const pageIDs = ['homepage', 'courses'];
+const pages = pageIDs.map((uid) => ({
   id: uid,
   uid,
   type: 'page',
-  data: { metaTitle: uid, metaImage: {}, tint: 'primary', slices: [] },
+  data: {
+    metaTitle: uid,
+    metaImage: {},
+    navigationLabel: uid,
+    tint: 'primary',
+    slices: [
+      {
+        id: 'topics',
+        slice_type: 'list_items',
+        variation: 'default',
+        primary: {
+          title: 'Topics',
+          slug: 'topics',
+          subNavigation: true,
+          backgroundColor: 'primary',
+          items: [{ label: 'Drawing' }],
+        },
+      },
+    ],
+  },
 }));
-const navigation = { type: 'mainNavigation', data: { items: [] } };
+const navigation = {
+  type: 'mainNavigation',
+  data: {
+    items: pages.map(({ id }) => ({ item: { link_type: 'Document', id } })),
+  },
+};
 
 function queryDocuments(filters) {
   const matches = (predicate) => filters.includes(`[${predicate}]`);
   if (matches(filter.at('document.type', 'mainNavigation')))
     return [navigation];
-  if (matches(filter.in('document.id', []))) return [];
+  if (matches(filter.in('document.id', pageIDs))) return pages;
   if (matches(filter.at('document.type', 'page'))) {
     return pages.filter(({ uid }) =>
       matches(filter.not('my.page.uid', 'homepage'))
@@ -33,6 +68,23 @@ const server = createServer((request, response) => {
   response.setHeader('Content-Type', 'application/json');
   if (pathname === '/api/v2') {
     response.end(JSON.stringify({ refs: [{ ref: 'ci', isMasterRef: true }] }));
+  } else if (
+    pathname === '/v1/shipping_rates' &&
+    request.headers['stripe-version'] === '2024-11-20.acacia'
+  ) {
+    response.end(
+      JSON.stringify({
+        object: 'list',
+        has_more: false,
+        data: [
+          {
+            id: 'shr_fixture',
+            display_name: 'Collection',
+            fixed_amount: { amount: 0, currency: 'chf' },
+          },
+        ],
+      }),
+    );
   } else if (pathname === '/api/v2/documents/search') {
     const results = queryDocuments(searchParams.getAll('q'));
     if (results) {
@@ -47,14 +99,34 @@ const server = createServer((request, response) => {
   }
 });
 
-server.listen(0, '127.0.0.1');
-await once(server, 'listening');
+const workspace = mkdtempSync(join(tmpdir(), 'kalink-fixture-'));
 try {
+  // Build current sources in isolation so pnpm start still serves the normal .next output.
+  const files = execFileSync(
+    'git',
+    ['ls-files', '-z', '--cached', '--others', '--exclude-standard'],
+    { encoding: 'utf8' },
+  );
+  for (const file of files.split('\0').filter(Boolean)) {
+    if (!existsSync(file)) continue;
+    const destination = join(workspace, file);
+    mkdirSync(dirname(destination), { recursive: true });
+    copyFileSync(file, destination);
+  }
+  symlinkSync(
+    resolve('node_modules'),
+    join(workspace, 'node_modules'),
+    'junction',
+  );
+
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
   const build = spawn(process.execPath, ['--run', 'build'], {
+    cwd: workspace,
     stdio: 'inherit',
     env: {
       ...process.env,
-      PRISMIC_DOCUMENT_API_ENDPOINT: `http://127.0.0.1:${server.address().port}/api/v2`,
+      KALINK_BUILD_FIXTURE_PORT: String(server.address().port),
       PRISMIC_KEY: '',
       PRISMIC_RELEASE_ID: '',
     },
@@ -63,4 +135,5 @@ try {
   process.exitCode = code ?? 1;
 } finally {
   server.close();
+  rmSync(workspace, { recursive: true, force: true });
 }

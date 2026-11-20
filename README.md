@@ -11,9 +11,9 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Set `PRISMIC_KEY` in `.env.local` for the project's private Prismic repository.
+Set `PRISMIC_KEY` in `.env.local` for the project's private Prismic repository. The production build also reads `STRIPE_SECRET_KEY` to prerender shipping rates.
 Run `pnpm validate`, `pnpm tsc` and `pnpm build` to check changes. To run the
-same production build as pull-request CI with local Prismic fixtures, use
+same production build as pull-request CI with local Prismic and Stripe fixtures, use
 `node scripts/build-with-fixtures.mjs`.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

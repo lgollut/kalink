@@ -33,9 +33,13 @@ const routes: prismic.ClientConfig['routes'] = [
  * @param config - Configuration for the Prismic client.
  */
 export const createClient = (config: prismic.ClientConfig = {}) => {
+  const fixturePort = process.env.KALINK_BUILD_FIXTURE_PORT;
   const client = prismic.createClient(repositoryName, {
-    accessToken: process.env.PRISMIC_KEY,
-    documentAPIEndpoint: process.env.PRISMIC_DOCUMENT_API_ENDPOINT,
+    ...(fixturePort
+      ? {
+          documentAPIEndpoint: `http://127.0.0.1:${Number(fixturePort)}/api/v2`,
+        }
+      : { accessToken: process.env.PRISMIC_KEY }),
     routes,
     fetchOptions:
       process.env.NODE_ENV === 'production'

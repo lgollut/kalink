@@ -2,7 +2,7 @@
 
 ## Implemented and verified on 20 November 2026
 
-The project now uses Node.js 26 LTS, pnpm 12.21.0, Next.js 16.4.6 with Webpack, and React 19.3.1. CI installs the frozen lockfile, lints, checks formatting, generates route types, type-checks and builds with a local Prismic fixture. The workflow passed actionlint. The two unused browser Stripe packages were removed.
+The project now uses Node.js 26 LTS, pnpm 12.21.0, Next.js 16.4.6 with Webpack, and React 19.3.1. CI installs the frozen lockfile, lints, checks formatting, generates route types, type-checks and builds with local Prismic and Stripe fixtures. The workflow passed actionlint. The two unused browser Stripe packages were removed. The catalog and shipping reads explicitly request Stripe API version `2024-11-20.acacia` to preserve the Prismic payload. Shipping rates are prerendered as before.
 
 | Verification                                        | Result                                                                                                                                                                                                                                                                                    |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -13,7 +13,7 @@ The project now uses Node.js 26 LTS, pnpm 12.21.0, Next.js 16.4.6 with Webpack, 
 | Integrations                                        | Catalog and shipping routes read Stripe test-mode data. A locally signed test product event reached a local webhook receiver. Both React email templates rendered through Resend with delivery mocked. Slice Simulator, preview exit and local cache revalidation responded successfully. |
 | Final lockfile audit                                | Zero production findings. One high development advisory remains in Zod 3.25.76 through Slice Machine's manager and its Claude Agent SDK dependency. [Zod advisory](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5)                                                                     |
 
-ESLint 9.39.5 and TypeScript 6.0.3 match the lint plugins' peer ranges. Lucide 1.76.0 satisfies pnpm's release-age policy. Prismic's deprecated Slice Machine editor remains available pending a separate migration to Type Builder. Verification covered local builds and test integrations. A hosted Actions run, deployment, editor-authenticated preview and live email delivery remain unverified.
+ESLint 9.39.5 and TypeScript 6.0.3 match the lint plugins' peer ranges. Lucide 1.76.0 satisfies pnpm's release-age policy. Prismic's deprecated Slice Machine editor remains available pending a separate migration to Type Builder. Hosted Actions and the Vercel preview deployment passed on the initially reviewed commit, `6e785b8`. Editor-authenticated Prismic preview and live email delivery remain unverified.
 
 ## Pre-upgrade baseline
 

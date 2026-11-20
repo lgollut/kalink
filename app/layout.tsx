@@ -20,7 +20,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={clsx(html, fontClass)}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={clsx(html, fontClass)}
+    >
       <body className={clsx(body, themeClass)}>
         <Toaster>
           {children}

@@ -18,10 +18,12 @@ export async function sendForm(
 ) {
   const resend = new Resend(process.env.RESEND_KEY);
 
-  return await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: 'info@kalink.ch',
     to: 'info@kalink.ch',
     subject: `${type.charAt(0).toUpperCase() + type.slice(1)} depuis Kalink Studio`,
     react: type === 'message' ? Message(formData) : Inscription(formData),
   });
+
+  return { data, error };
 }

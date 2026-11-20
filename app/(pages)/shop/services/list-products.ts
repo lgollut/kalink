@@ -1,4 +1,6 @@
-import Stripe from 'stripe';
+import { createStripeClient, prismicReadOptions } from './stripe';
+
+import type Stripe from 'stripe';
 
 export type ProductWithExpandedPrice = Omit<Stripe.Product, 'default_price'> & {
   default_price: Stripe.Price;
@@ -43,11 +45,14 @@ export function sortProductsByPrice(
 }
 
 export async function listProducts() {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+  const stripe = createStripeClient();
 
-  const { data } = (await stripe.products.list({
-    expand: ['data.default_price'],
-  })) as Awaited<Stripe.ApiListPromise<ProductWithExpandedPrice>>;
+  const { data } = (await stripe.products.list(
+    {
+      expand: ['data.default_price'],
+    },
+    prismicReadOptions,
+  )) as Awaited<Stripe.ApiListPromise<ProductWithExpandedPrice>>;
 
   return data;
 }

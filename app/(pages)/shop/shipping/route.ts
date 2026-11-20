@@ -1,4 +1,8 @@
-import Stripe from 'stripe';
+import { createStripeClient, prismicReadOptions } from '../services/stripe';
+
+import type Stripe from 'stripe';
+
+export const dynamic = 'force-static';
 
 function parseShippingRate(shippingRate: Stripe.ShippingRate) {
   const amount = new Intl.NumberFormat('fr-CH', {
@@ -15,9 +19,9 @@ function parseShippingRate(shippingRate: Stripe.ShippingRate) {
 }
 
 export async function GET() {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+  const stripe = createStripeClient();
 
-  const shippingRates = await stripe.shippingRates.list();
+  const shippingRates = await stripe.shippingRates.list({}, prismicReadOptions);
 
   const response = {
     results_size: shippingRates.data.length,
