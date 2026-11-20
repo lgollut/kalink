@@ -2,6 +2,9 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 import { listProducts } from '../services/list-products';
+import { privateFeed } from '../services/private-feed';
+
+export const dynamic = 'force-dynamic';
 
 type ParsedProduct = {
   id: string;
@@ -23,15 +26,14 @@ function parseProduct(product: Stripe.Product): ParsedProduct {
   };
 }
 
-export async function GET() {
-  const products = await listProducts();
-
-  const response = {
-    results_size: products.length,
-    results: products.map(parseProduct),
-  };
-
-  return Response.json(response);
+export function GET(request: Request) {
+  return privateFeed(request, async () => {
+    const products = await listProducts();
+    return {
+      results_size: products.length,
+      results: products.map(parseProduct),
+    };
+  });
 }
 
 export async function POST(request: Request) {
